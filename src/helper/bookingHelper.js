@@ -39,3 +39,4 @@ export async function createBooking(data) {
         return Promise.reject({ error: 'Could not create' });
     }
 }
+

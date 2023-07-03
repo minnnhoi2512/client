@@ -58,6 +58,7 @@ export default function Course() {
                             
                             <th className='px-6 pt-5 pb-4'>Course Name</th>
                             <th className='px-6 pt-5 pb-4'>Price</th>
+                            <th className='px-6 pt-5 pb-4'>Description</th>
                             <th className='px-6 pt-5 pb-4'>Start</th>
                             <th className='px-6 pt-5 pb-4'>End</th>
                             <th className='px-6 pt-5 pb-4'>Action</th>
@@ -69,6 +70,7 @@ export default function Course() {
                                 
                                 <td className='px-6 py-4'>{course.courseName}</td>
                                 <td className='px-6 py-4'>{course.price}$</td>
+                                <td className='px-6 py-4'>{course.description}$</td>
                                 <td className='px-6 py-4'>{course.startTime}</td>
                                 <td className='px-6 py-4'>{course.endTime}</td>
                                 <td className='px-6 py-4'>
@@ -119,6 +121,12 @@ export default function Course() {
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">Price :</label>
                                             <input type="text" name="price" onChange={handleChange}
+                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            />
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">Description :</label>
+                                            <input type="text" name="description" onChange={handleChange}
                                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                             />
                                         </div>
