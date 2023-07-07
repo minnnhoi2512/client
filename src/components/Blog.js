@@ -4,64 +4,73 @@ import { uploadFile, getFile } from '../helper/upload.js';
 import convertToBase64 from '../helper/convert';
 import { getAllUser } from '../helper/helper.js';
 import useFetch from '../hooks/fetch.hook';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate, Navigate } from 'react-router-dom';
 export default function Blog() {
     const [blogs, setBlogs] = useState([])
-    const [user, setUser] = useState([])
     const [showModal, setShowModal] = useState(false);
     const [newData, setNewData] = useState([])
-    const [authors, setAuthors] = useState([])
     const [selectedFile, setSelectedFile] = useState();
     const [selectedFileUpload, setSelectedFileUpload] = useState();
     const [{ apiData }] = useFetch();
     let formData = new FormData();
-
+    const navigate = useNavigate();
     const fetchData = async () => {
         const blogs = await getAllBlogs();
-        const authors = await getAllUser()
         setBlogs(blogs.data)
-        setAuthors(authors.data)    
-        console.log(blogs)
     }
     let id = '';
-    // function handleChangeImg(event) {
-    //     console.log(event)
-    //     // uploadFile(event)
-    // }
+    let roleId = localStorage.getItem('roleId');
+    let token = localStorage.getItem('token');
     useEffect(() => {
-        
-        fetchData();
+        if (roleId < 3) {
+            navigate('*');
+        } else if (token == null) {
+            navigate('*');
+        }else {
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/blog') }).catch(error => {
+                console.error(error);
+            });
+        }
+       
     }, []);
     const handleChange = (event) => {
         setNewData({ ...newData, [event.target.name]: event.target.value });
-        // console.log(newData)
     }
-    
+
     const onUpload = async event => {
         const base64 = await convertToBase64(event.target.files[0]);
         setSelectedFileUpload(event.target.files[0]);
-        // formData.append("file", event.target.files[0]);
-        // let file = await uploadFile(formData)
-        // id = file.data._id
         setSelectedFile(base64);
     }
     const handleDelete = async (event, id) => {
         event.currentTarget.disabled = true;
         try {
             const response = await deleteBlog(id);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/blog') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
     }
-    const showImg = (id)=>{
+    const showImg = (id) => {
         return getFile(id)
     }
     const handleCreate = async (event, data) => {
         event.preventDefault()
-
-        // let file = await uploadFile(formData)
-        // console.log(file)
-        // let id = file._id
         formData.append("file", selectedFileUpload);
         let file = await uploadFile(formData)
         id = file.data._id
@@ -71,7 +80,15 @@ export default function Blog() {
         try {
             const response = await createBlog(data);
             setShowModal(false);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/blog') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
@@ -80,16 +97,18 @@ export default function Blog() {
         setShowModal(true);
     }
     return (
-        <div class="container mx-10 px-5 py-10">
-            <div>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => createModal()}>
-                    New Blog
-                </button>
-            </div>
 
-            <div className='max-w-4x2 mx-auto'>
-                <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
+        <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
+            <div class="">
+                <div>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => createModal()}>
+                        New Blog
+                    </button>
+                </div>
+
+                <table className=''>
                     <thead>
                         <tr className='text-left font-bold'>
                             <th className='px-6 pt-5 pb-4'>Title</th>

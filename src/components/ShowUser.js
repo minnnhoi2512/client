@@ -1,6 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { getAllUser, deleteUser, updateUser_1 } from '../helper/helper';
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 export default function ShowUsers() {
     const [data, setData] = useState([]);
@@ -8,23 +10,49 @@ export default function ShowUsers() {
 
     const [showModal, setShowModal] = useState(false);
 
-
+    const navigate = useNavigate()
     const handleChange = (event) => {
         setUpdatedUserData({ ...updatedUserData, [event.target.name]: event.target.value });
 
     }
+    let roleId = localStorage.getItem('roleId');
+    let token = localStorage.getItem('token');
+
     const fetchData = async () => {
         const response = await getAllUser();
         setData(await response.data);
     }
     useEffect(() => {
-        fetchData();
+        if (roleId < 3) {
+            navigate('*');
+        } else if (token == null) {
+            navigate('*');
+        } else {
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/showUser') }).catch(error => {
+                console.error(error);
+            });
+        }
+
     }, []);
 
     const handleDelete = async (userId) => {
         try {
             const response = await deleteUser(userId);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/showUser') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
@@ -40,15 +68,24 @@ export default function ShowUsers() {
         try {
             const response = await updateUser_1(updatedUserData._id, updatedUserData); // Call your update function to update the user data
             setShowModal(false);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/showUser') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error);
         }
     }
 
     return (
-        <div className='container mx-10 px-5 py-10'>
-            <div className='max-w-4x2 mx-auto'>
+        <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
+            
+            
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
@@ -155,6 +192,6 @@ export default function ShowUsers() {
                 ) : null}
 
             </div >
-        </div>
+       
     )
 }

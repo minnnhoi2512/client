@@ -28,7 +28,7 @@ export default function UserRecovery() {
 
   return (
     <body>
-      <div className="container mx-auto">
+      <div className=" mx-auto">
 
         <Toaster position='top-center' reverseOrder={false}></Toaster>
 

@@ -47,7 +47,7 @@ export default function Reset() {
   if (status && status !== 201) return <Navigate to={'/'} replace={true}></Navigate>
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
 

@@ -3,7 +3,8 @@ import Select from 'react-select'
 import { getMentors } from '../helper/helper';
 import { getAllCourses } from '../helper/courseHelper';
 import { deleteGrade, createGrade, getAllGrades } from '../helper/gradeHelper'
-
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Grade() {
     const [mentors, setMentor] = useState([])
@@ -15,28 +16,49 @@ export default function Grade() {
 
     const fetchData = async () => {
         const courses = await getAllCourses();
-        // const customers = await getCustomers();
         const mentors = await getMentors()
         const grades = await getAllGrades();
         setMentor(mentors.data);
-        // setCustomers(customers.data);
         setCourses(courses.data)
         setGrades(grades.data)
-        console.log(grades)
     }
+    let roleId = localStorage.getItem('roleId');
+    let token = localStorage.getItem('token');
+    let navigate = useNavigate()
     useEffect(() => {
-        fetchData();
+        if (roleId < 3) {
+            navigate('*');
+        } else if (token == null) {
+            navigate('*');
+        } else {
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/grade') }).catch(error => {
+                console.error(error);
+            });
+        }
     }, []);
     const handleChange = (event) => {
         setNewData({ ...newData, [event.target.name]: event.target.value });
-        // console.log(newData)
     }
     const handleCreate = async (event, data) => {
         event.preventDefault()
         try {
             const response = await createGrade(data);
             setShowModal(false);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/grade') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
@@ -44,7 +66,15 @@ export default function Grade() {
     const handleDelete = async (id) => {
         try {
             const response = await deleteGrade(id);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/grade') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
@@ -52,21 +82,12 @@ export default function Grade() {
     const createModal = () => {
         setShowModal(true);
     }
-    // const handleSelectCustomer = (event, meta) => {
-    //     // console.log(meta.name)
-    //     setNewData({ ...newData, [meta.name]: event.value });
-    // }
     const handleSelectMentor = (event, meta) => {
-        // console.log(meta.name)
         setNewData({ ...newData, [meta.name]: event.value });
     }
     const handleSelectCourse = (event, meta) => {
-        // console.log(meta.name)
         setNewData({ ...newData, [meta.name]: event.value });
     }
-    // let optionsCustomer = customers.map(function (customers) {
-    //     return { value: customers._id, label: customers.username };
-    // })
     let optionsMentor = mentors.map(function (mentor) {
         return { value: mentor._id, label: mentor.username };
     })
@@ -74,7 +95,8 @@ export default function Grade() {
         return { value: course._id, label: course.courseName };
     })
     return (
-        <div className='container mx-10 px-5 py-10'>
+        <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
             <div>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={() => createModal()}>
@@ -86,7 +108,7 @@ export default function Grade() {
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
-                        
+
                             <th className='px-6 pt-5 pb-4'>Mentor</th>
                             <th className='px-6 pt-5 pb-4'>Number Of Student</th>
                             <th className='px-6 pt-5 pb-4'>Course</th>
@@ -99,12 +121,9 @@ export default function Grade() {
                     <tbody className='divide-y divide-gray-200'>
                         {grades.map((grade) => (
                             <tr key={grade._id}>
-                                
+
 
                                 <td className='px-6 py-4'>{mentors.map((mentor) => {
-                                    // {
-                                    //   if(data._id == user._id)  [user.username]
-                                    // }
                                     if (grade.instructor == mentor._id)
                                         return mentor.username
 
@@ -112,9 +131,6 @@ export default function Grade() {
                                 })}</td>
                                 <td className='px-6 py-4'>{grade.nOfStudent}</td>
                                 <td className='px-6 py-4'>{courses.map((course) => {
-                                    // {
-                                    //   if(data._id == user._id)  [user.username]
-                                    // }
                                     if (grade.course == course._id)
                                         return course.courseName
 

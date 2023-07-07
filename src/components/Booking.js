@@ -8,7 +8,8 @@ import {
 } from '../helper/bookingHelper.js';
 import { getCustomers } from '../helper/helper.js';
 import { getAllGrades } from '../helper/gradeHelper.js';
-
+import toast, { Toaster } from 'react-hot-toast';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 export default function Booking() {
     const [data, setData] = useState([]);
@@ -16,20 +17,12 @@ export default function Booking() {
     const [newData, setNewData] = useState({})
     const [customers, setCustomers] = useState([])
     const [grades, setGrade] = useState([])
-    // const [disable,setDisable] = useState(false)
-    // const [options, setOptions] = useState([])
-    // const handleChange = (event) => {
-    //     setNewData({ ...newData, [event.target.name]: event.target.value });
-    // }
+    const navigate = useNavigate();
     const handleSelectCustomer = (event, meta) => {
-        // console.log(meta.name)
         setNewData({ ...newData, [meta.name]: event.value });
-        console.log(newData)
     }
     const handleSelectGrade = (event, meta) => {
-        // console.log(meta.name)
         setNewData({ ...newData, [meta.name]: event.value });
-        console.log(newData)
     }
     let optionsCustomer = customers.map(function (customer) {
         return { value: customer._id, label: customer.username };
@@ -37,9 +30,8 @@ export default function Booking() {
     let optionsGrade = grades.map(function (grade) {
         return { value: grade._id, label: grade.gradeName };
     })
-    // let username = allUser.map(function (user) {
-    //     return  { value: user.username, label: 'username' };
-    //   })
+    let roleId = localStorage.getItem('roleId');
+    let token = localStorage.getItem('token');
     const fetchData = async () => {
         const grades = await getAllGrades()
         const customers = await getCustomers()
@@ -52,24 +44,57 @@ export default function Booking() {
     }
 
     useEffect(() => {
-        fetchData();
+        if (roleId < 3) {
+            navigate('*');
+        } else if (token == null) {
+            navigate('*');
+        } else {
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/booking') }).catch(error => {
+                console.error(error);
+            });
+        }
+
     }, []);
 
-    const handleDelete = async (event,id) => {
+    const handleDelete = async (event, id) => {
         event.currentTarget.disabled = true;
         try {
-            const response = await deleteBooking(id);
-            fetchData()
+            await deleteBooking(id);
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/booking') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error)
         }
     }
     const handleCreate = async (event, data) => {
-        event.preventDefault()
+        // event.preventDefault()
         try {
-            const response = await createBooking(data);
+            let createPromise = await createBooking(data);
             setShowModal(false);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/booking') }).catch(error => {
+                console.error(error);
+            });
+
+
         } catch (error) {
             console.error(error)
         }
@@ -79,26 +104,36 @@ export default function Booking() {
     }
     const handleUpdate = async (event, id) => {
         event.currentTarget.disabled = true;
-        event.preventDefault()
+        // event.preventDefault()
         try {
             const response = await updateBooking(id); // Call your update function to update the user data
             setShowModal(false);
-            fetchData()
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: 'Loading...',
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>
+            })
+            dataPromise.then(function () { navigate('/booking') }).catch(error => {
+                console.error(error);
+            });
         } catch (error) {
             console.error(error);
         }
     }
 
     return (
-        <div class="container mx-10 px-5 py-10">
-            <div>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => createModal()}>
-                    New Booking
-                </button>
-            </div>
 
-            <div className='max-w-4x2 mx-auto'>
+
+        <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
+            <div class="">
+                <div>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => createModal()}>
+                        New Booking
+                    </button>
+                </div>
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
@@ -146,7 +181,7 @@ export default function Booking() {
 
                                     <button
                                         className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                                        onClick={(event) => handleDelete(event,data._id)}
+                                        onClick={(event) => handleDelete(event, data._id)}
                                     >
                                         Delete
                                     </button>

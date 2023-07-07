@@ -13,7 +13,6 @@ export default function Recovery() {
 
     useEffect(() => {
         generateOTPforRegister(username).then((OTP) => {
-            // console.log(OTP)
             if (OTP) return toast.success('OTP has been send to your email!');
             return toast.error('Problem while generating OTP!')
         }).catch(error => {
@@ -55,7 +54,6 @@ export default function Recovery() {
         );
 
         sentPromise.then((OTP) => {
-            // console.log(OTP)
         }).catch(error => {
             // handle error or exception
             console.error(error);
@@ -64,7 +62,7 @@ export default function Recovery() {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className=" mx-auto">
 
             <Toaster position='top-center' reverseOrder={false}></Toaster>
 

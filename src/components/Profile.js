@@ -58,7 +58,7 @@ export default function Profile() {
   if (serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-10 px-5 py-10">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
 

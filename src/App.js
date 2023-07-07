@@ -1,7 +1,9 @@
+
 import React from "react";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Sidebar  from "./components/SidebarAdmin.jsx";
 
-// Components
+// components
 import ConfirmAccount from "./components/ConfirmAccount"
 import Login from "./components/Login"
 import Register from "./components/Register";
@@ -11,7 +13,7 @@ import Reset from "./components/Reset";
 import PageNotFound from "./components/PageNotFound";
 import UserRecovery from './components/UserRecovery';
 import ShowUser from "./components/ShowUser";
-import Admin from "./components/Admin";
+import Grade from "./components/Grade";
 // managerment
 import ShowCustomer from './components/ShowCustomer.js'
 import ShowMentor from './components/ShowMentor.js'
@@ -20,9 +22,9 @@ import ShowAdmin from './components/ShowAdmin.js'
 // function
 import Booking from './components/Booking.js'
 import Blog from './components/Blog.js'
-import Grade from './components/Grade.js'
+
 import Course from './components/Course.js'
-import { AuthorizeUser, ProtectRoute } from './middleware/auth'
+import { AuthorizeUser} from './middleware/auth'
 
 const router = createBrowserRouter([
     {
@@ -31,29 +33,24 @@ const router = createBrowserRouter([
     },
     {
         path: '/showCustomers',
-        element: <ShowCustomer></ShowCustomer>
+        element:<Sidebar> <ShowCustomer></ShowCustomer></Sidebar>
     },
-   
     {
         path: '/showMentors',
-        element: <ShowMentor></ShowMentor>
+        element:<Sidebar> <ShowMentor></ShowMentor></Sidebar>
     },
     {
         path: '/showStaffs',
-        element: <ShowStaff></ShowStaff>
+        element:<Sidebar> <ShowStaff></ShowStaff></Sidebar>
     },
     {
         path: '/showAdmins',
-        element: <ShowAdmin></ShowAdmin>
-    },
-    {
-        path: '/admin',
-        element: <Admin></Admin>
+        element:<Sidebar> <ShowAdmin></ShowAdmin></Sidebar>
     },
 
     {
         path: '/showUser',
-        element: <AuthorizeUser><ShowUser></ShowUser></AuthorizeUser>
+        element: <Sidebar><AuthorizeUser><ShowUser></ShowUser></AuthorizeUser></Sidebar>
     },
     {
         path: '/register',
@@ -85,19 +82,20 @@ const router = createBrowserRouter([
     },
     {
         path: '/booking',
-        element: <Booking></Booking>
+        element:<Sidebar> <Booking></Booking></Sidebar>
+    },
+ 
+    {
+        path: '/course',
+        element:<Sidebar> <Course></Course></Sidebar>
     },
     {
         path: '/grade',
-        element: <Grade></Grade>
-    },
-    {
-        path: '/course',
-        element: <Course></Course>
+        element:<Sidebar> <Grade></Grade></Sidebar>
     },
     {
         path: '/blog',
-        element: <Blog></Blog>
+        element:<Sidebar> <Blog></Blog></Sidebar>
     },
 ])
 export default function App() {

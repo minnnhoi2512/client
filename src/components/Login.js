@@ -47,8 +47,8 @@ export default function Login() {
                 let { token, roleId } = res.data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('roleId', roleId);
-                if (roleId >= 3) {
-                    navigate('/admin')
+                if (roleId >= 2) {
+                    navigate('/showCustomers')
                 } else {
                     navigate('/profile')
                 }
@@ -58,12 +58,12 @@ export default function Login() {
                 // handle error or exception
                 console.error(error);
             });
-
+            
         }
     })
 
     return (
-        <div className="container mx-auto">
+        <div className="">
             <Toaster position='top-center' reverseOrder={false}></Toaster>
 
             <div className='flex justify-center items-center h-full'>

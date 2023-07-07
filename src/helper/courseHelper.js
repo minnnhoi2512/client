@@ -39,3 +39,11 @@ export async function createCourse(data){
         return Promise.reject({ error: 'Could not create' });
     }
 }
+
+export async function detailCourse(courseName){
+    try {      
+        return await placeholderApi.post(`/course/detailCourse/${courseName}`);
+    } catch (error) {
+        return Promise.reject({ error: 'Could not get details' });
+    }
+}

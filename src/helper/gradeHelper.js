@@ -17,13 +17,13 @@ export async function deleteGrade(id) {
         return Promise.reject({ error: 'Could not delete' });
     }
 }
-// export async function updateGrade(id) {
-//     try {      
-//         return await placeholderApi.post(`/grade/updateGrade/${id}`);
-//     } catch (error) {
-//         return Promise.reject({ error: 'Could not update' });
-//     }
-// }
+export async function updateGrade(id,data) {
+    try {      
+        return await placeholderApi.post(`/grade/updateGrade${id}`,data);
+    } catch (error) {
+        return Promise.reject({ error: 'Could not update' });
+    }
+}
 export async function getAllGrades() {
     try {      
         const { data } = await placeholderApi.get('/grade/getAllGrades');

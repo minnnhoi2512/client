@@ -53,7 +53,7 @@ export default function Register() {
   }
 
   return (
-    <div className="container mx-auto">
+    <div className="mx-auto">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
 
