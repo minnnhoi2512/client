@@ -108,7 +108,17 @@ export default function Course() {
       console.error(error);
     }
   };
+  // Tính toán các chỉ số cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [coursePerPage, setCoursePerPage] = useState(10);
 
+  const indexOfLastCourse = currentPage * coursePerPage;
+  const indexOfFirstCourse = indexOfLastCourse - coursePerPage;
+  const currentdata = data.slice(indexOfFirstCourse, indexOfLastCourse);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
        <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -131,7 +141,7 @@ export default function Course() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {data.map((course) => (
+            {currentdata.map((course) => (
               <tr key={course._id}>
                 <td className="px-6 py-4">{course.courseName}</td>
                 <td className="px-6 py-4">{course.price}$</td>
@@ -359,7 +369,40 @@ export default function Course() {
             </div>
           </div>
         )}
+          <Pagination
+        coursePerPage={coursePerPage}
+        totalCourse={data.length}
+        currentdata={currentPage}
+        paginate={paginate}
+      />
       </div>
   
   );
-}
+}const Pagination = ({ coursePerPage, totalCourse, currentdata, paginate }) => {
+  const pageNumbers = [];
+
+  for (let i = 1; i <= Math.ceil(totalCourse / coursePerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  return (
+    <div className="mt-4 flex justify-center">
+      <ul className="inline-flex space-x-2">
+        {pageNumbers.map((number) => (
+          <li key={number}>
+            <button
+              onClick={() => paginate(number)}
+              className={`rounded-lg px-3 py-1 ${
+                number === currentdata
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200"
+              }`}
+            >
+              {number}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};

@@ -83,6 +83,17 @@ export default function ShowAdmins() {
         }
     }
 
+      // Tính toán các chỉ số cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [userPerPage, setUserPerPage] = useState(10);
+
+  const indexOfLastUser = currentPage * userPerPage;
+  const indexOfFirstUser = indexOfLastUser - userPerPage;
+  const currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
     return (
         <div className=''>
            <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
@@ -99,7 +110,7 @@ export default function ShowAdmins() {
                             </tr>
                         </thead>
                         <tbody className='divide-y divide-gray-200'>
-                            {data.map((user) => (
+                            {currentdata.map((user) => (
                                 <tr key={user._id}>
                                     <td className='px-6 py-4'>{user.username}</td>
                                     <td className='px-6 py-4'>{user.email}</td>
@@ -193,11 +204,44 @@ export default function ShowAdmins() {
                             <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                         </>
                     ) : null}
-
+  <Pagination
+        userPerPage={userPerPage}
+        totalUser={data.length}
+        currentdata={currentPage}
+        paginate={paginate}
+      />
                 </div >
             </div>
         </div>
 
 
     )
-}
+}const Pagination = ({ userPerPage, totalUser, currentdata, paginate }) => {
+    const pageNumbers = [];
+  
+    for (let i = 1; i <= Math.ceil(totalUser / userPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  
+    return (
+      <div className="mt-4 flex justify-center">
+        <ul className="inline-flex space-x-2">
+          {pageNumbers.map((number) => (
+            <li key={number}>
+              <button
+                onClick={() => paginate(number)}
+                className={`rounded-lg px-3 py-1 ${
+                  number === currentdata
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+  

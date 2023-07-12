@@ -121,7 +121,17 @@ export default function Booking() {
             console.error(error);
         }
     }
+  // Tính toán các chỉ số cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookingPerPage, setBookingPerPage] = useState(10);
 
+  const indexOfLastBooking = currentPage * bookingPerPage;
+  const indexOfFirstUser = indexOfLastBooking - bookingPerPage;
+  const currentdata = data.slice(indexOfFirstUser, indexOfLastBooking);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
     return (
 
 
@@ -145,7 +155,7 @@ export default function Booking() {
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-200'>
-                        {data.map((data) => (
+                        {currentdata.map((data) => (
                             <tr key={data._id}>
 
 
@@ -253,9 +263,44 @@ export default function Booking() {
                         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                     </>
                 ) : null}
+                  <Pagination
+        bookingPerPage={bookingPerPage}
+        totalBooking={data.length}
+        currentdata={currentPage}
+        paginate={paginate}
+      />
             </div >
 
         </div>
 
     )
-}
+}const Pagination = ({ bookingPerPage, totalBooking, currentdata, paginate }) => {
+    const pageNumbers = [];
+  
+    for (let i = 1; i <= Math.ceil(totalBooking / bookingPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  
+    return (
+      <div className="mt-4 flex justify-center">
+        <ul className="inline-flex space-x-2">
+          {pageNumbers.map((number) => (
+            <li key={number}>
+              <button
+                onClick={() => paginate(number)}
+                className={`rounded-lg px-3 py-1 ${
+                  number === currentdata
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+          
+        </ul>
+      </div>
+    );
+  };
+  

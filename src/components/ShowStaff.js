@@ -23,7 +23,7 @@ export default function ShowStaffs() {
         setData(await response.data);
     }
     useEffect(() => {
-        if (roleId != 4) {
+        if (roleId < 2) {
             navigate('*');
         } else if (token == null) {
             navigate('*');
@@ -81,10 +81,21 @@ export default function ShowStaffs() {
             console.error(error);
         }
     }
+  // Tính toán các chỉ số cho phân trang
+  const [currentPage, setCurrentPage] = useState(1);
+  const [userPerPage, setUserPerPage] = useState(10);
 
+  const indexOfLastUser = currentPage * userPerPage;
+  const indexOfFirstUser = indexOfLastUser - userPerPage;
+  const currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
     return (
       
         <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
+            <Toaster position='top-center' reverseOrder={false}></Toaster>
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
@@ -189,10 +200,43 @@ export default function ShowStaffs() {
                         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                     </>
                 ) : null}
-
+  <Pagination
+        userPerPage={userPerPage}
+        totalUser={data.length}
+        currentdata={currentPage}
+        paginate={paginate}
+      />
             </div >
      
 
 
     )
-}
+}const Pagination = ({ userPerPage, totalUser, currentdata, paginate }) => {
+    const pageNumbers = [];
+  
+    for (let i = 1; i <= Math.ceil(totalUser / userPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  
+    return (
+      <div className="mt-4 flex justify-center">
+        <ul className="inline-flex space-x-2">
+          {pageNumbers.map((number) => (
+            <li key={number}>
+              <button
+                onClick={() => paginate(number)}
+                className={`rounded-lg px-3 py-1 ${
+                  number === currentdata
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                }`}
+              >
+                {number}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
+  

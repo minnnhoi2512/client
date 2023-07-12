@@ -14,21 +14,32 @@ import PageNotFound from "./components/PageNotFound";
 import UserRecovery from './components/UserRecovery';
 import ShowUser from "./components/ShowUser";
 import Grade from "./components/Grade";
+import GradeBooking from './components/GradeBooking.js'
+import DetailGrade from './components/DetailGrade.js';
 // managerment
-import ShowCustomer from './components/ShowCustomer.js'
-import ShowMentor from './components/ShowMentor.js'
-import ShowStaff from './components/ShowStaff.js'
-import ShowAdmin from './components/ShowAdmin.js'
+import ShowCustomer from './components/ShowCustomer.js';
+import ShowMentor from './components/ShowMentor.js';
+import ShowStaff from './components/ShowStaff.js';
+import ShowAdmin from './components/ShowAdmin.js';
 // function
-import Booking from './components/Booking.js'
-import Blog from './components/Blog.js'
+import Booking from './components/Booking.js';
+import Blog from './components/Blog.js';
 
-import Course from './components/Course.js'
-import { AuthorizeUser} from './middleware/auth'
+import Course from './components/Course.js';
+import { AuthorizeUser} from './middleware/auth';
+import BlogNew from "./components/blog/BlogNew";
+import { DetailBlog } from "./components/blog/DetailBlog";
+import Homepage from "./components/Homepage";
+import { Homeblog } from "./components/HomeBlog";
+// import Header from "./components/homepage/Header.js";
 
 const router = createBrowserRouter([
     {
         path: '/',
+        element: <Homepage></Homepage>
+    },
+    {
+        path: '/login',
         element: <Login></Login>
     },
     {
@@ -97,6 +108,32 @@ const router = createBrowserRouter([
         path: '/blog',
         element:<Sidebar> <Blog></Blog></Sidebar>
     },
+    {
+        path: '/gradeBooking',
+        element: <GradeBooking></GradeBooking>
+    },
+    {
+        path: '/detail/:id',
+        element: <DetailGrade></DetailGrade>
+    },
+    {
+        path: '/blog',
+        element: <Blog></Blog>
+    },
+
+    {
+        path: '/blognew',
+        element: <BlogNew></BlogNew>
+    },
+
+    {
+        path: '/detailblog/:id',
+        element: <DetailBlog></DetailBlog>
+    },
+    {
+        path: '/homeblog',
+        element: <Homeblog></Homeblog>
+    }
 ])
 export default function App() {
     return (
