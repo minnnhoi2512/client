@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
@@ -11,6 +10,7 @@ import Pricing from '../components/homepage/Pricing';
 import Newsletter from '../components/homepage/Newsletter';
 import Contact from '../components/homepage/Contact';
 import Footer from '../components/homepage/Footer';
+import BackToTopButton from './homepage/BackToTop';
 
 const Homepage = () => {
     Aos.init({
@@ -28,6 +28,7 @@ const Homepage = () => {
             <Pricing />
             <Newsletter />
             <Contact />
+            <BackToTopButton />
             <Footer />
         </div>
     );

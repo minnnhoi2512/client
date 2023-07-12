@@ -81,6 +81,7 @@ const Sidebar = ({children}) => {
     function userLogout() {
         localStorage.removeItem('token');
         localStorage.removeItem('roleId');
+        localStorage.removeItem('username');
         navigate('/');
     }
 

@@ -80,3 +80,32 @@
     height: 300px;
     width: 270px;
 }
+.back-to-top {
+
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%);
+    z-index: 99;
+}
+
+
+.back-to-top button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.back-to-top button .arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+    margin-right: 5px;
+}

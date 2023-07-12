@@ -41,7 +41,7 @@ const Courses = () => {
                     <BsStarHalf />
                   </div>
                   {/* link */}
-                  <a className='font-medium-1' href="#">{link}</a>
+                  <a className='font-medium-1' href="/gradeBooking">{link}</a>
                 </div>
               </div>
             );

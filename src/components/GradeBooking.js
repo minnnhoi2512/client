@@ -4,7 +4,8 @@ import { getAllCourses } from '../helper/courseHelper';
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { getFile } from '../helper/upload';
-import Header from './homepage/Header';
+
+import Header from "./homepage/Header";
 // import  '../assets/'
 export default function Class() {
     const [grades, setGrades] = useState([]);
@@ -40,6 +41,7 @@ export default function Class() {
         }
     };
     return (
+    
         <div>
             <div className="grid grid-cols-4">
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster1.png" alt="yoga" /></div>
@@ -121,6 +123,6 @@ export default function Class() {
             </div>
 
         </div>
-
+    
     )
 }

@@ -51,6 +51,7 @@ export default function Profile() {
   function userLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('roleId');
+    localStorage.removeItem('username');
     navigate('/')
   }
 
