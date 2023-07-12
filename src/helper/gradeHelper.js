@@ -39,3 +39,12 @@ export async function createGrade(data){
         return Promise.reject({ error: 'Could not create' });
     }
 }
+export async function detailGrade(gradeName) {
+    try {
+        const response = await placeholderApi.get(`/grade/detailGrade?gradeName=${gradeName}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Could not get details');
+    }
+}

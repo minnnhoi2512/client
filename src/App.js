@@ -22,9 +22,11 @@ import ShowAdmin from './components/ShowAdmin.js'
 // function
 import Booking from './components/Booking.js'
 import Blog from './components/Blog.js'
-
 import Course from './components/Course.js'
 import { AuthorizeUser} from './middleware/auth'
+// Vinh + Son
+import GradeBooking from './components/GradeBooking.js'
+import DetailGrade from './components/DetailGrade.js'
 
 const router = createBrowserRouter([
     {
@@ -96,6 +98,14 @@ const router = createBrowserRouter([
     {
         path: '/blog',
         element:<Sidebar> <Blog></Blog></Sidebar>
+    },
+    {
+        path: '/gradeBooking',
+        element: <GradeBooking></GradeBooking>
+    },
+    {
+        path: '/detail/:id',
+        element: <DetailGrade></DetailGrade>
     },
 ])
 export default function App() {
