@@ -33,7 +33,7 @@ export default function Recovery() {
                     success: <b>Registration complete !!!</b>,
                     error: <b>Cannot register account!</b>
                 });
-                return navigate('/')
+                return navigate('/login')
             }
         } catch (error) {
             return toast.error('Wrong OTP! Check email again!')

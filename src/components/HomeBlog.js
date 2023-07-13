@@ -3,7 +3,6 @@ import BlogNew from "../components/blog/BlogNew"
 import { Category } from "../components/blog/Category"
 import Footer from '../components/homepage/Footer';
 import Header from "./homepage/Header";
-import Contact from '../components/homepage/Contact';
 
 export const Homeblog = () => {
   return (
@@ -12,7 +11,6 @@ export const Homeblog = () => {
       <Header />
       <Category />
       <BlogNew />
-      <Contact />
       <Footer />
     </>
   )

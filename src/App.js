@@ -32,12 +32,17 @@ import { DetailBlog } from "./components/blog/DetailBlog";
 import Homepage from "./components/Homepage";
 import { Homeblog } from "./components/HomeBlog";
 // import Header from "./components/homepage/Header.js";
-
+// import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
+
     {
         path: '/',
         element: <Homepage></Homepage>
     },
+    // {
+    //     path: '/showStudent',
+    //     element: <Testing></Testing>
+    // },
     {
         path: '/login',
         element: <Login></Login>

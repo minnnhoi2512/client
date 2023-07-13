@@ -6,6 +6,8 @@ import { createBooking } from '../helper/bookingHelper';
 import React, { useState, useEffect } from 'react';
 import useFetch from '../hooks/fetch.hook';
 import { getFile } from '../helper/upload';
+import Header from './homepage/Header';
+import Footer from './homepage/Footer';
 export default function Detail() {
   const { id } = useParams();
   const [grades, setGrades] = useState([]);
@@ -50,7 +52,9 @@ export default function Detail() {
     }
   }, [grades, id]);
   return (
-    <div className=" mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+    <div className='overflow-hidden'>
+      <Header/>
+    <div className=" mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-28 lg:max-w-7xl lg:px-8">
       <h2 className="text-5xl font-serif text-center">{courses.map((course) => {
         if (course._id == grade.course)
           return course.courseName;
@@ -80,6 +84,8 @@ export default function Detail() {
         <img className='w-64 h-64 rounded-full' src='/assets/yogaSlogan.png' />
         <p className='text-lg font-serif mt-14 mr-14'>Yoga is the art of uniting the body, mind, and spirit to discover inner peace, embrace self-awareness, and unlock the limitless potential within.</p>
       </div>
+    </div>
+    <Footer/>
     </div>
   )
 }

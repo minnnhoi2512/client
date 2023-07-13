@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom'
 
 import styles from '../styles/Username.module.css';
 import extend from '../styles/Profile.module.css'
+import Footer from './homepage/Footer';
+import Header from './homepage/Header';
 
 export default function Profile() {
 
@@ -59,6 +61,8 @@ export default function Profile() {
   if (serverError) return <h1 className='text-xl text-red-500'>{serverError.message}</h1>
 
   return (
+    <div className='overflow-hidden'>
+    <Header/>
     <div className="mx-10 px-5 py-10">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -95,15 +99,12 @@ export default function Profile() {
 
 
             </div>
-
-            <div className="text-center py-4">
-              <span className='text-gray-500'>Come back later? <button onClick={userLogout} className='text-red-500' to="/">Log out</button></span>
-            </div>
-
           </form>
 
         </div>
       </div>
+    </div>
+    <Footer/>
     </div>
   )
 }

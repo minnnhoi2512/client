@@ -48,3 +48,11 @@ export async function detailGrade(gradeName) {
         throw new Error('Could not get details');
     }
 }
+export async function getGradesOfMentor(id){
+    try {
+        const { data } = await placeholderApi.get(`/grade/gradesOfMentor/${id}`);
+        return Promise.resolve({data});
+    } catch (error) {
+        return Promise.reject({ error: 'Could not SHow' });
+    }
+}
