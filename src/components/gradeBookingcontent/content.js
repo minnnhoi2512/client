@@ -95,7 +95,7 @@ export default function Grade() {
                                             return grade.startTimeGrade + " to " + grade.endTimeGrade;
                                         }
                                     })}</p>
-                                    <p className="mt-4 font-serif">Capacity: 20</p>
+                                    <p className="mt-4 font-serif">Capacity: 20(left {20-grade.nOfStudent})</p>
                                     <p className="mt-2 font-serif">Instructor: {mentors.map((mentor) => {
                                         if (grade.instructor === mentor._id) {
                                             return mentor.username;
