@@ -13,6 +13,7 @@ const Header = () => {
   const [roleId, setRoleId] = useState(null);
   const navigate = useNavigate()
   useEffect(() => {
+    window.scrollTo(0, 0);
     window.addEventListener('scroll', () => {
       window.scrollY > 36 ? setHeader(true) : setHeader(false);
     });

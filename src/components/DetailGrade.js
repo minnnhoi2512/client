@@ -76,6 +76,10 @@ export default function Detail() {
                 if (mentor._id == grade.instructor)
                   return mentor.username;
               })}</p>
+              <p className="mt-4 font-serif text-xl">Couse: <b>{courses.map((course) => {
+                if (course._id == grade.course)
+                  return course.courseName;
+              })}</b></p>
               <p className="mt-4 font-serif text-xl">Price: <b>${courses.map((course) => {
                 if (course._id == grade.course)
                   return course.price;
