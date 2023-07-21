@@ -47,6 +47,7 @@ export default function Profile() {
   const onUpload = async e => {
     const base64 = await convertToBase64(e.target.files[0]);
     setFile(base64);
+    // apiData?.profile = base64;
   }
 
   // logout handler function
@@ -62,7 +63,7 @@ export default function Profile() {
 
   return (
     <div className='overflow-hidden'>
-    <Header/>
+ 
     <div className="mx-10 px-5 py-10">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -80,7 +81,7 @@ export default function Profile() {
           <form className='py-1' onSubmit={formik.handleSubmit}>
             <div className='profile flex justify-center py-10'>
               <label htmlFor="profile">
-                <img src={apiData?.profile || file || avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt="avatar" />
+                <img src={file || apiData?.profile   || avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt="avatar" />
               </label>
 
               <input onChange={onUpload} type="file" id='profile' name='profile' />
@@ -104,7 +105,7 @@ export default function Profile() {
         </div>
       </div>
     </div>
-    <Footer/>
+   
     </div>
   )
 }

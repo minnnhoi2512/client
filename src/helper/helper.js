@@ -4,6 +4,17 @@ import jwt_decode from 'jwt-decode';
 // dotenv.config()
 
 let token = localStorage.getItem('token');
+export async function updateUser(response) {
+    try {
+        const token = await localStorage.getItem('token');
+        if (Number(response.phone) >= 0) {
+            const data = await placeholderApi.put('/api/updateuser', response, { headers: { "Authorization": `Bearer ${token}` } });
+            return Promise.resolve({ data })
+        }else throw new Error;
+    } catch (error) {
+        return Promise.reject({ error: "Couldn't Update Profile...!" })
+    }
+}
 const placeholderApi = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
@@ -31,16 +42,19 @@ export async function authenticate(username) {
         return { error: "Username doesn't exist...!" }
     }
 }
-export async function getAllUser() {
-    try {      
-        const { data } = await placeholderApi.get('/api/getAll');
+export async function getAllUser(filter) {
+    try {
+        
+        // console.log(filterData)
+        const { data } = await placeholderApi.get(`/api/getAll/`+ filter);
+       
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
 export async function getCustomers() {
-    try {      
+    try {
         const { data } = await placeholderApi.get('/admin/getCustomers');
         return Promise.resolve({ data });
     } catch (error) {
@@ -48,7 +62,7 @@ export async function getCustomers() {
     }
 }
 export async function getMentors() {
-    try {      
+    try {
         const { data } = await placeholderApi.get('/admin/getMentors');
         return Promise.resolve({ data });
     } catch (error) {
@@ -56,7 +70,7 @@ export async function getMentors() {
     }
 }
 export async function getStaffs() {
-    try {      
+    try {
         const { data } = await placeholderApi.get('/admin/getStaffs');
         return Promise.resolve({ data });
     } catch (error) {
@@ -64,7 +78,7 @@ export async function getStaffs() {
     }
 }
 export async function getAdmins() {
-    try {      
+    try {
         const { data } = await placeholderApi.get('/admin/getAdmins');
         return Promise.resolve({ data });
     } catch (error) {
@@ -72,7 +86,7 @@ export async function getAdmins() {
     }
 }
 export async function deleteUser(userId) {
-    try {      
+    try {
         const { data } = await placeholderApi.delete(`/api/deleteUser/${userId}`);
         return Promise.resolve({ data });
     } catch (error) {
@@ -80,8 +94,8 @@ export async function deleteUser(userId) {
     }
 }
 export async function updateUser_1(userId, updatedUser) {
-    try {      
-        return await placeholderApi.post(`/api/updateUser/${userId}`,updatedUser);
+    try {
+        return await placeholderApi.post(`/api/updateUser/${userId}`, updatedUser);
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
@@ -99,7 +113,7 @@ export async function disableUser(id) {
     try {
         console.log(id);
         return await placeholderApi.post(`/api/disableUser/${id}`);
-       
+
     } catch (error) {
         return { error: error }
     }
@@ -107,7 +121,7 @@ export async function disableUser(id) {
 export async function ableUser(id) {
     try {
         return await placeholderApi.post(`/api/ableUser/${id}`);
-        
+
     } catch (error) {
         return { error: error }
     }
@@ -132,13 +146,13 @@ export async function registerUser(credentials) {
     }
 }
 // for register
-export async function generateOTPforRegister(username,email) {
+export async function generateOTPforRegister(username, email) {
     try {
         const { data: { code }, status } = await placeholderApi.get('/api/generateOTP', { params: { username } });
 
         // send mail with the OTP
         if (status === 201) {
-           
+
             let text = `Welcome you to join with us, here your OTP ${code}.`;
             await placeholderApi.post('/api/registerMail', { username, userEmail: email, text, subject: "Registration OTP" })
         }
@@ -160,23 +174,13 @@ export async function verifyPassword({ username, password }) {
 }
 
 /** update user profile function */
-export async function updateUser(response) {
-    try {
 
-        const token = await localStorage.getItem('token');
-        const data = await placeholderApi.put('/api/updateuser', response, { headers: { "Authorization": `Bearer ${token}` } });
-
-        return Promise.resolve({ data })
-    } catch (error) {
-        return Promise.reject({ error: "Couldn't Update Profile...!" })
-    }
-}
 
 /** generate OTP */
 export async function recoveryUser(username) {
     try {
         const { data: { code }, status } = await placeholderApi.get('/api/recoveryUser', { params: { username } });
-       
+
         return Promise.resolve(code);
     } catch (error) {
         return Promise.reject({ error: 'Could not recoveryUser' });

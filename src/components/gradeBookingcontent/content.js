@@ -90,6 +90,7 @@ export default function Grade() {
                             </div>
                             <div className="mt-3">
                                 <h5 className="text-center text-3xl font-serif">{grade.gradeName}</h5>
+                                <p className="mt-4 font-serif">On : {grade.weekDay}</p>
                                 <p className="mt-4 font-serif">Time: {courses.map((course) => {
                                     if (grade.course === course._id) {
                                         return grade.startTimeGrade + " to " + grade.endTimeGrade;

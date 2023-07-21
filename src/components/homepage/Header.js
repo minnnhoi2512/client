@@ -81,19 +81,18 @@ const Header = () => {
             {showDropdown && (
               <div className='absolute top-[42px] right-0 mt-2 bg-white rounded-md shadow-lg'>
                 <ul className='py-2'>
-                  <li>
-                    <button
-                      className="block-user px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      onClick={() => { window.location.href = '/profile'; }}
-                    >
-                      Profile
-                    </button>
-                  </li>
-                  {roleId >= 3 && (
+                  {(
                     <li>
                       <button
                         className="block-user px-4 py-2 text-gray-700 hover:bg-gray-100"
-                        onClick={() => { window.location.href = '/showCustomers'; }}
+                        onClick={() => {
+                          if (roleId >= 3) {
+                            window.location.href = '/showCustomers'
+                          } else{
+                            window.location.href = '/profile'
+                          }
+                            ;
+                        }}
                       >
                         Management
                       </button>

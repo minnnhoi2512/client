@@ -30,6 +30,14 @@ export default function Grade() {
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
     let navigate = useNavigate()
+    const chooseDayInWeek = [
+        {
+            id: 1, value: 'Monday,Wednesday,Friday'
+        },
+        {
+            id: 2, value: 'Tuesday,Thursday,Saturday'
+        },
+    ]
     useEffect(() => {
         if (roleId < 2) {
             navigate('*');
@@ -107,12 +115,19 @@ export default function Grade() {
     const handleSelectCourse = (event, meta) => {
         setNewData({ ...newData, [meta.name]: event.value });
     }
+    const handleSelectDay = (event, meta) => {
+        setNewData({ ...newData, [meta.name]: event.value });
+    }
     let optionsMentor = mentors.map(function (mentor) {
         return { value: mentor._id, label: mentor.username };
     })
     let optionsCourse = courses.map(function (course) {
         return { value: course._id, label: course.courseName };
     })
+    let optionsDay = chooseDayInWeek.map(function (day) {
+        return { value: day.value, label: day.value };
+    })
+  
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const [gradePerPage, setGradePerPage] = useState(3);
@@ -125,7 +140,7 @@ export default function Grade() {
         setCurrentPage(pageNumber);
     };
     return (
-        <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
+        <div className='max-w-4x2' style={{ marginLeft: '8rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
             <div>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -144,6 +159,8 @@ export default function Grade() {
                             <th className='px-6 pt-5 pb-4'>Course</th>
                             <th className='px-6 pt-5 pb-4'>Grade Name</th>
                             <th className='px-6 pt-5 pb-4'>Image</th>
+                            <th className='px-6 pt-5 pb-4'>Room</th>
+                            <th className='px-6 pt-5 pb-4'>On</th>
                             <th className='px-6 pt-5 pb-4'>From</th>
                             <th className='px-6 pt-5 pb-4'>To</th>
                             <th className='px-6 pt-5 pb-4'>Action</th>
@@ -171,6 +188,9 @@ export default function Grade() {
                                 <td className="px-6 py-4">
                                     <img src={showImg(grade._image)} alt="" />
                                 </td>
+
+                                <td className='px-6 py-4'>{grade.room}</td>
+                                <td className='px-6 py-4'>{grade.weekDay}</td>
                                 <td className='px-6 py-4'>{grade.startTimeGrade}</td>
                                 <td className='px-6 py-4'>{grade.endTimeGrade}</td>
                                 <td className='px-6 py-4'>
@@ -241,6 +261,14 @@ export default function Grade() {
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">Description :</label>
                                             <input type="text" name="description" onChange={(event) => handleChange(event)} ></input>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">Room :</label>
+                                            <input type="text" name="room" onChange={(event) => handleChange(event)} ></input>
+                                        </div>
+                                        <div className="mb-4">
+                                            <label className="block text-gray-700 font-bold mb-2">Day :</label>
+                                            <Select options={optionsDay} name="weekDay" onChange={(event, meta) => handleSelectDay(event, meta)} />
                                         </div>
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">From :</label>

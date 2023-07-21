@@ -29,10 +29,46 @@ export default function ShowUsers() {
     else if (roleId == 4) return 'ADMIN'
   }
   const fetchData = async () => {
-    const response = await getAllUser();
+    console.log(filter);
+    // clearCacheData();
+    const response = await getAllUser(filter);
+
     setData(response.data);
   };
+  const filterData = [
+    {
+      isActive: 1, name: 'ACTIVED'
+    },
+    {
+      isActive: 0, name: 'UNACTIVED'
+    },
+
+
+  ]
+  function valueFilter(filter) {
+    return filter
+  }
+  let optionsFilter = filterData.map(function (choose) {
+    return { value: choose.isActive, label: choose.name };
+  })
+  const [filter, setFilter] = useState(0);
+  const  handleSelectFilter = async (event, meta) => {
+
+      setFilter(await event.value);
+      console.log(filter)
+    await fetchData();
+    // console.log(filter)
+    // [meta.name]: event.value 
+  }
+  function clearCacheData() {
+    caches.keys().then((names) => {
+      names.forEach((name) => {
+        caches.delete(name);
+      });
+    });
+  }
   useEffect(() => {
+    // setFilter('ACTIVED')
     if (roleId < 3) {
       navigate("*");
     } else if (token == null) {
@@ -57,30 +93,28 @@ export default function ShowUsers() {
     return { value: role.roleId, label: role.roleName };
   })
   const handleSelectRole = (event, meta) => {
-    console.log(meta.name);
-    console.log(event.value);
     setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
   }
-  const handleDelete = async (userId) => {
-    try {
-      const response = await deleteUser(userId);
-      let dataPromise = fetchData();
-      toast.promise(dataPromise, {
-        loading: "Loading...",
-        success: <b>Successfully...!</b>,
-        error: <b>Failed !!!</b>,
-      });
-      dataPromise
-        .then(function () {
-          navigate("/showUser");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const handleDelete = async (userId) => {
+  //   try {
+  //     const response = await deleteUser(userId);
+  //     let dataPromise = fetchData();
+  //     toast.promise(dataPromise, {
+  //       loading: "Loading...",
+  //       success: <b>Successfully...!</b>,
+  //       error: <b>Failed !!!</b>,
+  //     });
+  //     dataPromise
+  //       .then(function () {
+  //         navigate("/showUser");
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const handleActive = async (userId) => {
     try {
       await ableUser(userId);
@@ -153,10 +187,10 @@ export default function ShowUsers() {
   // Tính toán các chỉ số cho phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [userPerPage, setUserPerPage] = useState(10);
-
+  // const [currentdata,setCurrentData] = useState([])
   const indexOfLastUser = currentPage * userPerPage;
   const indexOfFirstUser = indexOfLastUser - userPerPage;
-  const currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
+  let currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
   function showActive(activeId) {
     if (activeId == 0) return 'UNACTIVED'
     else if (activeId == 1) return 'ACTIVED'
@@ -165,12 +199,32 @@ export default function ShowUsers() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const [searchString, setSearchString] = useState('');
+  function handleFilter(e) {
+    setSearchString(e.target.value)
+  }
+ 
   return (
     <div className="max-w-4x2" style={{ marginLeft: "15rem" }}>
       <Toaster position='top-center' reverseOrder={false}></Toaster>
+      <Select options={optionsFilter} name='filter'
+        defaultValue={optionsFilter[1]}
+        placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+      <div className="mt-6 my-10">
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={handleFilter}
+          className="border border-gray-300 px-4 py-2 rounded-md w-64"
+
+        />
+
+      </div>
       <table className="mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm">
         <thead>
           <tr className="text-left font-bold">
+
+            <th className="px-6 pb-4 pt-5">No</th>
             <th className="px-6 pb-4 pt-5">Username</th>
             <th className="px-6 pb-4 pt-5">Email</th>
             <th className="px-6 pb-4 pt-5">Address</th>
@@ -181,46 +235,51 @@ export default function ShowUsers() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {currentdata.map((user) => (
-            <tr key={user._id}>
-              <td className="px-6 py-4">{user.username}</td>
-              <td className="px-6 py-4">{user.email}</td>
-              <td className="px-6 py-4">{valuesContext(user.address)}</td>
-              <td className="px-6 py-4">{valuesContext(user.phone)}</td>
-              <td className="px-6 py-4">{showRoleName(user.roleId)}</td>
-              <td className="px-6 py-4">
-                {showActive(user.isActive)}  </td>
-              <td className="px-6 py-4">
-                {user.roleId <= 3  && (
-                  <>
-                    <button
-                      className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                      onClick={() => handleEdit(user)}
-                    >
-                      Edit
-                    </button>
-                    {user.isActive == 1 && (
-                      <button
-                        className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                        onClick={() => handleUnactive(user._id)}
-                      >
-                        Unactive
-                      </button>
-                    )}
-                    {user.isActive == 0 && (
-                      <button
-                        className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-                        onClick={() => handleActive(user._id)}
-                      >
-                        Active
-                      </button>
-                    )}
+          {currentdata.map((user,index) => user.username.includes(searchString) &&
+            // user.isActive == valueFilter(filter) &&
 
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
+            (
+              <tr key={user._id}>
+
+                <td className="px-6 py-4">{index+1}</td>
+                <td className="px-6 py-4">{user.username}</td>
+                <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 py-4">{valuesContext(user.address)}</td>
+                <td className="px-6 py-4">{valuesContext(user.phone)}</td>
+                <td className="px-6 py-4">{showRoleName(user.roleId)}</td>
+                <td className="px-6 py-4">
+                  {showActive(user.isActive)}  </td>
+                <td className="px-6 py-4">
+                  {user.roleId <= 3 && (
+                    <>
+                      <button
+                        className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                        onClick={() => handleEdit(user)}
+                      >
+                        Edit
+                      </button>
+                      {user.isActive == 1 && (
+                        <button
+                          className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                          onClick={() => handleUnactive(user._id)}
+                        >
+                          Unactive
+                        </button>
+                      )}
+                      {user.isActive == 0 && (
+                        <button
+                          className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+                          onClick={() => handleActive(user._id)}
+                        >
+                          Active
+                        </button>
+                      )}
+
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
       {showModal ? (
