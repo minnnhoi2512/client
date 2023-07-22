@@ -41,6 +41,12 @@ const Sidebar = ({ children }) => {
 
   const menuItemManagement = [
     {
+      path: "/showUser",
+      name: "User",
+      icon: <FaPeopleGroup />,
+      visible: !isMentor && !isStaff &&!isUser,
+    },
+    {
       path: "/showAdmins",
       name: "Admin",
       icon: <FaUserAlt />,
@@ -52,12 +58,7 @@ const Sidebar = ({ children }) => {
       icon: <FaHospitalUser />,
       visible: isAdmin,
     },
-    {
-      path: "/showUser",
-      name: "User",
-      icon: <FaPeopleGroup />,
-      visible: !isMentor && !isStaff &&!isUser,
-    },
+   
     {
       path: "/showCustomers",
       name: "Customer",

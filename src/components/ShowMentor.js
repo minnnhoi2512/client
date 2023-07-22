@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { getMentors, deleteUser, updateUser_1,disableUser,ableUser } from '../helper/helper';
+import { getMentors, deleteUser, updateUser_1, disableUser, ableUser } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, Navigate } from 'react-router-dom';
 import Select from 'react-select'
-import { DataRole } from '../helper/dataRole.js'
+import { DataRole, DataRoleForStaff } from '../helper/dataRole.js'
 export default function ShowMentors() {
     const [data, setData] = useState([]);
     const [updatedUserData, setUpdatedUserData] = useState({});
@@ -24,10 +24,27 @@ export default function ShowMentors() {
     }
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
-    const fetchData = async () => {
-        const response = await getMentors();
-        setData(await response.data);
-    }
+    const fetchData = async (searchName, active) => {
+        let query = { 'username': searchName || '', 'active': active || 0 }
+        setCurrentPage(1);
+        console.log(query);
+        const response = await getMentors(query);
+        setData(response.data);
+    };
+    const [filter, setFilter] = useState('');
+    const [active, setActive] = useState('1');
+    const [searchName, setSearchName] = useState();
+    const filterData = [
+        {
+            isActive: 0, name: 'UNACTIVED'
+        },
+        {
+            isActive: 1, name: 'ACTIVED'
+        },
+    ]
+    let optionsFilter = filterData.map(function (choose) {
+        return { value: choose.isActive, label: choose.name };
+    })
     useEffect(() => {
         if (roleId < 1) {
             navigate('*');
@@ -69,7 +86,7 @@ export default function ShowMentors() {
         setUpdatedUserData(user);
         setShowModal(true);
     }
-    let optionsRole = DataRole.map(function (role) {
+    let optionsRoleForAdmin = DataRole.map(function (role) {
         return { value: role.roleId, label: role.roleName };
     })
     const handleSelectRole = (event, meta) => {
@@ -97,45 +114,45 @@ export default function ShowMentors() {
     }
     const handleActive = async (userId) => {
         try {
-          await ableUser(userId);
-          let dataPromise = fetchData();
-          toast.promise(dataPromise, {
-            loading: "Loading...",
-            success: <b>Successfully...!</b>,
-            error: <b>Failed !!!</b>,
-          });
-          dataPromise
-            .then(function () {
-              navigate("/showMentors");
-            })
-            .catch((error) => {
-              console.error(error);
+            await ableUser(userId);
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: "Loading...",
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>,
             });
+            dataPromise
+                .then(function () {
+                    navigate("/showMentors");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-      const handleUnactive = async (id) => {
+    };
+    const handleUnactive = async (id) => {
         try {
-          await disableUser(id);
-          let dataPromise = fetchData();
-          toast.promise(dataPromise, {
-            loading: "Loading...",
-            success: <b>Successfully...!</b>,
-            error: <b>Failed !!!</b>,
-          });
-          dataPromise
-            .then(function () {
-              navigate("/showMentors");
-            })
-            .catch((error) => {
-              console.error(error);
+            await disableUser(id);
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: "Loading...",
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>,
             });
+            dataPromise
+                .then(function () {
+                    navigate("/showMentors");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-    
+    };
+
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const [userPerPage, setUserPerPage] = useState(10);
@@ -143,6 +160,9 @@ export default function ShowMentors() {
     const indexOfLastUser = currentPage * userPerPage;
     const indexOfFirstUser = indexOfLastUser - userPerPage;
     const currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
+    let optionsRoleForStaff = DataRoleForStaff.map(function (role) {
+        return { value: role.roleId, label: role.roleName };
+    })
     function valuesContext(value) {
         if (value == null || value == '') return 'Not yet'
         else return value;
@@ -151,15 +171,38 @@ export default function ShowMentors() {
     function showActive(activeId) {
         if (activeId == 0) return 'UNACTIVED'
         else if (activeId == 1) return 'ACTIVED'
-        
-      }
+
+    }
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const handleSelectFilter = async (event, meta) => {
 
+        setActive(event.value);
+        fetchData(searchName, event.value);
+
+    }
+    const [searchString, setSearchString] = useState('');
+    async function handleSearch(event, meta) {
+        setSearchName(event.target.value);
+        fetchData(event.target.value, active);
+    }
     return (
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
+            <Select options={optionsFilter} name='active'
+                defaultValue={optionsFilter[0]}
+                placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+            <div className="mt-6 my-10">
+                <input
+                    type="text"
+                    placeholder="Search user"
+                    onChange={(event, meta) => handleSearch(event, meta)}
+                    className="border border-gray-300 px-4 py-2 rounded-md w-64"
+
+                />
+
+            </div>
             <div className='max-w-4x2 mx-auto'>
                 <table className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                     <thead>
@@ -174,7 +217,7 @@ export default function ShowMentors() {
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-200'>
-                        {data.map((user) => (
+                        {data.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
                             <tr key={user._id}>
                                 <td className='px-6 py-4'>{user.username}</td>
                                 <td className='px-6 py-4'>{user.email}</td>
@@ -184,31 +227,31 @@ export default function ShowMentors() {
                                 <td className="px-6 py-4">
                                     {showActive(user.isActive)}  </td>
                                 <td className='px-6 py-4'>
-                                <>
-                                    <button
-                                        className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                                        onClick={() => handleEdit(user)}
-                                    >
-                                        Edit
-                                    </button>
-                                    {user.isActive == 1 && (
+                                    <>
                                         <button
-                                            className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                                            onClick={() => handleUnactive(user._id)}
+                                            className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+                                            onClick={() => handleEdit(user)}
                                         >
-                                            Unactive
+                                            Edit
                                         </button>
-                                    )}
-                                    {user.isActive == 0 && (
-                                        <button
-                                            className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-                                            onClick={() => handleActive(user._id)}
-                                        >
-                                            Active
-                                        </button>
-                                    )}
+                                        {user.isActive == 1 && (
+                                            <button
+                                                className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                                                onClick={() => handleUnactive(user._id)}
+                                            >
+                                                Unactive
+                                            </button>
+                                        )}
+                                        {user.isActive == 0 && (
+                                            <button
+                                                className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+                                                onClick={() => handleActive(user._id)}
+                                            >
+                                                Active
+                                            </button>
+                                        )}
 
-                                </>
+                                    </>
                                 </td>
                             </tr>
                         ))}
@@ -249,7 +292,14 @@ export default function ShowMentors() {
 
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">Role Name :</label>
-                                            <Select options={optionsRole} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                                            {roleId == 4 && (
+                                                <Select options={optionsRoleForAdmin} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                                            )
+                                            }
+                                            {roleId == 3 && (
+                                                <Select options={optionsRoleForStaff} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                                            )
+                                            }
                                         </div>
 
 

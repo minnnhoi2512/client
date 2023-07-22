@@ -63,7 +63,7 @@ export default function Profile() {
 
   return (
     <div className='overflow-hidden'>
- 
+    <Header/>
     <div className="mx-10 px-5 py-10">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -105,8 +105,7 @@ export default function Profile() {
         </div>
       </div>
     </div>
-   
+    <Footer/>
     </div>
   )
 }
-

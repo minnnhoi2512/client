@@ -10,7 +10,7 @@ export async function updateUser(response) {
         if (Number(response.phone) >= 0) {
             const data = await placeholderApi.put('/api/updateuser', response, { headers: { "Authorization": `Bearer ${token}` } });
             return Promise.resolve({ data })
-        }else throw new Error;
+        } else throw new Error;
     } catch (error) {
         return Promise.reject({ error: "Couldn't Update Profile...!" })
     }
@@ -42,44 +42,47 @@ export async function authenticate(username) {
         return { error: "Username doesn't exist...!" }
     }
 }
-export async function getAllUser(filter) {
+export async function getAllUser(query) {
     try {
-        
+
         // console.log(filterData)
-        const { data } = await placeholderApi.get(`/api/getAll/`+ filter);
-       
+        console.log(query)
+        const { data } = await placeholderApi.get(`/api/getAll`, { params: query });
+
+
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
-export async function getCustomers() {
+export async function getCustomers(query) {
     try {
-        const { data } = await placeholderApi.get('/admin/getCustomers');
+        const { data } = await placeholderApi.get('/admin/getCustomers', { params: query });
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
-export async function getMentors() {
+export async function getMentors(query) {
+    console.log(query)
     try {
-        const { data } = await placeholderApi.get('/admin/getMentors');
+        const { data } = await placeholderApi.get('/admin/getMentors', { params: query });
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
-export async function getStaffs() {
+export async function getStaffs(query) {
     try {
-        const { data } = await placeholderApi.get('/admin/getStaffs');
+        const { data } = await placeholderApi.get('/admin/getStaffs', { params: query });
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });
     }
 }
-export async function getAdmins() {
+export async function getAdmins(query) {
     try {
-        const { data } = await placeholderApi.get('/admin/getAdmins');
+        const { data } = await placeholderApi.get('/admin/getAdmins', { params: query });
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not getAll' });

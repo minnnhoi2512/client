@@ -9,7 +9,9 @@ export default function ShowUsers() {
   const [updatedUserData, setUpdatedUserData] = useState({});
 
   const [showModal, setShowModal] = useState(false);
-
+  
+  const [active,setActive] = useState('1');
+  const [searchName,setSearchName] = useState();
   const navigate = useNavigate();
   // const handleChange = (event) => {
   //   // console.log(event);
@@ -28,38 +30,37 @@ export default function ShowUsers() {
     else if (roleId == 3) return 'STAFF'
     else if (roleId == 4) return 'ADMIN'
   }
-  const fetchData = async () => {
-    console.log(filter);
-    // clearCacheData();
-    const response = await getAllUser(filter);
+  const [filter, setFilter] = useState('');
 
+  const fetchData = async (searchName,active) => {
+    let query = { 'username': searchName || '', 'active': active || 0}
+    setCurrentPage(1);
+    console.log(query);
+    const response = await getAllUser(query);
     setData(response.data);
   };
+  const handleSelectFilter = async (event, meta) => {
+  
+    setActive(event.value);
+    fetchData(searchName,event.value);
+ 
+  }
   const filterData = [
-    {
-      isActive: 1, name: 'ACTIVED'
-    },
     {
       isActive: 0, name: 'UNACTIVED'
     },
-
-
+    {
+      isActive: 1, name: 'ACTIVED'
+    },
   ]
-  function valueFilter(filter) {
-    return filter
-  }
   let optionsFilter = filterData.map(function (choose) {
     return { value: choose.isActive, label: choose.name };
   })
-  const [filter, setFilter] = useState(0);
-  const  handleSelectFilter = async (event, meta) => {
-
-      setFilter(await event.value);
-      console.log(filter)
-    await fetchData();
-    // console.log(filter)
-    // [meta.name]: event.value 
+  function valueFilter(filter) {
+    return filter
   }
+
+
   function clearCacheData() {
     caches.keys().then((names) => {
       names.forEach((name) => {
@@ -74,7 +75,7 @@ export default function ShowUsers() {
     } else if (token == null) {
       navigate("*");
     } else {
-      let dataPromise = fetchData();
+      let dataPromise = fetchData(filter);
       toast.promise(dataPromise, {
         loading: "Loading...",
         success: <b>Successfully...!</b>,
@@ -118,7 +119,7 @@ export default function ShowUsers() {
   const handleActive = async (userId) => {
     try {
       await ableUser(userId);
-      let dataPromise = fetchData();
+      let dataPromise = fetchData(filter);
       toast.promise(dataPromise, {
         loading: "Loading...",
         success: <b>Successfully...!</b>,
@@ -138,7 +139,7 @@ export default function ShowUsers() {
   const handleUnactive = async (id) => {
     try {
       await disableUser(id);
-      let dataPromise = fetchData();
+      let dataPromise = fetchData(filter);
       toast.promise(dataPromise, {
         loading: "Loading...",
         success: <b>Successfully...!</b>,
@@ -200,21 +201,22 @@ export default function ShowUsers() {
     setCurrentPage(pageNumber);
   };
   const [searchString, setSearchString] = useState('');
-  function handleFilter(e) {
-    setSearchString(e.target.value)
+  async function handleSearch(event, meta) {
+    setSearchName(event.target.value);
+    fetchData(event.target.value,active);
   }
- 
+
   return (
     <div className="max-w-4x2" style={{ marginLeft: "15rem" }}>
       <Toaster position='top-center' reverseOrder={false}></Toaster>
-      <Select options={optionsFilter} name='filter'
-        defaultValue={optionsFilter[1]}
+      <Select options={optionsFilter} name='active'
+        defaultValue={optionsFilter[0]}
         placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
       <div className="mt-6 my-10">
         <input
           type="text"
-          placeholder="Search"
-          onChange={handleFilter}
+          placeholder="Search user"
+          onChange={(event, meta) => handleSearch(event, meta)}
           className="border border-gray-300 px-4 py-2 rounded-md w-64"
 
         />
@@ -224,7 +226,7 @@ export default function ShowUsers() {
         <thead>
           <tr className="text-left font-bold">
 
-            <th className="px-6 pb-4 pt-5">No</th>
+
             <th className="px-6 pb-4 pt-5">Username</th>
             <th className="px-6 pb-4 pt-5">Email</th>
             <th className="px-6 pb-4 pt-5">Address</th>
@@ -235,13 +237,11 @@ export default function ShowUsers() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {currentdata.map((user,index) => user.username.includes(searchString) &&
-            // user.isActive == valueFilter(filter) &&
-
+          {currentdata.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) &&
             (
               <tr key={user._id}>
 
-                <td className="px-6 py-4">{index+1}</td>
+
                 <td className="px-6 py-4">{user.username}</td>
                 <td className="px-6 py-4">{user.email}</td>
                 <td className="px-6 py-4">{valuesContext(user.address)}</td>

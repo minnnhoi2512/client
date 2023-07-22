@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { getStaffs, deleteUser, updateUser_1,disableUser,ableUser } from '../helper/helper';
+import { getStaffs, deleteUser, updateUser_1, disableUser, ableUser } from '../helper/helper';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, Navigate } from 'react-router-dom';
 import Select from 'react-select'
@@ -25,25 +25,43 @@ export default function ShowStaffs() {
     }
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
-    const fetchData = async () => {
-        const response = await getStaffs();
-        setData(await response.data);
-    }
+    const fetchData = async (searchName, active) => {
+        let query = { 'username': searchName || '', 'active': active || 0 }
+        setCurrentPage(1);
+        console.log(query);
+        const response = await getStaffs(query);
+        setData(response.data);
+    };
     let optionsRole = DataRole.map(function (role) {
         return { value: role.roleId, label: role.roleName };
     })
+    
     const handleSelectRole = (event, meta) => {
         console.log(meta.name);
         console.log(event.value);
         setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
     }
+    const [active, setActive] = useState('1');
+    const [searchName, setSearchName] = useState();
+    const filterData = [
+        {
+          isActive: 0, name: 'UNACTIVED'
+        },
+        {
+          isActive: 1, name: 'ACTIVED'
+        },
+      ]
+    let optionsFilter = filterData.map(function (choose) {
+        return { value: choose.isActive, label: choose.name };
+      })
+    const [filter, setFilter] = useState('');
     useEffect(() => {
         if (roleId < 2) {
             navigate('*');
         } else if (token == null) {
             navigate('*');
         } else {
-            let dataPromise = fetchData();
+            let dataPromise = fetchData(filter);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -102,45 +120,45 @@ export default function ShowStaffs() {
     }
     const handleActive = async (userId) => {
         try {
-          await ableUser(userId);
-          let dataPromise = fetchData();
-          toast.promise(dataPromise, {
-            loading: "Loading...",
-            success: <b>Successfully...!</b>,
-            error: <b>Failed !!!</b>,
-          });
-          dataPromise
-            .then(function () {
-              navigate("/showStaffs");
-            })
-            .catch((error) => {
-              console.error(error);
+            await ableUser(userId);
+            let dataPromise = fetchData();
+            toast.promise(dataPromise, {
+                loading: "Loading...",
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>,
             });
+            dataPromise
+                .then(function () {
+                    navigate("/showStaffs");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-      const handleUnactive = async (id) => {
+    };
+    const handleUnactive = async (id) => {
         try {
-          await disableUser(id);
-          let dataPromise = fetchData();
-          toast.promise(dataPromise, {
-            loading: "Loading...",
-            success: <b>Successfully...!</b>,
-            error: <b>Failed !!!</b>,
-          });
-          dataPromise
-            .then(function () {
-              navigate("/showStaffs");
-            })
-            .catch((error) => {
-              console.error(error);
+            await disableUser(id);
+            let dataPromise = fetchData(filter);
+            toast.promise(dataPromise, {
+                loading: "Loading...",
+                success: <b>Successfully...!</b>,
+                error: <b>Failed !!!</b>,
             });
+            dataPromise
+                .then(function () {
+                    navigate("/showStaffs");
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-    
+    };
+
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const [userPerPage, setUserPerPage] = useState(10);
@@ -156,10 +174,34 @@ export default function ShowStaffs() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const [searchString, setSearchString] = useState('');
+    const handleSelectFilter = async (event, meta) => {
+
+        setActive(event.value);
+        fetchData(searchName, event.value);
+
+    }
+    async function handleSearch(event, meta) {
+        setSearchName(event.target.value);
+        fetchData(event.target.value, active);
+    }
     return (
 
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
+            <Select options={optionsFilter} name='active'
+                defaultValue={optionsFilter[0]}
+                placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+            <div className="mt-6 my-10">
+                <input
+                    type="text"
+                    placeholder="Search user"
+                    onChange={(event, meta) => handleSearch(event, meta)}
+                    className="border border-gray-300 px-4 py-2 rounded-md w-64"
+
+                />
+
+            </div>
             <table className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                 <thead>
                     <tr className='text-left font-bold'>
@@ -173,7 +215,7 @@ export default function ShowStaffs() {
                     </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200'>
-                    {data.map((user) => (
+                    {data.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
                         <tr key={user._id}>
                             <td className='px-6 py-4'>{user.username}</td>
                             <td className='px-6 py-4'>{user.email}</td>
@@ -183,7 +225,7 @@ export default function ShowStaffs() {
                             <td className="px-6 py-4">
                                 {showActive(user.isActive)}  </td>
                             <td className='px-6 py-4'>
-                                
+
                                 <>
                                     <button
                                         className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
@@ -209,7 +251,7 @@ export default function ShowStaffs() {
                                     )}
 
                                 </>
-                                
+
                             </td>
                         </tr>
                     ))}

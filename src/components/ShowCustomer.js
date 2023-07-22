@@ -5,7 +5,7 @@ import { useNavigate, Navigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import '../styles/showStyle.css'
 import Select from 'react-select'
-import { DataRole } from '../helper/dataRole.js'
+import { DataRole, DataRoleForStaff } from '../helper/dataRole.js'
 export default function ShowCustomers() {
   const [data, setData] = useState([]);
   const [updatedUserData, setUpdatedUserData] = useState({});
@@ -21,20 +21,44 @@ export default function ShowCustomers() {
   };
   let roleId = localStorage.getItem('roleId');
   let token = localStorage.getItem('token');
+  const handleSelectFilter = async (event, meta) => {
+    console.log(event.value);
+    setActive(event.value);
+    fetchData(searchName, event.value);
 
-  const fetchData = async () => {
-    const response = await getCustomers();
+  }
+  const fetchData = async (searchName,active) => {
+
+    let query = { 'username': searchName || '', 'active': active || 0 }
+    setCurrentPage(1);
+    console.log(query);
+    const response = await getCustomers(query);
     const grades = await getAllGrades();
     setGrades(grades.data);
     setData(response.data);
+
   };
+  const [active, setActive] = useState('1');
+  const [searchName, setSearchName] = useState();
+  const filterData = [
+    {
+      isActive: 0, name: 'UNACTIVED'
+    },
+    {
+      isActive: 1, name: 'ACTIVED'
+    },
+  ]
+  let optionsFilter = filterData.map(function (choose) {
+    return { value: choose.isActive, label: choose.name };
+  })
+  const [filter, setFilter] = useState('');
   useEffect(() => {
     if (roleId < 3) {
       navigate('*');
     } else if (token == null) {
       navigate('*');
     } else {
-      let dataPromise = fetchData();
+      let dataPromise = fetchData(filter);
       toast.promise(dataPromise, {
         loading: 'Loading...',
         success: <b>Successfully...!</b>,
@@ -119,12 +143,14 @@ export default function ShowCustomers() {
     else if (activeId == 1) return 'ACTIVED'
 
   }
-  let optionsRole = DataRole.map(function (role) {
+  let optionsRoleForAdmin = DataRole.map(function (role) {
     return { value: role.roleId, label: role.roleName };
   })
+  let optionsRoleForStaff = DataRoleForStaff.map(function (role) {
+    return { value: role.roleId, label: role.roleName };
+  })
+
   const handleSelectRole = (event, meta) => {
-    console.log(meta.name);
-    console.log(event.value);
     setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
   }
   const handleUpdate = async (event) => {
@@ -160,10 +186,29 @@ export default function ShowCustomers() {
     if (value == null || value == '') return 'Not yet'
     else return value;
   }
-  return (<div className='max-w-4x2' style={{ marginLeft: '13rem' }}>
+  
+  const [searchString, setSearchString] = useState('');
+  async function handleSearch(event, meta) {
+    setSearchName(event.target.value);
+    fetchData(event.target.value, active);
+  }
+  return (<div className='max-w-4x2' style={{ marginLeft: '16rem' }}>
 
     <div className="container show mx-10 px-5 py-10">
       <Toaster position='top-center' reverseOrder={false}></Toaster>
+      <Select options={optionsFilter} name='active'
+        defaultValue={optionsFilter[0]}
+        placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+      <div className="mt-6 my-10">
+        <input
+          type="text"
+          placeholder="Search user"
+          onChange={(event, meta) => handleSearch(event, meta)}
+          className="border border-gray-300 px-4 py-2 rounded-md w-64"
+
+        />
+
+      </div>
 
       <table className="mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm">
         <thead>
@@ -179,7 +224,7 @@ export default function ShowCustomers() {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {currentdata.map((user) => (
+          {currentdata.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
             <tr key={user._id}>
               <td className="px-6 py-4">{user.username}</td>
               <td className="px-6 py-4">{user.email}</td>
@@ -187,7 +232,7 @@ export default function ShowCustomers() {
               <td className="px-6 py-4">{valuesContext(user.phone)}</td>
               <td className="px-6 py-4">
                 {user.grade && grades.map((grade) => {
-                  
+
                   if (user.grade == grade._id) return valuesContext(grade.gradeName);
                 })
 
@@ -201,7 +246,7 @@ export default function ShowCustomers() {
               <td className="px-6 py-4">
                 {showActive(user.isActive)}  </td>
               <td className="px-6 py-4">
-                
+
                 <>
                   <button
                     className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
@@ -267,7 +312,16 @@ export default function ShowCustomers() {
 
                   <div className="mb-4">
                     <label className="block text-gray-700 font-bold mb-2">Role Name :</label>
-                    <Select options={optionsRole} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                    {roleId == 4 && (
+                      <Select options={optionsRoleForAdmin} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                    )
+                    }
+                    {roleId == 3 && (
+                      <Select options={optionsRoleForStaff} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                    )
+                    }
+
+
                   </div>
 
 

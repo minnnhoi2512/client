@@ -19,9 +19,10 @@ export default function Detail() {
   const [{ apiData }] = useFetch();
   // const userId = apiData?._id
   const fetchData = async () => {
+    let query = {'active' : 1,'username' : ''};
     const grades = await getAllGrades();
     const courses = await getAllCourses();
-    const mentors = await getMentors()
+    const mentors = await getMentors(query)
     // const userId = apiData?._id;
     setMentor(mentors.data);
     setGrades(grades.data)

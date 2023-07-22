@@ -4,7 +4,7 @@ import { getAdmins, deleteUser, updateUser_1 } from '../helper/helper';
 import "../styles/1.css"
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, Navigate } from 'react-router-dom';
-
+import Select from 'react-select'
 export default function ShowAdmins() {
     const [data, setData] = useState([]);
     const [updatedUserData, setUpdatedUserData] = useState({});
@@ -24,17 +24,36 @@ export default function ShowAdmins() {
     }
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
-    const fetchData = async () => {
-        const response = await getAdmins();
-        setData(await response.data);
+    const fetchData = async (searchName,active) => {
+        
+            let query = { 'username': searchName || '', 'active': active || 0 }
+            setCurrentPage(1);
+            console.log(query);
+            const response = await getAdmins(query);
+            setData(response.data);
+        ;
     }
+    const [filter, setFilter] = useState('');
+    const [active, setActive] = useState('1');
+  const [searchName, setSearchName] = useState();
+  const filterData = [
+    {
+      isActive: 0, name: 'UNACTIVED'
+    },
+    {
+      isActive: 1, name: 'ACTIVED'
+    },
+  ]
+  let optionsFilter = filterData.map(function (choose) {
+    return { value: choose.isActive, label: choose.name };
+  })
     useEffect(() => {
         if (roleId != 4) {
             navigate('*');
         } else if (token == null) {
             navigate('*');
         } else {
-            let dataPromise = fetchData();
+            let dataPromise = fetchData(filter);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -109,11 +128,35 @@ export default function ShowAdmins() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const handleSelectFilter = async (event, meta) => {
+
+        setActive(event.value);
+        fetchData(searchName, event.value);
+
+    }
+    const [searchString, setSearchString] = useState('');
+    async function handleSearch(event, meta) {
+        setSearchName(event.target.value);
+        fetchData(event.target.value, active);
+    }
     return (
         <div className=''>
             <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
 
                 <Toaster position='top-center' reverseOrder={false}></Toaster>
+                <Select options={optionsFilter} name='active'
+                    defaultValue={optionsFilter[0]}
+                    placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+                <div className="mt-6 my-10">
+                    <input
+                        type="text"
+                        placeholder="Search user"
+                        onChange={(event, meta) => handleSearch(event, meta)}
+                        className="border border-gray-300 px-4 py-2 rounded-md w-64"
+
+                    />
+
+                </div>
                 <div className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                     <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                         <thead>
@@ -124,12 +167,12 @@ export default function ShowAdmins() {
                                 <th className="px-6 pb-4 pt-5">Phone</th>
                                 <th className='px-6 pt-5 pb-4'>Role</th>
                                 <th className="px-6 pb-4 pt-5">Active</th>
-                                
+
 
                             </tr>
                         </thead>
                         <tbody className='divide-y divide-gray-200'>
-                            {currentdata.map((user) => (
+                            {currentdata.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
                                 <tr key={user._id}>
                                     <td className='px-6 py-4'>{user.username}</td>
                                     <td className='px-6 py-4'>{user.email}</td>

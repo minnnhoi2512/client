@@ -5,12 +5,14 @@ import {
     createBooking,
     deleteBooking,
     updateBooking,
-    rejectBooking
+    rejectBooking,
+    getBookings
 } from '../helper/bookingHelper.js';
 import { getCustomers } from '../helper/helper.js';
 import { getAllGrades } from '../helper/gradeHelper.js';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate, Navigate } from 'react-router-dom';
+
 
 export default function Booking() {
     const [data, setData] = useState([]);
@@ -33,10 +35,12 @@ export default function Booking() {
     })
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
-    const fetchData = async () => {
+    const fetchData = async (status) => {
+        let query = { 'isAccepted': status}
+        let query_1 = {'active' : 1,'username' : ''};
         const grades = await getAllGrades()
-        const customers = await getCustomers()
-        const response = await getAllBookings();
+        const customers = await getCustomers(query_1)
+        const response = await getBookings(query);
         setData(response.data);
         setCustomers(customers.data);
         setGrade(grades.data)
@@ -50,7 +54,7 @@ export default function Booking() {
         } else if (token == null) {
             navigate('*');
         } else {
-            let dataPromise = fetchData();
+            let dataPromise = fetchData(status);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -66,8 +70,9 @@ export default function Booking() {
     const handleDelete = async (event, id) => {
         event.currentTarget.disabled = true;
         try {
+            setNowStatus(-1)
             await deleteBooking(id);
-            let dataPromise = fetchData();
+            let dataPromise = fetchData(nowStatus);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -90,7 +95,7 @@ export default function Booking() {
         try {
             let createPromise = await createBooking(data);
             setShowModal(false);
-            let dataPromise = fetchData();
+            let dataPromise = fetchData(status);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -108,13 +113,15 @@ export default function Booking() {
     const createModal = () => {
         setShowModal(true);
     }
+    const [nowStatus,setNowStatus] = useState();
     const handleUpdate = async (event, id) => {
         event.currentTarget.disabled = true;
         // event.preventDefault()
         try {
             const response = await updateBooking(id); // Call your update function to update the user data
             setShowModal(false);
-            let dataPromise = fetchData();
+            setNowStatus(0)
+            let dataPromise = fetchData(nowStatus);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -127,17 +134,17 @@ export default function Booking() {
             console.error(error);
         }
     }
-    function redirectAllBooking(){
-        navigate('/booking')        
+    function redirectAllBooking() {
+        navigate('/booking')
     }
-    function redirectAcceptedBooking(){
-        navigate('/showUser')        
+    function redirectAcceptedBooking() {
+        navigate('/showUser')
     }
-    function redirectRejectedBooking(){
-        navigate('/booking')        
+    function redirectRejectedBooking() {
+        navigate('/booking')
     }
-    function redirectWaitingBooking(){
-        navigate('/booking')        
+    function redirectWaitingBooking() {
+        navigate('/booking')
     }
     const handleReject = async (event, id) => {
         event.currentTarget.disabled = true;
@@ -145,7 +152,8 @@ export default function Booking() {
         try {
             const response = await rejectBooking(id); // Call your update function to update the user data
             setShowModal(false);
-            let dataPromise = fetchData();
+            setNowStatus(-1)
+            let dataPromise = fetchData(nowStatus);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -169,29 +177,34 @@ export default function Booking() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const [status,setStatus] = useState(0)
+    const handleSelectFilter = async (event, meta) => {
+        
+        fetchData(event.value)
+    }
+    const filterData = [
+        {
+            isAccepted: -1, name: 'REJECTED'
+        },
+        {
+            isAccepted: 0, name: 'WAITING'
+        },
+        {
+            isAccepted: 1, name: 'ACCEPTED'
+        },
+    ]
+    let optionsFilter = filterData.map(function (choose) {
+        return { value: choose.isAccepted, label: choose.name };
+    })
     return (
 
 
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <div>
-                <button class="bg-blue-500 hover:bg-blue-700 m-2 text-white font-bold py-2 px-4 rounded"
-                    onClick={redirectAllBooking}>
-                    All
-                </button>
-                <button class="bg-blue-500 hover:bg-blue-700 m-2 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => redirectAcceptedBooking()}>
-                    Accepted Booking
-                </button>
-                <button class="bg-blue-500 hover:bg-blue-700 m-2 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => redirectWaitingBooking()}>
-                    Wating Booking
-                </button>
-                <button class="bg-blue-500 hover:bg-blue-700 m-2 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => redirectRejectedBooking()}>
-                    Rejected Booking
-                </button>
-            </div>
+            <Select options={optionsFilter} name='isAccepted'
+                defaultValue={optionsFilter[1]}
+                placeholder="Status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
+           
             <div class="">
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
@@ -244,7 +257,7 @@ export default function Booking() {
                                     >
                                         Reject
                                     </button>}
-                                    { data.isAccepted == 1 &&
+                                    {data.isAccepted == 1 &&
                                         <button
                                             className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
                                             onClick={(event) => handleDelete(event, data._id)}
@@ -252,7 +265,7 @@ export default function Booking() {
                                             Delete
                                         </button>
                                     }
-                                    {data.isAccepted == -1  &&
+                                    {data.isAccepted == -1 &&
                                         <button
                                             className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
                                             onClick={(event) => handleDelete(event, data._id)}
@@ -265,7 +278,7 @@ export default function Booking() {
                         ))}
                     </tbody>
                 </table>
-               
+
                 <Pagination
                     bookingPerPage={bookingPerPage}
                     totalBooking={data.length}

@@ -19,8 +19,9 @@ export default function Grade() {
     const [showModal, setShowModal] = useState(false);
 
     const fetchData = async () => {
+        let query_1 = {'active' : 1,'username' : ''};
         const courses = await getAllCourses();
-        const mentors = await getMentors()
+        const mentors = await getMentors(query_1)
         const grades = await getAllGrades();
         setMentor(mentors.data);
         setCourses(courses.data)

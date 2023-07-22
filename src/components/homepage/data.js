@@ -10,7 +10,7 @@ export const navigation = [
     href: '/',
   },
   {
-    name: 'Grades',
+    name: 'Classes',
     href: '/gradeBooking',
   },
   {

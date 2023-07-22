@@ -46,6 +46,14 @@ export async function createBooking(data) {
         return Promise.reject({ error: 'Could not create' });
     }
 }
+export async function getBookings(query) {
+    try {
+        const { data } = await placeholderApi.get('/booking/getBookings',{params : query});
+        return Promise.resolve({ data });
+    } catch (error) {
+        return Promise.reject({ error: 'Could not get' });
+    }
+}
 export async function getAcceptedBookings() {
     try {
         const { data } = await placeholderApi.get('/booking/accepted');
