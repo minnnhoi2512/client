@@ -234,3 +234,12 @@ export async function confirmAccount({ username }) {
         return Promise.reject({ error })
     }
 }
+export async function getStudentInGrade(gradeId) {
+    try {
+      const { data } = await placeholderApi.get(`/api/studentInGrade/${gradeId}`);
+      return Promise.resolve(data);
+    } catch (error) {
+      return Promise.reject('Could not Show');
+    }
+  }
+  

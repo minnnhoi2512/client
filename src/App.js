@@ -31,6 +31,9 @@ import BlogNew from "./components/blog/BlogNew";
 import { DetailBlog } from "./components/blog/DetailBlog";
 import Homepage from "./components/Homepage";
 import { Homeblog } from "./components/HomeBlog";
+import BookingForCustomer from "./components/bookingForCustomer.js";
+import ShowStudent from "./components/showStudent.js";
+import ShowClassByMentor from "./components/management/ShowClassByMentor.js";
 // import Header from "./components/homepage/Header.js";
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
@@ -39,13 +42,22 @@ const router = createBrowserRouter([
         path: '/',
         element: <Homepage></Homepage>
     },
-    // {
-    //     path: '/showStudent',
-    //     element: <Testing></Testing>
-    // },
+    {
+        path: '/showClassByMentor',
+        element: <Sidebar><ShowClassByMentor></ShowClassByMentor></Sidebar>
+    },
+    {
+        path: '/showStudent/:gradeId',
+        element:<ShowStudent></ShowStudent>
+    },
     {
         path: '/login',
         element: <Login></Login>
+    },
+   
+    {
+        path: '/bookingForCustomer',
+        element: <Sidebar><BookingForCustomer></BookingForCustomer></Sidebar>
     },
     {
         path: '/showCustomers',
@@ -68,6 +80,7 @@ const router = createBrowserRouter([
         path: '/showUser',
         element: <Sidebar><AuthorizeUser><ShowUser></ShowUser></AuthorizeUser></Sidebar>
     },
+
     {
         path: '/register',
         element: <Register></Register>
@@ -78,7 +91,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/profile',
-        element: <AuthorizeUser><Profile /></AuthorizeUser>
+        element: <Sidebar><AuthorizeUser><Profile /></AuthorizeUser></Sidebar>
     },
     {
         path: '/userRecovery',

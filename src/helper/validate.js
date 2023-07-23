@@ -59,10 +59,17 @@ export async function registerValidation(values) {
 }
 
 /** validate profile page */
+/** validate profile page */
 export async function profileValidation(values) {
-    const errors = emailValidate({}, values);
-    return errors;
-}
+  const errors = {};
+
+  if (!values.email) {
+    errors.email = toast.error('Email Required...!');
+  } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+    errors.email = toast.error('Invalid Email');
+  }
+  return errors;
+} 
 
 
 /** *********************************************** */
@@ -117,6 +124,7 @@ function usernameVerify(error = {}, values) {
 
 //     return error;
 // }
+
 export function emailValidate(values) {
     const errors = {};
     const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

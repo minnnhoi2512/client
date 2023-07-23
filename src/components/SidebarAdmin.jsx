@@ -15,13 +15,13 @@ import {
   FaBookOpen,
   FaBookReader,
   FaHospitalUser,
-  FaHome,FaElementor
+  FaHome, FaElementor
 } from "react-icons/fa";
 
 import { AiFillSchedule } from "react-icons/ai";
 
 
-import { FaPeopleGroup,FaPeopleLine } from "react-icons/fa6";
+import { FaPeopleGroup, FaPeopleLine } from "react-icons/fa6";
 import { VscAccount } from "react-icons/vsc";
 import "../styles/Sidebar.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -37,14 +37,14 @@ const Sidebar = ({ children }) => {
   const isAdmin = roleId === "4";
   const isStaff = roleId === "3";
   const isMentor = roleId === "2";
-  const isUser = roleId ==="1";
+  const isUser = roleId === "1";
 
   const menuItemManagement = [
     {
       path: "/showUser",
       name: "User",
       icon: <FaPeopleGroup />,
-      visible: !isMentor && !isStaff &&!isUser,
+      visible: !isMentor && !isStaff && !isUser,
     },
     {
       path: "/showAdmins",
@@ -58,7 +58,7 @@ const Sidebar = ({ children }) => {
       icon: <FaHospitalUser />,
       visible: isAdmin,
     },
-   
+
     {
       path: "/showCustomers",
       name: "Customer",
@@ -69,18 +69,19 @@ const Sidebar = ({ children }) => {
       path: "/showMentors",
       name: "Mentor",
       icon: <FaElementor />,
-      visible: isAdmin || isStaff || isMentor,
+      visible: isAdmin || isStaff,
     },
+
     {
       path: "/profile",
       name: "Profile",
       icon: <FaUserEdit />,
       visible: isUser
     },
-   
+
   ];
   const menuItemContents = [
-   
+
     {
       path: "/Booking",
       name: "Booking",
@@ -97,23 +98,35 @@ const Sidebar = ({ children }) => {
       path: "/Course",
       name: "Course",
       icon: <FaBookOpen />,
-      visible:  isAdmin ,
+      visible: isAdmin,
     },
     {
       path: "/grade",
       name: "Classes",
       icon: <FaBookReader />,
-      visible: isMentor || isAdmin || isStaff,
+      visible:   isAdmin || isStaff,
     },
     {
       path: "/schedule",
       name: "Schedule",
       icon: <AiFillSchedule />,
-      visible: isAdmin || isStaff||isUser || isMentor
+      visible: isAdmin || isStaff || isUser || isMentor
+    },
+    {
+      path: "/bookingForCustomer",
+      name: "My Booking",
+      icon: <AiFillSchedule />,
+      visible: isUser 
+    },
+    {
+      path: "/showClassByMentor",
+      name: "My Class",
+      icon: <AiFillSchedule />,
+      visible: isMentor 
     },
   ];
   // const menuItemBooking = [
-   
+
   //   {
   //   path: "/acceptedBooking",
   //   name: "Accepted",
@@ -143,22 +156,24 @@ const Sidebar = ({ children }) => {
     <div className=" main">
       <div style={{ width: isOpen ? "200px" : "50px" }} className="sidebar">
         <div className="top_section">
-                <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">
-                  Good Life
-                </h1>
-                  {/* <div style={{ marginLeft: isOpen ? "50px" : "0px" }} className="bars">
+          <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">
+            Good Life
+          </h1>
+          {/* <div style={{ marginLeft: isOpen ? "50px" : "0px" }} className="bars">
                     <FaBars onClick={toggle} />
                   </div> */}
-               </div>
-      
-              <button onClick={() => setShowDropdown(!showDropdown)}>
-           <div className="centered flex" >
+        </div>
+        {!isMentor &&
+          <button onClick={() => setShowDropdown(!showDropdown)}>
+
+            <div className="centered flex" >
               <VscAccount className="barsdp" /> Management
-                    </div>
-                  </button>
-                  {showDropdown &&
-                    menuItemManagement.map((item, index) => {
-                      if (item.visible) {
+            </div>
+          </button>
+        }
+        {showDropdown &&
+          menuItemManagement.map((item, index) => {
+            if (item.visible) {
               return (
                 <NavLink
                   to={item.path}
@@ -176,19 +191,19 @@ const Sidebar = ({ children }) => {
                 </NavLink>
               );
             }
-             })}
-        
-              {!isUser &&
-              <button onClick={() => setShowDropdown2(!showDropdown2)}>
-              <div className="centered flex">
-             <FaListUl className="barsdp" /> Tasks
-              </div>
-             </button>}
+          })}
 
-              <div className="">
-               {showDropdown2 &&
-               menuItemContents.map((item, index) => {
-                if (item.visible) {
+        {!isUser &&
+          <button onClick={() => setShowDropdown2(!showDropdown2)}>
+            <div className="centered flex">
+              <FaListUl className="barsdp" /> Tasks
+            </div>
+          </button>}
+
+        <div className="">
+          {showDropdown2 &&
+            menuItemContents.map((item, index) => {
+              if (item.visible) {
                 return (
                   <NavLink
                     to={item.path}
@@ -204,31 +219,32 @@ const Sidebar = ({ children }) => {
                       {item.name}
                     </div>
                   </NavLink>
-                  
-                );
-                
-                }})}
-            
-              </div>
-             
-        <div className="profile-logout-container">
-        <div className="profile" >
-            <NavLink to="/" >
-              <FaHome/><span></span>
-            </NavLink>
-          
-           
-          </div>
-         { !isUser &&(
-           <div className="profile">
-           <NavLink to="/profile" className="user-info">
-             <FaUserEdit />
-             <span></span>
-           </NavLink>
-         </div>
-         )
 
-         }
+                );
+
+              }
+            })}
+
+        </div>
+
+        <div className="profile-logout-container">
+          <div className="profile" >
+            <NavLink to="/" >
+              <FaHome /><span></span>
+            </NavLink>
+
+
+          </div>
+          {!isUser && (
+            <div className="profile">
+              <NavLink to="/profile" className="user-info">
+                <FaUserEdit />
+                <span></span>
+              </NavLink>
+            </div>
+          )
+
+          }
 
           <div className="logout">
             <button onClick={userLogout}>
