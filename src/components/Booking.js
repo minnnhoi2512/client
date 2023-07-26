@@ -168,7 +168,7 @@ export default function Booking() {
     }
     function showPayment(payment){
         if(!payment) return 'Cash'
-        else return 'Online'
+        else return 'PayPal'
     }
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
