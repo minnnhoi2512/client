@@ -80,7 +80,7 @@ export async function getRejectedBookings() {
 }
 export async function getBookingOfUser(id) {
     try {
-        const { data } = await placeholderApi.delete(`/booking/getBookingOfUser/${id}`);
+        const { data } = await placeholderApi.get(`/booking/getBookingOfUser/${id}`);
         return Promise.resolve({ data });
     } catch (error) {
         return Promise.reject({ error: 'Could not delete' });

@@ -166,6 +166,10 @@ export default function Booking() {
             console.error(error);
         }
     }
+    function showPayment(payment){
+        if(!payment) return 'Cash'
+        else return 'Online'
+    }
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const [bookingPerPage, setBookingPerPage] = useState(10);
@@ -211,6 +215,7 @@ export default function Booking() {
                         <tr className='text-left font-bold'>
                             <th className='px-6 pt-5 pb-4'>Grade name</th>
                             <th className='px-6 pt-5 pb-4'>Username</th>
+                            <th className='px-6 pt-5 pb-4'>Payment</th>
                             <th className='px-6 pt-5 pb-4'>Created At</th>
                             <th className='px-6 pt-5 pb-4'>Status</th>
                             <th className='px-6 pt-5 pb-4'>Action</th>
@@ -239,6 +244,7 @@ export default function Booking() {
 
                                     // data cua? booking
                                 })}</td>
+                                <td className='px-6 py-4'>{showPayment(data.payment)}</td>
                                 <td className='px-6 py-4'>{data.createdAt}</td>
                                 <td className='px-6 py-4'>{showStatus(data.isAccepted)}</td>
                                 <td className='px-6 py-4'>

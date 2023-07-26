@@ -35,6 +35,7 @@ const Header = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('token');
     localStorage.removeItem('roleId');
+    localStorage.removeItem('id');
     setIsLoggedIn(false);
     setUsername('');
     setRoleId(null);
