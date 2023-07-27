@@ -17,7 +17,7 @@ export default function ShowClassByMentor() {
     const [{ apiData }] = useFetch();
     const mentorId = apiData?._id;
     const fetchData = async () => {
-        let query = {'username' : '','active' : 1}
+        let query = {'fullName' : '','active' : 1}
         const courses = await getAllCourses();
         const mentors = await getMentors(query)
         const grades = await getAllGrades();

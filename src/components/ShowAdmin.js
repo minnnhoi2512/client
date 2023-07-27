@@ -30,7 +30,7 @@ export default function ShowAdmins() {
     let token = localStorage.getItem('token');
     const fetchData = async (searchName, active) => {
 
-        let query = { 'username': searchName || '', 'active': active || 0 }
+        let query = { 'fullName': searchName || '', 'active': active || 0 }
         setCurrentPage(1);
         console.log(query);
         const response = await getAdmins(query);
@@ -87,7 +87,7 @@ export default function ShowAdmins() {
             console.error(error)
         }
     }
-const handleEdit = (user) => {
+    const handleEdit = (user) => {
         setUpdatedUserData(user);
         setShowModal(true);
     }
@@ -151,24 +151,27 @@ const handleEdit = (user) => {
             <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
 
                 <Toaster position='top-center' reverseOrder={false}></Toaster>
-                <Select options={optionsFilter} name='active'
-                    defaultValue={optionsFilter[0]}
-                    placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
-                <div className="mt-6 my-10">
+                <div className="my-10 mt-6 flex items-center">
+                    <Select
+                        options={optionsFilter}
+                        name="active"
+                        defaultValue={optionsFilter[0]}
+                        placeholder="Active status"
+                        onChange={(event, meta) => handleSelectFilter(event, meta)}
+                    />
                     <input
                         type="text"
-                        placeholder="Search user"
+                        placeholder="Search by name"
                         onChange={(event, meta) => handleSearch(event, meta)}
-                        className="border border-gray-300 px-4 py-2 rounded-md w-64"
-
+                        className="ml-4 w-64 rounded-md border border-gray-300 px-4 py-2"
                     />
-
                 </div>
+
                 <div className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                     <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                         <thead>
                             <tr className='text-left font-bold'>
-<th className='px-6 pt-5 pb-4'>Username</th>
+                                <th className='px-6 pt-5 pb-4'>Name</th>
                                 <th className='px-6 pt-5 pb-4'>Email</th>
 
                                 <th className='px-6 pb-4 pt-5'>Detail</th>
@@ -179,9 +182,9 @@ const handleEdit = (user) => {
                             </tr>
                         </thead>
                         <tbody className='divide-y divide-gray-200'>
-                            {currentdata.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
+                            {currentdata.map((user) => (
                                 <tr key={user._id}>
-                                    <td className='px-6 py-4'>{user.username}</td>
+                                    <td className='px-6 py-4'>{user.fullName}</td>
                                     <td className='px-6 py-4'>{user.email}</td>
 
                                     <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
@@ -213,7 +216,7 @@ const handleEdit = (user) => {
                                                 <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
                                                     ×
                                                 </span>
-</button>
+                                            </button>
                                         </div>
                                         {/*body*/}
                                         <form>
@@ -246,7 +249,7 @@ const handleEdit = (user) => {
                                                     Close
                                                 </button>
                                                 <button
-className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                     onClick={(event) => handleUpdate(event)}                                        >
                                                     Save Changes
                                                 </button>
@@ -288,7 +291,7 @@ className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase t
                                             <div className="grid grid-cols-3">
                                                 <div className="col-span-1"></div>
                                                 <img className="rounded-full w-4/5 col-span-1 ml-8 mt-16" src={detail.profile || avatar} alt='profile' />
-<div className="col-span-1"></div>
+                                                <div className="col-span-1"></div>
                                             </div>
                                             <div className="grid grid-cols-2 ml-20 mt-14">
                                                 <div className="col-span-1 ml-10 mb-8">

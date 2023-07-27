@@ -136,7 +136,7 @@ export default function Blog() {
   return (
     <div className="max-w-4x2" style={{ marginLeft: "15rem" }}>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <div class="">
+      <div className="my-10 mt-6 items-center">
         <div>
           {roleId >= 3 && (
             <>

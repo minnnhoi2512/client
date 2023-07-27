@@ -58,19 +58,19 @@ const Sidebar = ({ children }) => {
       icon: <FaHospitalUser />,
       visible: isAdmin,
     },
-
-    {
-      path: "/showCustomers",
-      name: "Customer",
-      icon: <FaPeopleLine />,
-      visible: !isMentor && !isUser,
-    },
     {
       path: "/showMentors",
       name: "Mentor",
       icon: <FaElementor />,
       visible: isAdmin || isStaff,
     },
+    {
+      path: "/showCustomers",
+      name: "Customer",
+      icon: <FaPeopleLine />,
+      visible: !isMentor && !isUser,
+    },
+   
 
     // {
     //   path: "/profile",
@@ -110,7 +110,7 @@ const Sidebar = ({ children }) => {
       path: "/schedule",
       name: "Schedule",
       icon: <AiFillSchedule />,
-      visible: isAdmin || isStaff || isUser || isMentor
+      visible: isUser || isMentor
     },
     {
       path: "/bookingForCustomer",

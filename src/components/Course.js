@@ -137,10 +137,15 @@ export default function Course() {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  function convertDate(day){
+    const date = new Date(day);
+    // var options = {hour : "numeric",minute : "numeric"};
+    return date.toLocaleDateString('vi-VN');
+}
   return (
     <div className='max-w-4x2' style={{marginLeft: '15rem'}}>
        <Toaster position='top-center' reverseOrder={false}></Toaster>
-        <div>
+        <div className="my-10 mt-6 flex items-center">
           <button
             class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
             onClick={() => createModal()}
@@ -163,8 +168,8 @@ export default function Course() {
               <tr key={course._id}>
                 <td className="px-6 py-4">{course.courseName}</td>
                 <td className="px-6 py-4">{course.price}$</td>
-                <td className="px-6 py-4">{course.startTime}</td>
-                <td className="px-6 py-4">{course.endTime}</td>
+                <td className="px-6 py-4">{convertDate(course.startTime)}</td>
+                <td className="px-6 py-4">{convertDate(course.endTime)}</td>
                 <td className="px-6 py-4">
                   <button
                     class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-yellow-700"

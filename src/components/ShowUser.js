@@ -38,7 +38,7 @@ export default function ShowUsers() {
   const [filter, setFilter] = useState('');
 
   const fetchData = async (searchName, active) => {
-    let query = { 'username': searchName || '', 'active': active || 0 }
+    let query = { 'fullName': searchName || '', 'active': active || 0 }
     setCurrentPage(1);
     console.log(query);
     const response = await getAllUser(query);
@@ -217,25 +217,27 @@ else if (activeId == 1) return 'ACTIVED'
   return (
     <div className="max-w-4x2" style={{ marginLeft: "15rem" }}>
       <Toaster position='top-center' reverseOrder={false}></Toaster>
-      <Select options={optionsFilter} name='active'
-        defaultValue={optionsFilter[0]}
-        placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
-      <div className="mt-6 my-10">
-        <input
-          type="text"
-          placeholder="Search user"
-          onChange={(event, meta) => handleSearch(event, meta)}
-          className="border border-gray-300 px-4 py-2 rounded-md w-64"
-
-        />
-
-      </div>
+      <div className="my-10 mt-6 flex items-center">
+                <Select
+                    options={optionsFilter}
+                    name="active"
+                    defaultValue={optionsFilter[0]}
+                    placeholder="Active status"
+                    onChange={(event, meta) => handleSelectFilter(event, meta)}
+                />
+                <input
+                    type="text"
+                    placeholder="Search by name"
+                    onChange={(event, meta) => handleSearch(event, meta)}
+                    className="ml-4 w-64 rounded-md border border-gray-300 px-4 py-2"
+                />
+            </div>
       <table className="mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm">
         <thead>
           <tr className="text-left font-bold">
 
 
-            <th className="px-6 pb-4 pt-5">Username</th>
+            <th className="px-6 pb-4 pt-5">Name</th>
             <th className="px-6 pb-4 pt-5">Email</th>
             
             <th className="px-6 pb-4 pt-5">Detail</th>
@@ -244,12 +246,12 @@ else if (activeId == 1) return 'ACTIVED'
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {currentdata.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) &&
+          {currentdata.map((user) => 
             (
               <tr key={user._id}>
 
 
-                <td className="px-6 py-4">{user.username}</td>
+                <td className="px-6 py-4">{user.fullName}</td>
                 <td className="px-6 py-4">{user.email}</td>
                 
                 <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>

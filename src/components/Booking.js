@@ -37,7 +37,7 @@ export default function Booking() {
     let token = localStorage.getItem('token');
     const fetchData = async (status) => {
         let query = { 'isAccepted': status}
-        let query_1 = {'active' : 1,'username' : ''};
+        let query_1 = {'active' : 1,'fullName' : ''};
         const grades = await getAllGrades()
         const customers = await getCustomers(query_1)
         const response = await getBookings(query);
@@ -121,7 +121,7 @@ export default function Booking() {
             const response = await updateBooking(id); // Call your update function to update the user data
             setShowModal(false);
             setNowStatus(0)
-            let dataPromise = fetchData(nowStatus);
+            let dataPromise = fetchData(0);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -153,7 +153,7 @@ export default function Booking() {
             const response = await rejectBooking(id); // Call your update function to update the user data
             setShowModal(false);
             setNowStatus(-1)
-            let dataPromise = fetchData(nowStatus);
+            let dataPromise = fetchData(0);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
@@ -200,21 +200,27 @@ export default function Booking() {
     let optionsFilter = filterData.map(function (choose) {
         return { value: choose.isAccepted, label: choose.name };
     })
+    function convertDate(day){
+        const date = new Date(day);
+        var options = {hour : "numeric",minute : "numeric"};
+        return date.toLocaleDateString('vi-VN',options);
+    }
     return (
 
 
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
+            <div className='my-10 mt-6 flex items-center'>
             <Select options={optionsFilter} name='isAccepted'
                 defaultValue={optionsFilter[1]}
                 placeholder="Status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
-           
+           </div>
             <div class="">
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
                             <th className='px-6 pt-5 pb-4'>Grade name</th>
-                            <th className='px-6 pt-5 pb-4'>Username</th>
+                            <th className='px-6 pt-5 pb-4'>Name</th>
                             <th className='px-6 pt-5 pb-4'>Payment</th>
                             <th className='px-6 pt-5 pb-4'>Created At</th>
                             <th className='px-6 pt-5 pb-4'>Status</th>
@@ -240,12 +246,12 @@ export default function Booking() {
                                     //   if(data._id == user._id)  [user.username]
                                     // }
                                     if (data.user == customer._id)
-                                        return customer.username
+                                        return customer.fullName
 
                                     // data cua? booking
                                 })}</td>
                                 <td className='px-6 py-4'>{showPayment(data.payment)}</td>
-                                <td className='px-6 py-4'>{data.createdAt}</td>
+                                <td className='px-6 py-4'>{convertDate(data.createdAt)}</td>
                                 <td className='px-6 py-4'>{showStatus(data.isAccepted)}</td>
                                 <td className='px-6 py-4'>
                                     {data.isAccepted == 0 &&

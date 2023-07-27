@@ -17,9 +17,10 @@ export default function Detail() {
   const [courses, setCourses] = useState([]);
   const [newData, setNewData] = useState([]);
   const [{ apiData }] = useFetch();
+  const roleId = localStorage.getItem('roleId');
   // const userId = apiData?._id
   const fetchData = async () => {
-    let query = {'active' : 1,'username' : ''};
+    let query = { 'active': 1, 'fullName': '' };
     const grades = await getAllGrades();
     const courses = await getAllCourses();
     const mentors = await getMentors(query)
@@ -33,16 +34,17 @@ export default function Detail() {
   const handleBooking = async (event) => {
     event.preventDefault()
     try {
+      if (roleId == 1) {
+        let booking = { 'user': apiData?._id, 'grade': id }
+        // const response = await createBooking(booking);
+        let create = createBooking(booking);
 
-      let booking = { 'user': apiData?._id, 'grade': id }
-      // const response = await createBooking(booking);
-      let create = createBooking(booking);
-
-      toast.promise(create, {
-        loading: 'Booking...',
-        success: <b>Booking Successfully...!</b>,
-        error: <b>Something wrong !!!</b>
-      });
+        toast.promise(create, {
+          loading: 'Booking...',
+          success: <b>Booking Successfully...!</b>,
+          error: <b>Something wrong !!!</b>
+        });
+      }
     } catch (error) {
       console.error(error)
     }
@@ -64,18 +66,15 @@ export default function Detail() {
       <Header />
       <div className=" mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-28 lg:max-w-7xl lg:px-8">
         <Toaster position='top-center' reverseOrder={false}></Toaster>
-        <h2 className="text-5xl font-serif text-center">{courses.map((course) => {
-          if (course._id == grade.course)
-            return course.courseName;
-        })}</h2>
+        <h2 className="text-5xl font-serif text-center">{grade.gradeName}</h2>
         <div className="grid grid-cols-12 mt-8">
           <div className='bg-gray-100 col-span-7'>
             <div className='mt-8 ml-8 mr-5'>
-              <h3 className="text-3xl text-center">{grade.gradeName}</h3>
+              
               <p className="text-xl mt-4 font-light">{grade.description}</p>
               <p className="mt-4 font-serif">Instructor: {mentors.map((mentor) => {
                 if (mentor._id == grade.instructor)
-                  return mentor.username;
+                  return mentor.fullName;
               })}</p>
               <p className="mt-4 font-serif text-xl">Couse: <b>{courses.map((course) => {
                 if (course._id == grade.course)

@@ -12,7 +12,7 @@ export default function Grade() {
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const fetchData = async () => {
-        let query = {'active' : 1,'username' : ''};
+        let query = {'active' : 1,'fullName' : ''};
         const mentors = await getMentors(query)
         const grades = await getAllGrades();
         const courses = await getAllCourses();
@@ -27,7 +27,7 @@ export default function Grade() {
         return getFile(id);
     };
     useEffect(() => {
-        fetchData();
+        fetchData().catch((error)=>console.log(error));
     }, []);
 
 

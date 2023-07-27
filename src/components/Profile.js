@@ -21,7 +21,7 @@ export default function Profile() {
 
   const formik = useFormik({
     initialValues: {
-      fullName: apiData?.fullName||'',
+      fullName: apiData?.fullName || '',
       phone: apiData?.phone || '',
       email: apiData?.email || '',
       description: apiData?.description || '',
@@ -64,52 +64,52 @@ export default function Profile() {
 
   return (
     <div className='overflow-hidden'>
- 
-    <div className="mx-10 px-5 py-10">
 
-      <Toaster position='top-center' reverseOrder={false}></Toaster>
+      <div className="mx-10 px-5 py-10">
 
-      <div className='flex justify-center items-center h-70'>
-        <div className={`${styles.glass} ${extend.glass}`} style={{ width: "45%", paddingTop: '3em', paddingBottom: '3em' }}>
+        <Toaster position='top-center' reverseOrder={false}></Toaster>
 
-          <div className="title flex flex-col items-center">
-            <h4 className='text-5xl font-bold'>Profile</h4>
-            <span className='py-4 text-1xl w-2/3 text-center text-gray-500'>
-              You can update the details.
-            </span>
-          </div>
+        <div className='flex justify-center items-center h-70'>
+          <div className={`${styles.glass} ${extend.glass}`} style={{ width: "45%", paddingTop: '3em', paddingBottom: '3em' }}>
 
-          <form className='py-1' onSubmit={formik.handleSubmit}>
-            <div className='profile flex justify-center py-10'>
-              <label htmlFor="profile">
-                <img src={file || apiData?.profile   || avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt="avatar" />
-              </label>
-
-              <input onChange={onUpload} type="file" id='profile' name='profile' />
+            <div className="title flex flex-col items-center">
+              <h4 className='text-5xl font-bold'>Profile</h4>
+              <span className='py-4 text-1xl w-2/3 text-center text-gray-500'>
+                You can update the details.
+              </span>
             </div>
 
-            <div className="textbox flex flex-col items-center gap-6">
-            <div className="name flex w-3/4 gap-10">
+            <form className='py-1' onSubmit={formik.handleSubmit}>
+              <div className='profile flex justify-center py-10'>
+                <label htmlFor="profile">
+                  <img src={file || apiData?.profile || avatar} className={`${styles.profile_img} ${extend.profile_img}`} alt="avatar" />
+                </label>
+
+                <input onChange={onUpload} type="file" id='profile' name='profile' />
+              </div>
+
+              <div className="textbox flex flex-col items-center gap-6">
+
                 <input {...formik.getFieldProps('fullName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Full Name*' />
-              </div>
-              <input {...formik.getFieldProps('phone')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Mobile No.' />
-              <div className="name flex w-3/4 gap-10">
+
+                <input {...formik.getFieldProps('phone')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Mobile No.' />
+
                 <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Email*' />
-              </div>
-              <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
-              <div className="name flex w-3/4 gap-10">
+
+                <input {...formik.getFieldProps('address')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Address' />
+
                 <input {...formik.getFieldProps('description')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Description*' />
+
+                <button className={styles.btn} type='submit'>Update</button>
+
+
               </div>
-              <button className={styles.btn} type='submit'>Update</button>
+            </form>
 
-
-            </div>
-          </form>
-
+          </div>
         </div>
       </div>
-    </div>
-   
+
     </div>
   )
 }

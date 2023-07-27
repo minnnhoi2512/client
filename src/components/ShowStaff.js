@@ -30,7 +30,7 @@ export default function ShowStaffs() {
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
     const fetchData = async (searchName, active) => {
-        let query = { 'username': searchName || '', 'active': active || 0 }
+        let query = { 'fullName': searchName || '', 'active': active || 0 }
         setCurrentPage(1);
         console.log(query);
         const response = await getStaffs(query);
@@ -196,23 +196,25 @@ function valuesContext(value) {
 
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <Select options={optionsFilter} name='active'
-                defaultValue={optionsFilter[0]}
-                placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
-            <div className="mt-6 my-10">
+            <div className="my-10 mt-6 flex items-center">
+                <Select
+                    options={optionsFilter}
+                    name="active"
+                    defaultValue={optionsFilter[0]}
+                    placeholder="Active status"
+                    onChange={(event, meta) => handleSelectFilter(event, meta)}
+                />
                 <input
                     type="text"
-                    placeholder="Search user"
+                    placeholder="Search by name"
                     onChange={(event, meta) => handleSearch(event, meta)}
-                    className="border border-gray-300 px-4 py-2 rounded-md w-64"
-
+                    className="ml-4 w-64 rounded-md border border-gray-300 px-4 py-2"
                 />
-
             </div>
             <table className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                 <thead>
                     <tr className='text-left font-bold'>
-                        <th className='px-6 pt-5 pb-4'>Username</th>
+                        <th className='px-6 pt-5 pb-4'>Name</th>
                         <th className='px-6 pt-5 pb-4'>Email</th>
 
                         <th className='px-6 pt-5 pb-4'>Detail</th>
@@ -221,9 +223,9 @@ function valuesContext(value) {
                     </tr>
                 </thead>
                 <tbody className='divide-y divide-gray-200'>
-                    {data.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
+                    {data.map((user) =>  (
                         <tr key={user._id}>
-                            <td className='px-6 py-4'>{user.username}</td>
+                            <td className='px-6 py-4'>{user.fullName}</td>
                             <td className='px-6 py-4'>{user.email}</td>
 
                             <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>

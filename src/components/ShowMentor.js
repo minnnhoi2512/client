@@ -9,10 +9,11 @@ import {
 
     FaPortrait
 } from "react-icons/fa";
+import { getAllGrades } from '../helper/gradeHelper';
 export default function ShowMentors() {
     const [data, setData] = useState([]);
     const [updatedUserData, setUpdatedUserData] = useState({});
-
+    const [grades,setGrades] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showCard, setShowCard] = useState(false);
     const [detail, setDetail] = useState([]);
@@ -30,11 +31,13 @@ export default function ShowMentors() {
     let roleId = localStorage.getItem('roleId');
     let token = localStorage.getItem('token');
     const fetchData = async (searchName, active) => {
-        let query = { 'username': searchName || '', 'active': active || 0 }
+        let query = { 'fullName': searchName || '', 'active': active || 0 }
         setCurrentPage(1);
         console.log(query);
+        const grades = await getAllGrades()
         const response = await getMentors(query);
         setData(response.data);
+        setGrades(grades.data);
     };
     const [filter, setFilter] = useState('');
     const [active, setActive] = useState('1');
@@ -82,7 +85,7 @@ export default function ShowMentors() {
             dataPromise.then(function () { navigate('/showMentors') }).catch(error => {
                 console.error(error);
             });
-} catch (error) {
+        } catch (error) {
             console.error(error)
         }
     }
@@ -169,7 +172,7 @@ export default function ShowMentors() {
     const indexOfFirstUser = indexOfLastUser - userPerPage;
     const currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
     let optionsRoleForStaff = DataRoleForStaff.map(function (role) {
-return { value: role.roleId, label: role.roleName };
+        return { value: role.roleId, label: role.roleName };
     })
     function valuesContext(value) {
         if (value == null || value == '') return 'Not yet'
@@ -198,24 +201,27 @@ return { value: role.roleId, label: role.roleName };
     return (
         <div className='max-w-4x2' style={{ marginLeft: '15rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <Select options={optionsFilter} name='active'
-                defaultValue={optionsFilter[0]}
-                placeholder="Active status" onChange={(event, meta) => handleSelectFilter(event, meta)} />
-            <div className="mt-6 my-10">
+            <div className="my-10 mt-6 flex items-center">
+                <Select
+                    options={optionsFilter}
+                    name="active"
+                    defaultValue={optionsFilter[0]}
+                    placeholder="Active status"
+                    onChange={(event, meta) => handleSelectFilter(event, meta)}
+                />
                 <input
                     type="text"
-                    placeholder="Search user"
+                    placeholder="Search by name"
                     onChange={(event, meta) => handleSearch(event, meta)}
-                    className="border border-gray-300 px-4 py-2 rounded-md w-64"
-
+                    className="ml-4 w-64 rounded-md border border-gray-300 px-4 py-2"
                 />
-
             </div>
+
             <div className='max-w-4x2 mx-auto'>
                 <table className='mb-8 w-full overflow-hidden whitespace-nowrap rounded-lg bg-white shadow-sm'>
                     <thead>
                         <tr className='text-left font-bold'>
-                            <th className='px-6 pt-5 pb-4'>Username</th>
+                            <th className='px-6 pt-5 pb-4'>Name</th>
                             <th className='px-6 pt-5 pb-4'>Email</th>
 
                             <th className='px-6 pt-5 pb-4'>Detail</th>
@@ -224,9 +230,9 @@ return { value: role.roleId, label: role.roleName };
                         </tr>
                     </thead>
                     <tbody className='divide-y divide-gray-200'>
-                        {data.map((user) => user.username.toLowerCase().includes(searchString.toLowerCase()) && (
+                        {data.map((user) => (
                             <tr key={user._id}>
-                                <td className='px-6 py-4'>{user.username}</td>
+                                <td className='px-6 py-4'>{user.fullName}</td>
                                 <td className='px-6 py-4'>{user.email}</td>
 
                                 <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
@@ -234,7 +240,7 @@ return { value: role.roleId, label: role.roleName };
                                     {showActive(user.isActive)}  </td>
                                 <td className='px-6 py-4'>
                                     <>
-<button
+                                        <button
                                             className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
                                             onClick={() => handleEdit(user)}
                                         >
@@ -278,7 +284,7 @@ return { value: role.roleId, label: role.roleName };
                                         >
                                             <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
                                                 ×
-</span>
+                                            </span>
                                         </button>
                                     </div>
                                     {/*body*/}
@@ -324,7 +330,7 @@ return { value: role.roleId, label: role.roleName };
                                                 Save Changes
                                             </button>
                                         </div>
-{/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                         Update
                                     </button> */}
                                     </form>
@@ -371,7 +377,7 @@ return { value: role.roleId, label: role.roleName };
 
                                                 <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
                                             </div>
-<div className="col-span-1 mb-8">
+                                            <div className="col-span-1 mb-8">
                                                 <p><b>Address: </b>{detail.address}</p>
 
                                                 <p><b>Role: </b>{detail.roleId == 2 ? 'Mentor' : ''}</p>

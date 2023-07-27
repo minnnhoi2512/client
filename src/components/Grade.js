@@ -25,7 +25,7 @@ export default function Grade() {
     const [showModal, setShowModal] = useState(false);
 
     const fetchData = async () => {
-        let query_1 = { 'active': 1, 'username': '' };
+        let query_1 = { 'active': 1, 'fullName': '' };
         const courses = await getAllCourses();
         const mentors = await getMentors(query_1)
         const grades = await getAllGrades();
@@ -353,8 +353,12 @@ error: <b>Failed !!!</b>
                                                     if (detail.course == course._id)
                                                         return course.courseName
                                                 })}</p>
+                                                 <p><b>Price:</b> {courses.map((course) => {
+                                                    if (detail.course == course._id)
+                                                        return course.price
+                                                })}$</p>
                                                 <p><b>Grade: </b> {detail.gradeName}</p>
-                                                <p><b>No of student: </b>{detail.nOfStudent}</p>
+                                                <p><b>Number of student: </b>{detail.nOfStudent}</p>
                                                 <p><b>Room: </b> {detail.room}</p>
                                                 <p><b>Week Day: </b>{detail.weekDay}</p>
                                             </div>
