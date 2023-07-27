@@ -6,7 +6,7 @@ import { getStudentInGrade, kickStudent } from "../helper/helper";
 // Code 3: Trang showStudent.jsx
 
 
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link,useNavigate, useParams } from 'react-router-dom';
 
 
 function ShowStudent() {
@@ -32,6 +32,7 @@ function ShowStudent() {
       console.error(error);
     }
   };
+  let roleId = localStorage.getItem('roleId');
   useEffect(() => {
     // Gọi API để lấy danh sách sinh viên dựa trên gradeId
     getStudentData();
@@ -57,6 +58,9 @@ function ShowStudent() {
 
     <div className="container mx-auto px-4">
       <h1 className="text-3xl font-bold mb-4 text-blue-700">Student List</h1>
+      <div>{roleId >= 3 && <td className='px-6 py-4 text-blue-700'><Link to={`/grade`}>Back</Link></td>}</div>
+      <div>{roleId == 2 && <td className='px-6 py-4 text-blue-700'><Link to={`/showClassByMentor`}>Back</Link></td>}</div>
+      
       <div className="overflow-x-auto">
         <table className="table-auto w-full">
           <thead>
@@ -71,19 +75,26 @@ function ShowStudent() {
             </tr>
           </thead>
           <tbody>
-            {students.map((student,index) => (
+            {students.map((student, index) => (
               <tr key={student._id}>
-                <td className="border px-4 py-2">{index+1}</td>
+                <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{student.fullName}</td>
                 <td className="border px-4 py-2">{student.email}</td>
                 <td className="border px-4 py-2">{student.address}</td>
                 <td className="border px-4 py-2">{student.phone}</td>
-                <td className="border px-4 py-2"> <button
+                <td className="border px-4 py-2">{roleId >= 3 && <button
                   className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
                   onClick={(event) => handleDelete(event, student._id)}
                 >
                   Kick
-                </button></td>
+                </button>}
+                {roleId == 2 && <button
+                  className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
+                  // onClick={(event) => handleDelete(event, student._id)}
+                >
+                  Attendance
+                </button>}
+                </td>
                 {/* <td className="border px-4 py-2">{student.roleId}</td> */}
               </tr>
             ))}

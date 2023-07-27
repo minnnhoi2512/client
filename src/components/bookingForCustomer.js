@@ -149,7 +149,7 @@ export default function BookingForCustomer() {
                             <td className='px-6 py-4'>{user.fullName}</td>
                             <td className='px-6 py-4'>{returnGrade(booking, grade)}</td>
                             <td className='px-6 py-4'>{returnCourseName(booking, grade, course)}</td>
-                            <td className='px-6 py-4'>{returnCoursePrice(booking, grade, course)}</td>
+                            <td className='px-6 py-4'>{returnCoursePrice(booking, grade, course)}$</td>
                             <td className='px-6 py-4'>{showPayment(booking.payment)}</td>
                             <td className='px-6 py-4'>{booking.createdAt}</td>
                             <td className='px-6 py-4'>{showStatus(booking.isAccepted)}</td>

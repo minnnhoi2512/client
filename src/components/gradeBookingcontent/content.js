@@ -101,7 +101,7 @@ export default function Grade() {
                                 <p className="mt-4 font-serif">Capacity: 20 (left {20 - grade.nOfStudent})</p>
                                 <p className="mt-2 font-serif">Instructor: {mentors.map((mentor) => {
                                     if (grade.instructor === mentor._id) {
-                                        return mentor.username;
+                                        return mentor.fullName;
                                     }
                                 })}</p>
                                 <p className="mt-4 font-serif text-xl">Course: <b>{courses.map((course) => {

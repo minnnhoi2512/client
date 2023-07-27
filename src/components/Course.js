@@ -14,7 +14,12 @@ export default function Course() {
   const [showModal, setShowModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState({});
   const [showEditModal, setShowEditModal] = useState(false);
-
+  const validateTime = (startTime, endTime) => {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
+  
+    return start.getTime() < end.getTime();
+  }
   const handleChange = (event) => {
     setNewData({ ...newData, [event.target.name]: event.target.value });
   };
@@ -67,8 +72,15 @@ export default function Course() {
   };
 
   const handleCreate = async (event) => {
+ 
+
+    const { startTime, endTime } = newData;
     event.preventDefault();
     try {
+      if (!validateTime(startTime, endTime)) {
+        toast.error("Start time must be before end time!");
+        return;
+     }
       const response = await createCourse(newData);
       setShowModal(false);
       let dataPromise = fetchData();
@@ -86,13 +98,19 @@ export default function Course() {
   };
 
   const handleEditCourse = (course) => {
+    
     setSelectedCourse(course);
     setShowEditModal(true);
   };
 
   const handleUpdateCourse = async (event) => {
+    const { startTime, endTime } = selectedCourse;
     event.preventDefault();
     try {
+      if (!validateTime(startTime, endTime)) {
+        toast.error("Start time must be before end time!");
+        return;
+     }
       const response = await updateCourse(selectedCourse._id, selectedCourse);
       setShowEditModal(false);
       let dataPromise = fetchData();
@@ -406,3 +424,4 @@ export default function Course() {
     </div>
   );
 };
+

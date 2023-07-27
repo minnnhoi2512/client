@@ -72,12 +72,12 @@ const Sidebar = ({ children }) => {
       visible: isAdmin || isStaff,
     },
 
-    {
-      path: "/profile",
-      name: "Profile",
-      icon: <FaUserEdit />,
-      visible: isUser
-    },
+    // {
+    //   path: "/profile",
+    //   name: "Profile",
+    //   icon: <FaUserEdit />,
+    //   visible: isUser
+    // },
 
   ];
   const menuItemContents = [
@@ -235,7 +235,7 @@ const Sidebar = ({ children }) => {
 
 
           </div>
-          {!isUser && (
+          {  (
             <div className="profile">
               <NavLink to="/profile" className="user-info">
                 <FaUserEdit />

@@ -159,3 +159,13 @@ export async function emailVerify(values) {
   }
   return errors;
 }
+export function validateTime(startTime, endTime) {
+  const start = new Date(startTime);
+  const end = new Date(endTime);
+  
+  if (start.getTime() < end.getTime()) {
+    return true;
+  }
+  
+  // return false;
+}

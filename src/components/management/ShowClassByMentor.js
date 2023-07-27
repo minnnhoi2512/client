@@ -78,7 +78,7 @@ export default function ShowClassByMentor() {
 
                                 <td className='px-6 py-4'>{mentors.map((mentor) => {
                                     if (grade.instructor == mentor._id)
-                                        return mentor.username
+                                        return mentor.fullName
 
                                     // data cua? booking
                                 })}</td>

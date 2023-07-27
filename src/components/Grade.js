@@ -3,11 +3,15 @@ import Select from 'react-select'
 import { getMentors } from '../helper/helper';
 import { getAllCourses } from '../helper/courseHelper';
 import { deleteGrade, createGrade, getAllGrades } from '../helper/gradeHelper'
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { getFile, uploadFile } from '../helper/upload';
 import convertToBase64 from "../helper/convert";
+import avatar from '../assets/profile.png';
+import {
 
+    FaPortrait
+} from "react-icons/fa";
 export default function Grade() {
     const [mentors, setMentor] = useState([])
     // const [customers, setCustomers] = useState([])
@@ -15,11 +19,13 @@ export default function Grade() {
     const [selectedFileUpload, setSelectedFileUpload] = useState();
     const [courses, setCourses] = useState([])
     const [grades, setGrades] = useState([])
+    const [showCard, setShowCard] = useState(false);
+    const [detail, setDetail] = useState([]);
     const [newData, setNewData] = useState([])
     const [showModal, setShowModal] = useState(false);
 
     const fetchData = async () => {
-        let query_1 = {'active' : 1,'username' : ''};
+        let query_1 = { 'active': 1, 'username': '' };
         const courses = await getAllCourses();
         const mentors = await getMentors(query_1)
         const grades = await getAllGrades();
@@ -74,7 +80,7 @@ export default function Grade() {
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
-                error: <b>Failed !!!</b>
+error: <b>Failed !!!</b>
             })
             dataPromise.then(function () { navigate('/grade') }).catch(error => {
                 console.error(error);
@@ -120,7 +126,7 @@ export default function Grade() {
         setNewData({ ...newData, [meta.name]: event.value });
     }
     let optionsMentor = mentors.map(function (mentor) {
-        return { value: mentor._id, label: mentor.username };
+        return { value: mentor._id, label: mentor.fullName };
     })
     let optionsCourse = courses.map(function (course) {
         return { value: course._id, label: course.courseName };
@@ -128,7 +134,7 @@ export default function Grade() {
     let optionsDay = chooseDayInWeek.map(function (day) {
         return { value: day.value, label: day.value };
     })
-  
+
     // Tính toán các chỉ số cho phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const [gradePerPage, setGradePerPage] = useState(3);
@@ -140,30 +146,31 @@ export default function Grade() {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
+    const handleShow = (user) => {
+        setDetail(user)
+        setShowCard(true);
+    }
     return (
         <div className='max-w-4x2' style={{ marginLeft: '8rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <div>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            <div className='ml-28'>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-10 rounded"
                     onClick={() => createModal()}>
                     New Grade
                 </button>
             </div>
 
-            <div className='max-w-4x2 mx-auto'>
+            <div className='max-w-4x2 mx-auto ml-24'>
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
-                    <thead>
+<thead>
                         <tr className='text-left font-bold'>
 
                             <th className='px-6 pt-5 pb-4'>Mentor</th>
-                            <th className='px-6 pt-5 pb-4'>Number Of Student</th>
-                            <th className='px-6 pt-5 pb-4'>Course</th>
+
                             <th className='px-6 pt-5 pb-4'>Grade Name</th>
-                            <th className='px-6 pt-5 pb-4'>Image</th>
-                            <th className='px-6 pt-5 pb-4'>Room</th>
-                            <th className='px-6 pt-5 pb-4'>On</th>
-                            <th className='px-6 pt-5 pb-4'>From</th>
-                            <th className='px-6 pt-5 pb-4'>To</th>
+
+
+                            <th className='px-6 pt-5 pb-4'>Detail</th>
                             <th className='px-6 pt-5 pb-4'>Action</th>
                         </tr>
                     </thead>
@@ -174,26 +181,26 @@ export default function Grade() {
 
                                 <td className='px-6 py-4'>{mentors.map((mentor) => {
                                     if (grade.instructor == mentor._id)
-                                        return mentor.username
+                                        return mentor.fullName
 
                                     // data cua? booking
                                 })}</td>
-                                <td className='px-6 py-4'>{grade.nOfStudent}</td>
+                                {/* <td className='px-6 py-4'>{grade.nOfStudent}</td>
                                 <td className='px-6 py-4'>{courses.map((course) => {
                                     if (grade.course == course._id)
                                         return course.courseName
 
 
-                                })}</td>
+                                })}</td> */}
                                 <td className='px-6 py-4'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
-                                <td className="px-6 py-4">
+                                {/* <td className="px-6 py-4">
                                     <img src={showImg(grade._image)} alt="" />
-                                </td>
-
-                                <td className='px-6 py-4'>{grade.room}</td>
+                                </td> */}
+                                <td className="px-6 py-4"><button onClick={() => handleShow(grade)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
+                                {/* <td className='px-6 py-4'>{grade.room}</td>
                                 <td className='px-6 py-4'>{grade.weekDay}</td>
                                 <td className='px-6 py-4'>{grade.startTimeGrade}</td>
-                                <td className='px-6 py-4'>{grade.endTimeGrade}</td>
+                                <td className='px-6 py-4'>{grade.endTimeGrade}</td> */}
                                 <td className='px-6 py-4'>
 
                                     <button
@@ -213,7 +220,7 @@ export default function Grade() {
 
                             className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-1 z-50 outline-none focus:outline-none"
                         >
-                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+<div className="relative w-auto my-6 mx-auto max-w-3xl">
                                 {/*content*/}
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     {/*header*/}
@@ -250,7 +257,7 @@ export default function Grade() {
                                                 class="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
                                             >
                                                 Click here to upload image
-                                            </label>
+</label>
                                             <input
                                                 class="focus:border-primary focus:shadow-te-primary dark:focus:border-primary relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:text-neutral-700 focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100"
                                                 type="file"
@@ -278,8 +285,7 @@ export default function Grade() {
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">To :</label>
                                             <input type="time" name="endTimeGrade" onChange={(event) => handleChange(event)}></input>
-
-                                        </div>
+</div>
 
                                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                             <button
@@ -305,6 +311,84 @@ export default function Grade() {
                             </div>
                         </div>
                         <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                    </>
+                ) : null}
+                {showCard ? (
+                    <>
+                        <div className="fixed inset-1  z-50 items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+                            <div className="relative mx-auto my-6 w-auto max-w-3xl">
+                                {/*content*/}
+
+                                {/*header*/}
+                                <div className="flex items-start justify-between rounded-t  p-5">
+
+                                    <button
+                                        className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black opacity-5 outline-none focus:outline-none"
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
+                                            ×
+                                        </span>
+</button>
+                                </div>
+                                {/*body*/}
+                                <div>
+
+                                    <div className=" bg-gradient-to-r from-purple-500 to-green-400 rounded-lg">
+                                        <div className="grid grid-cols-3">
+                                            <div className="col-span-1"></div>
+                                            <img className='mt-12 w-full rounded-full' src={showImg(detail._image)} alt="Yoga" />
+                                            <div className="col-span-1"></div>
+                                        </div>
+                                        <div className="grid grid-cols-2 ml-20 mt-14">
+                                            <div className="col-span-1 ml-10 mb-8">
+                                                <p><b>Mentor:</b> {mentors.map((mentor) => {
+                                                    if (detail.instructor == mentor._id)
+                                                        return mentor.fullName
+
+                                                    // data cua? booking
+                                                })}</p>
+
+                                                <p><b>Course:</b> {courses.map((course) => {
+                                                    if (detail.course == course._id)
+                                                        return course.courseName
+                                                })}</p>
+                                                <p><b>Grade: </b> {detail.gradeName}</p>
+                                                <p><b>No of student: </b>{detail.nOfStudent}</p>
+                                                <p><b>Room: </b> {detail.room}</p>
+                                                <p><b>Week Day: </b>{detail.weekDay}</p>
+                                            </div>
+                                            <div className="col-span-1 mb-8">
+                                                <p><b>Time: </b>{detail.startTimeGrade + " to " +detail.endTimeGrade}</p>
+                                                <p><b>Description: </b>{detail.description}</p>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                        <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
+                                            <button
+                                                className="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
+                                                type="button"
+                                                onClick={() => setShowCard(false)}
+                                            >
+                                                Close
+</button>
+
+                                        </div>
+                                    </div>
+                                    {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Update
+                                    </button> */}
+                                </div>
+                                {/*footer*/}
+
+                            </div>
+                        </div>
+                        <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
                     </>
                 ) : null}
                 <Pagination
