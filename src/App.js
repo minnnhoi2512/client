@@ -35,12 +35,17 @@ import BookingForCustomer from "./components/bookingForCustomer.js";
 import ShowStudent from "./components/showStudent.js";
 import ShowClassByMentor from "./components/management/ShowClassByMentor.js";
 // import Header from "./components/homepage/Header.js";
+import Schedule from "./components/management/ViewSchedule.js";
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
 
     {
         path: '/',
         element: <Homepage></Homepage>
+    },
+    {
+        path: '/schedule',
+        element: <Sidebar><Schedule></Schedule></Sidebar> 
     },
     {
         path: '/showClassByMentor',
@@ -57,7 +62,7 @@ const router = createBrowserRouter([
    
     {
         path: '/bookingForCustomer',
-        element: <BookingForCustomer></BookingForCustomer>
+        element:<Sidebar><BookingForCustomer></BookingForCustomer></Sidebar> 
     },
     {
         path: '/showCustomers',

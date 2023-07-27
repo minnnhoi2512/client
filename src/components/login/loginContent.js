@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/profile.png";
 import { useFormik } from "formik";
-import { usernameValidate } from "../../helper/validate";
+import { usernameValidateLogin } from "../../helper/validate";
 import { useAuthStore } from "../../store/store";
 import toast, { Toaster } from "react-hot-toast";
 import { passwordValidate } from "../../helper/validate";
@@ -26,7 +26,7 @@ export default function Login() {
       username: "",
       password: "",
     },
-    validate: usernameValidate,
+    validate: usernameValidateLogin,
     passwordValidate,
     validateOnBlur: false,
     validateOnChange: false,
@@ -43,11 +43,12 @@ export default function Login() {
 
       loginPromise
         .then((res) => {
-          let { token, roleId, username, id } = res.data;
+          let { token, roleId, username, id ,fullName} = res.data;
           localStorage.setItem("token", token);
           localStorage.setItem("roleId", roleId);
           localStorage.setItem("username", username);
           localStorage.setItem("id", id);
+          localStorage.setItem("fullName", fullName);
           navigate("/");
         })
         .catch((error) => {

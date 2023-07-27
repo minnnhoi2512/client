@@ -21,6 +21,7 @@ export default function Profile() {
 
   const formik = useFormik({
     initialValues: {
+      fullName: apiData?.fullName||'',
       phone: apiData?.phone || '',
       email: apiData?.email || '',
       description: apiData?.description || '',
@@ -63,7 +64,7 @@ export default function Profile() {
 
   return (
     <div className='overflow-hidden'>
-    
+ 
     <div className="mx-10 px-5 py-10">
 
       <Toaster position='top-center' reverseOrder={false}></Toaster>
@@ -88,6 +89,9 @@ export default function Profile() {
             </div>
 
             <div className="textbox flex flex-col items-center gap-6">
+            <div className="name flex w-3/4 gap-10">
+                <input {...formik.getFieldProps('fullName')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Full Name*' />
+              </div>
               <input {...formik.getFieldProps('phone')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Mobile No.' />
               <div className="name flex w-3/4 gap-10">
                 <input {...formik.getFieldProps('email')} className={`${styles.textbox} ${extend.textbox}`} type="text" placeholder='Email*' />
@@ -105,7 +109,7 @@ export default function Profile() {
         </div>
       </div>
     </div>
-
+   
     </div>
   )
 }

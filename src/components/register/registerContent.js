@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../../assets/profile.png';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
-import { registerValidation, confirmPasswordValidation,emailValidate } from '../../helper/validate';
+import { registerValidation,usernameValidate,
+   confirmPasswordValidation,emailVerify,usernameVerify } from '../../helper/validate';
 import convertToBase64 from '../../helper/convert';
 import { registerUser } from '../../helper/helper'
 import { useAuthStore } from '../../store/store'
@@ -26,56 +27,66 @@ export default function Register() {
     validate: confirmPasswordValidation, registerValidation,
     validateOnBlur: false,
     validateOnChange: false,
-    
-    // onSubmit: async values => {
-    //   console.log(values.email)
-    //   setUsername(values.username);
-    //   setEmail(values.email);
-    //   values = await Object.assign(values, { profile: file || '' })
-    //   let registerPromise = registerUser(values)
-    //   toast.promise(registerPromise, {
-    //     loading: 'Creating...',
-    //     success: <b>Register Successfully...!</b>,
-    //     error: <b>Could not Register.</b>
-    //   });
 
-    //   registerPromise.then(function () { navigate('/confirmAccount') }).catch(error => {
-    //     // handle error or exception
-    //     console.error(error);
-    //   });
     onSubmit: async values => {  
-      const errors = emailValidate(values); 
+      // const errors =usernameVerify(values) ; 
+      const usernameErrors = usernameVerify(values);
+      const emailErrors =  emailVerify(values);
+      
       console.log(values.email)
         setUsername(values.username);
         setEmail(values.email); 
         console.log("Submitting form");
-      if (Object.keys(errors).length) {
-        toast.error(errors.email);
-        return;  
-      }
+        // if (Object.keys(errors).length) {
+        //   return errors; 
+        // }
+        // if (Object.keys(errors).length) {
+        //   toast.error(errors.email);
+        //   return;
+        //   }
+        if (Object.keys(usernameErrors).length) {
+          toast.error(usernameErrors.username);  
+          return usernameErrors;    
+        }
+     
+        // if (Object.keys(emailErrors).length) {
+        //   toast.error(emailErrors.email);
+        // }
     
-      try {
-        // Gán thêm dữ liệu profile nếu có
-        values = await Object.assign(values, { profile: file || "" });
+      // try {
+      //   // Gán thêm dữ liệu profile nếu có
+      //   values = await Object.assign(values, { profile: file || "" });
         
-        // Gọi API đăng ký và gửi OTP   
-        let registerPromise = registerUser(values);
+      //   // Gọi API đăng ký và gửi OTP   
+      //   let registerPromise = registerUser(values);
           
-        // Hiển thị thông báo
-        toast.promise(registerPromise, {
-          loading: "Creating...",  
-          success: <b>Register Successfully...!</b>,
-          errors: <b>Could not Register.</b>,
-        });
+      //   // Hiển thị thông báo
+      //   toast.promise(registerPromise, {
+      //     loading: "Creating...",  
+      //     success: <b>Register Successfully...!</b>,
+      //     errors: <b>Could not Register.</b>,
+      //   });
           
-        registerPromise.then(function () { navigate('/confirmAccount') }).catch(error => {
-          // handle error or exception
-          console.error(error);
-        });
+      //   registerPromise.then(function () { navigate('/confirmAccount') }).catch(error => {
+      //     // handle error or exception
+      //     console.error(error);
+      //   });
          
-      } catch (error) {
-        console.log(error);  
-      }
+      // } catch (error) {
+      //   console.log(error);  
+      // }
+      values = await Object.assign(values, { profile: file || '' })
+      let registerPromise = registerUser(values)
+      toast.promise(registerPromise, {
+        loading: 'Creating...',
+        success: <b>Register Successfully...!</b>,
+        error: <b>Could not Register.</b>
+      });
+
+      registerPromise.then(function () { navigate('/confirmAccount') }).catch(error => {
+        // handle error or exception
+        console.error(error);
+      });
     }
   })
 

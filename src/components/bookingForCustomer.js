@@ -1,7 +1,7 @@
 import toast, { Toaster } from 'react-hot-toast';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getBookingOfUser,deleteBooking,setPaymentStatus } from '../helper/bookingHelper';
+import { getBookingOfUser, deleteBooking, setPaymentStatus } from '../helper/bookingHelper';
 import { getUser } from '../helper/helper';
 
 import { getAllCourses } from '../helper/courseHelper';
@@ -26,15 +26,15 @@ export default function BookingForCustomer() {
         let user = await getUser(query);
         let course = await getAllCourses();
         setData(booking.data);
-        let grade = await getGradeById(booking.data[0].grade);
+        let grade = await getAllGrades();
         // console.log(grade.data[0]);
         setUser(user.data);
         setCourse(course.data);
-        setGrade(grade.data[0]);
+        setGrade(grade.data);
 
         // console.log(booking.data[0]);
-        console.log(course);
-
+        console.log(data[0].grade);
+        console.log(grade)
 
     }
     const handleDelete = async (event, id) => {
@@ -59,7 +59,7 @@ export default function BookingForCustomer() {
         // event.preventDefault()
         try {
             await setPaymentStatus(id); // Call your update function to update the user data
-            
+
             let dataPromise = fetchData(userId);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
@@ -82,6 +82,37 @@ export default function BookingForCustomer() {
         else if (status == 0) return 'Waiting'
         else if (status == 1) return 'Accepted'
     }
+    function returnGrade(booking, grade) {
+        for (var i = 0; i < grade.length; i++) {
+            if (grade[i]._id == booking.grade) {
+                let gradeName = grade[i].gradeName;
+                return gradeName;
+            }
+        }
+    }
+    function returnCourseId(booking, grade) {
+            for (let a = 0; a < grade.length; a++) {
+                if (booking.grade == grade[a]._id) {
+                    let courseId = grade[a].course;
+                    return courseId;
+                }
+            }
+
+        }
+    
+    function returnCourseName(booking, grade, course) {
+        for (let i = 0; i < course.length; i++) {
+            if (returnCourseId(booking, grade) == course[i]._id) return course[i].courseName;
+        }
+
+    }
+    function returnCoursePrice(booking, grade, course) {
+        for (let i = 0; i < course.length; i++) {
+            if (returnCourseId(booking, grade) == course[i]._id) return course[i].price;
+        }
+
+    }
+
     useEffect(() => {
         // useFetch();
 
@@ -116,13 +147,9 @@ export default function BookingForCustomer() {
                     {data.map((booking) => (
                         <tr key={booking._id}>
                             <td className='px-6 py-4'>{user.fullName}</td>
-                            <td className='px-6 py-4'>{grade.gradeName}</td>
-                            <td className='px-6 py-4'>{course.map((c) => {
-                                if (c._id == grade.course) return c.courseName;
-                            })}</td>
-                            <td className='px-6 py-4'>{course.map((c) => {
-                                if (c._id == grade.course) return c.price;
-                            })}</td>
+                            <td className='px-6 py-4'>{returnGrade(booking, grade)}</td>
+                            <td className='px-6 py-4'>{returnCourseName(booking, grade, course)}</td>
+                            <td className='px-6 py-4'>{returnCoursePrice(booking, grade, course)}</td>
                             <td className='px-6 py-4'>{showPayment(booking.payment)}</td>
                             <td className='px-6 py-4'>{booking.createdAt}</td>
                             <td className='px-6 py-4'>{showStatus(booking.isAccepted)}</td>
@@ -138,19 +165,19 @@ export default function BookingForCustomer() {
 
                                 {!booking.isAccepted == 1 &&
                                     <button
-                                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                                    onClick={(event) => handleDelete(event, booking._id)}
-                                >
-                                    Cancel
-                                </button>}
-                                
+                                        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                                        onClick={(event) => handleDelete(event, booking._id)}
+                                    >
+                                        Cancel
+                                    </button>}
+
                                 {booking.isAccepted == -1 &&
                                     <button
-                                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                                    onClick={(event) => handleDelete(event, booking._id)}
-                                >
-                                    Cancel
-                                </button>}
+                                        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                                        onClick={(event) => handleDelete(event, booking._id)}
+                                    >
+                                        Cancel
+                                    </button>}
 
                             </td>
                         </tr>

@@ -3,7 +3,7 @@ import Select from 'react-select'
 import { getMentors } from '../helper/helper';
 import { getAllCourses } from '../helper/courseHelper';
 import { deleteGrade, createGrade, getAllGrades } from '../helper/gradeHelper'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { getFile, uploadFile } from '../helper/upload';
 import convertToBase64 from "../helper/convert";
@@ -185,7 +185,7 @@ export default function Grade() {
 
 
                                 })}</td>
-                                <td className='px-6 py-4'>{grade.gradeName}</td>
+                                <td className='px-6 py-4'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
                                 <td className="px-6 py-4">
                                     <img src={showImg(grade._image)} alt="" />
                                 </td>

@@ -4,14 +4,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Select from 'react-select'
 import { DataRole } from '../helper/dataRole.js'
+import avatar from '../assets/profile.png';
+import {
+
+  FaPortrait
+} from "react-icons/fa";
 export default function ShowUsers() {
   const [data, setData] = useState([]);
   const [updatedUserData, setUpdatedUserData] = useState({});
-
+  const [showCard, setShowCard] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  
-  const [active,setActive] = useState('1');
-  const [searchName,setSearchName] = useState();
+  const [detail, setDetail] = useState([]);
+  const [active, setActive] = useState('1');
+  const [searchName, setSearchName] = useState();
   const navigate = useNavigate();
   // const handleChange = (event) => {
   //   // console.log(event);
@@ -32,18 +37,18 @@ export default function ShowUsers() {
   }
   const [filter, setFilter] = useState('');
 
-  const fetchData = async (searchName,active) => {
-    let query = { 'username': searchName || '', 'active': active || 0}
+  const fetchData = async (searchName, active) => {
+    let query = { 'username': searchName || '', 'active': active || 0 }
     setCurrentPage(1);
     console.log(query);
     const response = await getAllUser(query);
     setData(response.data);
   };
   const handleSelectFilter = async (event, meta) => {
-  
+
     setActive(event.value);
-    fetchData(searchName,event.value);
- 
+    fetchData(searchName, event.value);
+
   }
   const filterData = [
     {
@@ -94,7 +99,7 @@ export default function ShowUsers() {
     return { value: role.roleId, label: role.roleName };
   })
   const handleSelectRole = (event, meta) => {
-    setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
+setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
   }
   // const handleDelete = async (userId) => {
   //   try {
@@ -156,7 +161,10 @@ export default function ShowUsers() {
       console.error(error);
     }
   };
-
+  const handleShow = (user) => {
+    setDetail(user)
+    setShowCard(true);
+  }
   const handleEdit = (user) => {
     setUpdatedUserData(user);
     setShowModal(true);
@@ -194,7 +202,7 @@ export default function ShowUsers() {
   let currentdata = data.slice(indexOfFirstUser, indexOfLastUser);
   function showActive(activeId) {
     if (activeId == 0) return 'UNACTIVED'
-    else if (activeId == 1) return 'ACTIVED'
+else if (activeId == 1) return 'ACTIVED'
 
   }
   const paginate = (pageNumber) => {
@@ -203,7 +211,7 @@ export default function ShowUsers() {
   const [searchString, setSearchString] = useState('');
   async function handleSearch(event, meta) {
     setSearchName(event.target.value);
-    fetchData(event.target.value,active);
+    fetchData(event.target.value, active);
   }
 
   return (
@@ -229,9 +237,8 @@ export default function ShowUsers() {
 
             <th className="px-6 pb-4 pt-5">Username</th>
             <th className="px-6 pb-4 pt-5">Email</th>
-            <th className="px-6 pb-4 pt-5">Address</th>
-            <th className="px-6 pb-4 pt-5">Phone</th>
-            <th className="px-6 pb-4 pt-5">Role</th>
+            
+            <th className="px-6 pb-4 pt-5">Detail</th>
             <th className="px-6 pb-4 pt-5">Active</th>
             <th className="px-6 pb-4 pt-5">Actions</th>
           </tr>
@@ -244,9 +251,8 @@ export default function ShowUsers() {
 
                 <td className="px-6 py-4">{user.username}</td>
                 <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">{valuesContext(user.address)}</td>
-                <td className="px-6 py-4">{valuesContext(user.phone)}</td>
-                <td className="px-6 py-4">{showRoleName(user.roleId)}</td>
+                
+                <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
                 <td className="px-6 py-4">
                   {showActive(user.isActive)}  </td>
                 <td className="px-6 py-4">
@@ -268,7 +274,7 @@ export default function ShowUsers() {
                       )}
                       {user.isActive == 0 && (
                         <button
-                          className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
                           onClick={() => handleActive(user._id)}
                         >
                           Active
@@ -330,7 +336,7 @@ export default function ShowUsers() {
                       Close
                     </button>
                     <button
-                      className="mb-1 mr-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
+className="mb-1 mr-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
                       onClick={(event) => handleUpdate(event)}
                     >
                       Save Changes
@@ -347,15 +353,89 @@ export default function ShowUsers() {
           <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
         </>
       ) : null}
+      {showCard ? (
+        <>
+          <div className="fixed inset-1  z-50 items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+            <div className="relative mx-auto my-6 w-auto max-w-3xl">
+              {/*content*/}
+              
+                {/*header*/}
+                <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-200 p-5">
+
+                  <button
+                    className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black opacity-5 outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div>
+
+                  <div className=" bg-gradient-to-r from-purple-500 to-green-400 rounded-lg mb-5">
+                    <div className="grid grid-cols-3">
+                      <div className="col-span-1"></div>
+                      <img className="rounded-full w-4/5 col-span-1 ml-8 mt-16" src={detail.profile || avatar} alt='profile' />
+                      <div className="col-span-1"></div>
+                    </div>
+                    <div className="grid grid-cols-2 ml-20 mt-14">
+                      <div className="col-span-1 ml-10 mb-8">
+                        <p><b>Fullname:</b> {detail.fullName}</p>
+                        
+                        <p><b>Email:</b> {detail.email}</p>
+                        <p><b>Phone: </b>{detail.phone}</p>
+                        <p><b>Address: </b>{detail.address}</p>
+                        <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
+                      </div>
+                      <div className="col-span-1 mb-8">
+                       
+                        <p><b>Grade: </b>{detail.grade}</p>
+                        <p><b>Ex-Grade: </b>{detail.ex_grade}</p>
+<p><b>Role: </b>{showRoleName(detail.roleId)}</p>                       
+                        <p><b>Description: </b>{detail.description}</p>
+                      </div>
+                    </div>
+
+
+                 
+
+
+
+                  <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
+                    <button
+                      className="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 hover:text-yellow-400 outline-none transition-all duration-150 ease-linear focus:outline-none"
+                      type="button"
+                      onClick={() => setShowCard(false)}
+                    >
+                      Close
+                    </button>
+
+                  </div>
+                  </div>
+                  {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Update
+                                    </button> */}
+                </div>
+                {/*footer*/}
+             
+            </div>
+          </div>
+          <div className="fixed inset-0 z-40 bg-black opacity-25"></div>
+        </>
+      ) : null}
       <Pagination
         userPerPage={userPerPage}
         totalUser={data.length}
         currentdata={currentPage}
         paginate={paginate}
       />
+
     </div>
   );
 }
+
 
 // Component phân trang
 const Pagination = ({ userPerPage, totalUser, currentdata, paginate }) => {

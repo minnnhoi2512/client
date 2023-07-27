@@ -10,6 +10,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState('');
+  const [fullName,setFullName] = useState('');
   const [roleId, setRoleId] = useState(null);
   const navigate = useNavigate()
   useEffect(() => {
@@ -20,19 +21,24 @@ const Header = () => {
 
     const storedUsername = localStorage.getItem('username');
     const storedRoleId = localStorage.getItem('roleId');
+    const storedfullName = localStorage.getItem('fullName');
     if (storedUsername && storedRoleId) {
       setIsLoggedIn(true);
       setUsername(storedUsername);
       setRoleId(Number(storedRoleId));
+      if(storedfullName == 'undefined') setFullName(storedUsername)
+      else setFullName(storedfullName);
     } else {
       setIsLoggedIn(false);
       setUsername('');
       setRoleId(null);
+      setFullName('');
     }
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('username');
+    localStorage.removeItem('fullName');
     localStorage.removeItem('token');
     localStorage.removeItem('roleId');
     localStorage.removeItem('id');
@@ -65,7 +71,7 @@ const Header = () => {
               className='btn-user btn-md bg-transparent text-heading font-medium text-sm lg:text-base hover:text-orange flex items-center'
               onClick={toggleDropdown}
             >
-              Hi, {username}
+              Hi, {fullName}
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='h-5 w-5 ml-1'

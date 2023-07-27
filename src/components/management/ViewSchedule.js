@@ -1,6 +1,27 @@
-import React from "react";
-const Schedule  = () => {
-    return(<h1 className="text-center"><div class="container mx-auto py-8">
+import React,{useState,useEffect} from "react";
+import { getUser } from "../../helper/helper";
+import { useNavigate } from "react-router-dom";
+const Schedule = () => {
+  let username = localStorage.getItem('username');
+  let token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const [user,setUser] = useState([])
+  async function fetchData(){
+    let query = { 'username': username }
+    let user = await getUser(query);
+    setUser(user.data);
+  }
+  useEffect(() => {
+   if (token == null) {
+        navigate('*');
+    } else {
+        let dataPromise = fetchData();
+        dataPromise.then(function () { navigate('/schedule') }).catch(error => {
+            console.error(error);
+        });
+    }
+}, []);
+  return (<h1 className="text-center"><div class="container mx-auto py-8">
     <h1 class="text-2xl font-bold mb-4">Schedule</h1>
     <div class="grid grid-cols-3 gap-4">
       <div class="bg-gray-200 p-4">
@@ -27,6 +48,7 @@ const Schedule  = () => {
           <li class="mb-1">2:00 PM - Design Review</li>
         </ul>
       </div>
+      <p>Class in the past : {user.ex_grade}</p>
     </div>
   </div></h1>)
 }
