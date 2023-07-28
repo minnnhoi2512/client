@@ -1,145 +1,153 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getCustomers, getMentors, getUser } from '../helper/helper.js';
-import { getAllGrades, getGradesOfMentor } from '../helper/gradeHelper.js';
-import toast, { Toaster } from 'react-hot-toast';
-import Header from "./homepage/Header.js";
-import Footer from "./homepage/Footer.js";
 import "../styles/schedule.css";
-export default function Schedulementor() {
+import Header from "./homepage/Header";
+
+import Footer from "./homepage/Footer";
+export default function Newschedule() {
 
 
-  const [grades, setGrade] = useState([]);
-  const [mentors, setMentors] = useState([]);
-  const [day, setDay] = useState('');
-  const [evenDay, setEvenDay] = useState('Monday,Wednesday,Friday');
-  // const [oddDay, setOddDay] = useState('Tuesday');
-  const [time, setTime] = useState('');
-  const navigate = useNavigate();
-  const userId = localStorage.getItem('id')
-  // let userId = localStorage.getItem('id');
-  // let username = localStorage.getItem('username');
-  // let token = localStorage.getItem('token');
-  let roleId = localStorage.getItem('roleId');
-  const fetchData = async () => {
-
-
-    const grades = await getAllGrades();
-    //   const mentors = await getMentors();
-    setGrade(grades.data);
-    //   setMentors(mentors.data);
-    //   setDay(grades.data.weekDay)
-    // setTime(grades.data.startTimeGrade)
-    //   console.log(day);
-    //   console.log(time);
-    //   console.log(mentors.data);
-    console.log(grades.data);
-
-  };
-  //   function showMentor(grades, mentors) {
-  //     for (let i = 0; i < mentors.length; i++) {
-  //       // console.log(mentors[i]);
-  //       if (mentors[i]._id == grades.instructor) return mentors[i].fullName;
-  //     }
-  //   }
-
-  function checkDay(day) {
-    // console.log(day)
-    if (day === evenDay)
-      return 2;
-    else return 1;
-  }
-  // function isOddDay(day) {
-  //   if (day.includes(oddDay))
-  //     return true;
-  // }
-  let index = 1;
-  function checkTime(time) {
-    if (time === '07:00') return 1
-    else if (time === '09:00') return 2
-    else if (time === '13:00') return 3
-    else if (time === '15:00') return 4
-    else if (time === '17:00') return 5
-    else return 1000;
-  }
-  function increaseIndex(index) {
-    return index + 1
-  }
-  useEffect(() => {
-    fetchData().then().catch((error) => { console.log(error) });
-  }, []);
   return (
-    <div className="schedule">
-
-      <div className="shedule " style={{ marginTop: "100px" }} >
-        <Header />
-        {/* <p> Your name: {grade.user}</p> */}
-
+    // <></>
+    <div className="shedule " style={{ marginTop: "100px" }} >
+      <Header />
+      <div className="sche">
         <table class="table table-dark table-striped table-borderless table-hover caption-top ">
 
           <thead>
-
             <tr>
 
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Time</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Monday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Tuesday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Wednesday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Thursday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Friday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Saturday</th>
-              <th scope="col" class="text-center fs-4 fw-light txtcolor">Sunday</th>
-
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Time</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Monday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Tuesday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Wednesday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Thursday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Friday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Saturday</th>
+              <th scope="col" class="bb text-center fs-4 fw-light txtcolor">Sunday</th>
             </tr>
           </thead>
-          {grades.map((grade) => (
 
-            <tbody>
-              <tr>
-                <th scope="row" class="hi">{(index-1 == checkTime(grade.startTimeGrade)) ? (index = increaseIndex(index)) : (<p>{grade.startTimeGrade} - {grade.endTimeGrade}</p>)}</th>
-                <td class="text-center">
-                  {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>
-                  )}
+          <tbody>
 
-                  </span>)}
-                </td>
-                <td class="text-center">
-                  {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class: {grade.gradeName}</p>)}
-                  </span>)}
-                </td>
-                <td class="text-center">
-                  {(<span class="bb badgehover badge bg-primary text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
-                  </span>)}
-                </td>
-                <td class="text-center">
-                  {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
-                  </span>)}
-                </td>
-                <td class="text-center">
-                  {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
-                  </span>)}
-                </td>
-                <td class="text-center">
-                  {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
-                  </span>)}
-                </td>
-                <td class="text-center"></td>
+            <tr>
+              <th scope="row" class="bb text-center">7:00AM - 9:00AM</th>
+              <td class="bb text-center">
+                <span class=" bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+              </td>
+              <td class="bb text-center">
+                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+              </td>
+              < td class="bb text-center">
+                <span class="bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+              </td>
+              <td class="bb text-center">
+                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+              </td>
+              <td class="bb text-center">
+                <span class="bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+              </td>
+              <td class="bb text-center">
+                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+              </td>
+              <td class="bb text-center"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="text-center">9:00AM - 11:00AM</th>
+              <td class="text-center">
+                <span class="bb badge bg-danger text-wrap">Grade : The Smart Flow Yoga </span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+              </td>
+              <td class="text-center">
 
+              </td>
+              < td class="text-center">
 
-              </tr>
+                <span class="bb badge bg-danger text-wrap">Grade : The Smart Flow Yoga</span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+              </td>
+              <td class="text-center">
 
+              </td>
+              <td class="text-center">
+                <span class="bb badgehover badge bg-danger text-wrap">Grade : The Smart Flow Yoga </span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+              </td>
+              <td class="text-center">
 
-            </tbody>
-          ))}
+              </td>
+              <td class="text-center"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="text-center">13:00PM - 15:00PM</th>
+              <td class="text-center">
+
+              </td>
+              <td class="text-center">
+                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+              </td>
+              < td class="text-center">
+
+              </td>
+              <td class="text-center">
+                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+              </td>
+              <td class="text-center">
+
+              </td>
+              <td class="text-center">
+                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+              </td>
+              <td class="text-center"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="text-center">15:00PM - 17:00PM</th>
+              <td class="text-center">
+                <span class="bb badge badgecolor text-wrap"> </span>
+              </td>
+              <td class="text-center">
+
+              </td>
+              <td class="text-center">
+                <span class="bb badge badgecolor text-wrap"> </span>
+              </td>
+              <td class="text-center">
+
+              </td>
+              <td class="text-center">
+                <span class="bb badge badgecolor text-wrap"> </span>
+              </td>
+              <td class="text-center">
+
+              </td>
+              <td class="text-center"></td>
+            </tr>
+            <tr>
+              <th scope="row" class="text-center">17:00PM - 19:00PM</th>
+              <td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+              </td>
+              <td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga<br></br>Grade : Karma Yoga</span>
+              </td>
+              < td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+              </td>
+              <td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga <br></br>Grade : Karma Yoga</span>
+              </td>
+              <td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+              </td>
+              <td class="text-center">
+                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga<br></br>Grade : Karma Yoga </span>
+              </td>
+              <td class="text-center"></td>
+            </tr>
+
+          </tbody>
+
         </table>
-
-
       </div>
-      <div className="footer-schedule" style={{ paddingTop: "100px" }}>
-
-
-        <Footer />
-      </div>
+      <Footer />
     </div>
   )
 
