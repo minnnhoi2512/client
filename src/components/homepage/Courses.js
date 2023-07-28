@@ -8,7 +8,7 @@ const Courses = () => {
         <div className='text-center mb-16 lg:mb-32'> <h2 className='h2 mb-3 lg:mb-[18px]'
           data-aos='fade-down'
           data-aos-delay='200'
-        >Popular Courses</h2>
+        >Popular Classes</h2>
           <p className='max-w-[480px] mx-auto'
             data-aos='fade-down'
             data-aos-delay='300'>

@@ -402,15 +402,7 @@ export default function ShowUsers() {
                     </div>
                     <div className="col-span-1 mb-8">
 
-                      <p><b>Grade: </b>{detail.grade && classes.map((item) => {
-
-                        if (detail.grade == item._id) return item.gradeName;
-                      })
-
-                      }{!detail.grade && (
-                        "Not yet"
-                      )}</p>
-                      <p><b>Ex-Grade: </b>{detail.ex_grade}</p>
+                     
                       <p><b>Role: </b>{showRoleName(detail.roleId)}</p>
                       <p><b>Description: </b>{detail.description}</p>
                     </div>

@@ -13,7 +13,7 @@ import { getAllGrades } from '../helper/gradeHelper';
 export default function ShowMentors() {
     const [data, setData] = useState([]);
     const [updatedUserData, setUpdatedUserData] = useState({});
-    const [grades,setGrades] = useState([]);
+    const [grades, setGrades] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [showCard, setShowCard] = useState(false);
     const [detail, setDetail] = useState([]);
@@ -246,7 +246,7 @@ export default function ShowMentors() {
                                         >
                                             Edit
                                         </button>
-                                        {user.isActive == 1 && (
+                                        {user.isActive == 1 && roleId == 4 && (
                                             <button
                                                 className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
                                                 onClick={() => handleUnactive(user._id)}
@@ -254,7 +254,7 @@ export default function ShowMentors() {
                                                 Unactive
                                             </button>
                                         )}
-                                        {user.isActive == 0 && (
+                                        {user.isActive == 0 && roleId == 4 && (
                                             <button
                                                 className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
                                                 onClick={() => handleActive(user._id)}

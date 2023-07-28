@@ -63,7 +63,7 @@ export default function ShowClassByMentor() {
 
                             <th className='px-6 pt-5 pb-4'>Mentor</th>
                             <th className='px-6 pt-5 pb-4'>Course</th>
-                            <th className='px-6 pt-5 pb-4'>Grade Name</th>
+                            <th className='px-6 pt-5 pb-4'>Class</th>
                             <th className='px-6 pt-5 pb-4'>Room</th>
                             <th className='px-6 pt-5 pb-4'>On</th>
                             <th className='px-6 pt-5 pb-4'>From</th>

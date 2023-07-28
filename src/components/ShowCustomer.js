@@ -97,7 +97,7 @@ export default function ShowCustomers() {
   };
   const handleActive = async (userId) => {
     try {
-await ableUser(userId);
+      await ableUser(userId);
       let dataPromise = fetchData();
       toast.promise(dataPromise, {
         loading: "Loading...",
@@ -201,7 +201,7 @@ await ableUser(userId);
 
   const [searchString, setSearchString] = useState('');
   async function handleSearch(event, meta) {
-setSearchName(event.target.value);
+    setSearchName(event.target.value);
     fetchData(event.target.value, active);
   }
   return (<div className='max-w-4x2' style={{ marginLeft: '16rem' }}>
@@ -230,9 +230,9 @@ setSearchName(event.target.value);
           <tr className="text-left font-bold">
             <th className="px-6 pb-4 pt-5">Name</th>
             <th className="px-6 pb-4 pt-5">Email</th>
-            
-            <th className="px-6 pb-4 pt-5">Grade</th>
-            
+
+            <th className="px-6 pb-4 pt-5">Class</th>
+
             <th className="px-6 pb-4 pt-5">Detail</th>
             <th className="px-6 pb-4 pt-5">Active</th>
             <th className="px-6 pb-4 pt-5">Actions</th>
@@ -256,7 +256,7 @@ setSearchName(event.target.value);
                   <p>Not yet</p>
                 )}
               </td>
-              
+
               <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
               <td className="px-6 py-4">
                 {showActive(user.isActive)}  </td>
@@ -269,15 +269,15 @@ setSearchName(event.target.value);
                   >
                     Edit
                   </button>
-                  {user.isActive == 1 && (
+                  {user.isActive == 1 && roleId == 4 && (
                     <button
                       className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
                       onClick={() => handleUnactive(user._id)}
                     >
-Unactive
+                      Unactive
                     </button>
                   )}
-                  {user.isActive == 0 && (
+                  {user.isActive == 0 && roleId == 4 && (
                     <button
                       className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
                       onClick={() => handleActive(user._id)}
@@ -338,10 +338,8 @@ Unactive
 
 
                   </div>
-
-
                   <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
-<button
+                    <button
                       className="background-transparent mb-1 mr-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
                       type="button"
                       onClick={() => setShowModal(false)}
@@ -371,57 +369,57 @@ Unactive
           <div className="fixed inset-1  z-50 items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
             <div className="relative mx-auto my-6 w-auto max-w-3xl">
               {/*content*/}
-              
-                {/*header*/}
-                <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-400 p-5">
 
-                  <button
-                    className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black opacity-5 outline-none focus:outline-none"
-                    onClick={() => setShowModal(false)}
-                  >
-                    <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
-                      ×
-                    </span>
-                  </button>
-                </div>
-                {/*body*/}
-                <div>
+              {/*header*/}
+              <div className="flex items-start justify-between rounded-t border-b border-solid border-slate-400 p-5">
 
-                  <div className=" bg-gradient-to-r from-purple-500 to-green-400 rounded-md">
-                    <div className="grid grid-cols-3">
-                      <div className="col-span-1"></div>
-                      <img className="rounded-full w-4/5 col-span-1 ml-8 mt-16" src={detail.profile || avatar} alt='profile' />
-                      <div className="col-span-1"></div>
+                <button
+                  className="float-right ml-auto border-0 bg-transparent p-1 text-3xl font-semibold leading-none text-black opacity-5 outline-none focus:outline-none"
+                  onClick={() => setShowModal(false)}
+                >
+                  <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
+                    ×
+                  </span>
+                </button>
+              </div>
+              {/*body*/}
+              <div>
+
+                <div className=" bg-gradient-to-r from-purple-500 to-green-400 rounded-md">
+                  <div className="grid grid-cols-3">
+                    <div className="col-span-1"></div>
+                    <img className="rounded-full w-4/5 col-span-1 ml-8 mt-16" src={detail.profile || avatar} alt='profile' />
+                    <div className="col-span-1"></div>
+                  </div>
+                  <div className="grid grid-cols-2 ml-20 mt-14">
+                    <div className="col-span-1 ml-10 mb-8">
+                      <p><b>Name:</b> {detail.fullName}</p>
+
+                      <p><b>Email:</b> {detail.email}</p>
+                      <p><b>Phone: </b>{detail.phone}</p>
+                      <p><b>Address: </b>{detail.address}</p>
+                      <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
                     </div>
-                    <div className="grid grid-cols-2 ml-20 mt-14">
-                      <div className="col-span-1 ml-10 mb-8">
-                        <p><b>Name:</b> {detail.fullName}</p>
-                        
-                        <p><b>Email:</b> {detail.email}</p>
-                        <p><b>Phone: </b>{detail.phone}</p>
-<p><b>Address: </b>{detail.address}</p>
-                        <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
-                      </div>
-                      <div className="col-span-1 mb-8">
-                        <p><b>Grade: </b>{detail.grade && grades.map((grade) => {
+                    <div className="col-span-1 mb-8">
+                      <p><b>Class: </b>{detail.grade && grades.map((grade) => {
 
-                          if (detail.grade == grade._id) return valuesContext(grade.gradeName);
-                        })
+                        if (detail.grade == grade._id) return valuesContext(grade.gradeName);
+                      })
 
-                        }
-                          {!detail.grade && (
-                            "Not yet"
-                          )}</p>
-                        <p><b>Ex-Grade: </b>{detail.ex_grade}</p>
-                        <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
-                        <p><b>Role: </b>{detail.roleId == 1 ? 'Customer' : ''}</p>
-                        
-                        <p><b>Description: </b>{detail.description}</p>
-                      </div>
+                      }
+                        {!detail.grade && (
+                          "Not yet"
+                        )}</p>
+                      <p><b>Ex-Class: </b>{detail.ex_grade}</p>
+                      <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
+                      <p><b>Role: </b>{detail.roleId == 1 ? 'Customer' : ''}</p>
+
+                      <p><b>Description: </b>{detail.description}</p>
                     </div>
+                  </div>
 
 
-                  
+
 
 
 
@@ -435,13 +433,13 @@ Unactive
                     </button>
 
                   </div>
-                  </div>
-                  {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                </div>
+                {/* <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                         Update
                                     </button> */}
-                </div>
-                {/*footer*/}
-            
+              </div>
+              {/*footer*/}
+
             </div>
           </div>
           <div className="fixed inset-0 z-40 bg-black opacity-25"></div>

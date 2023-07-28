@@ -156,7 +156,7 @@ export default function Grade() {
             <div className='ml-28'>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-10 rounded"
                     onClick={() => createModal()}>
-                    New Grade
+                    New Class
                 </button>
             </div>
 
@@ -226,7 +226,7 @@ export default function Grade() {
                                     {/*header*/}
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                                         <h3 className="text-3xl font-semibold">
-                                            Create Grade
+                                            Create Class
                                         </h3>
                                         <button
                                             className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -248,7 +248,7 @@ export default function Grade() {
                                             <Select options={optionsMentor} name="instructor" onChange={(event, meta) => handleSelectMentor(event, meta)} />
                                         </div>
                                         <div className="mb-4">
-                                            <label className="block text-gray-700 font-bold mb-2">Grade Name :</label>
+                                            <label className="block text-gray-700 font-bold mb-2">Class Name :</label>
                                             <input type="text" name="gradeName" onChange={(event) => handleChange(event)} ></input>
                                         </div>
                                         <div class="mb-3">

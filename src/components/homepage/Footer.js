@@ -4,8 +4,8 @@ import { FaYoutube, FaInstagram, FaGithub, FaPhone, FaMapMarkerAlt, FaClock } fr
 
 const Footer = () => {
   return (
-    <footer className="bg-orange-100">
-      <div className='container mx-auto'>
+    <footer className="bg-orange-300" style={{ marginTop: 50 }}>
+      <div className='container mx-auto '>
         <div className='flex flex-col justify-between items-center lg:flex-row gap-y-5'>
           <a href='#'><img src={Logo} alt='' className='w-[370px] h-[300px]' /></a>
           <div className='text-center lg:text-left'>
@@ -15,15 +15,16 @@ const Footer = () => {
             </div>
             <div className="flex items-center">
               <FaMapMarkerAlt className="mr-2" />
-              <p>151-157 Lê Văn Việt, Phường Hiệp Phú, Quận 9, TP.HCM</p>
+              <p>151-157 Le Van Viet, Hiep Phu Ward, District 9, HCMC</p>
             </div>
             <div className="flex items-center">
               <FaClock className="mr-2" />
-              <p>Thứ Hai - Thứ Sáu: 6:00 đến 23:00</p>
+              <p>
+                Monday - Friday: 6:00 to 23:00</p>
             </div>
             <div className="flex items-center">
               <FaClock className="mr-2" />
-              <p>Thứ Bảy - Chủ Nhật: 8:00 đến 22:00</p>
+              <p>Saturday - Sunday: 8:00 to 22:00</p>
             </div>
           </div>
           <div className='flex gap-x-4 text-orange text-lg'>
@@ -38,7 +39,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center mt-5">
+        <div className="flex justify-center">
           <p>&copy; Copyright 2023 @ GoodLife. All Right Reserved</p>
         </div>
       </div>

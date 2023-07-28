@@ -4,7 +4,7 @@ import { getAllCourses } from '../../helper/courseHelper';
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { getFile } from '../../helper/upload';
-
+import '../../styles/2.css'
 export default function Grade() {
     const [grades, setGrades] = useState([]);
     const [mentors, setMentor] = useState([]);
@@ -12,7 +12,7 @@ export default function Grade() {
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const fetchData = async () => {
-        let query = {'active' : 1,'fullName' : ''};
+        let query = { 'active': 1, 'fullName': '' };
         const mentors = await getMentors(query)
         const grades = await getAllGrades();
         const courses = await getAllCourses();
@@ -27,7 +27,7 @@ export default function Grade() {
         return getFile(id);
     };
     useEffect(() => {
-        fetchData().catch((error)=>console.log(error));
+        fetchData().catch((error) => console.log(error));
     }, []);
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
@@ -53,7 +53,7 @@ export default function Grade() {
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster3.png" alt="yoga" /></div>
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster4.png" alt="yoga" /></div>
             </div>
-            <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
+            <div class="ml-20 max-w-15xl ">
                 <div className="space-y-2 mt-15 mb-18">
                     <h2 className="text-center text-5xl font-serif">Classes</h2>
                     <nav class="text-xl flex justify-center">
@@ -65,7 +65,7 @@ export default function Grade() {
                                 </svg>
                             </li>
                             <li class="flex items-center ms-1">
-                                <a href="" className="text-gray-500">Classes</a>
+                                <a href="#" className="text-gray-500">Classes</a>
 
                             </li>
 
@@ -89,42 +89,54 @@ export default function Grade() {
                     </button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 space-x-3">
-                    {(searchResults.length > 0 ? searchResults : grades).map((grade) => (
-                        <div className="bg-gray-100 box-content h-auto w-auto p-4" key={grade._id}>
-                            <div className="aspect-h-1 aspect-w-1 w-50 overflow-hidden rounded-sm bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                                <Link to={`/detail/${grade._id}`}><img className="w-auto h-auto" src={showImg(grade._image)} alt="" /></Link>
-                            </div>
-                            <div className="mt-3">
-                                <h5 className="text-center text-3xl font-serif">{grade.gradeName}</h5>
-                                <p className="mt-4 font-serif">On : {grade.weekDay}</p>
-                                <p className="mt-4 font-serif">Time: {courses.map((course) => {
-                                    if (grade.course === course._id) {
-                                        return grade.startTimeGrade + " to " + grade.endTimeGrade;
-                                    }
-                                })}</p>
-                                
-                                <p className="mt-4 font-serif">Capacity: 20 (left {20 - grade.nOfStudent})</p>
-                                <p className="mt-2 font-serif">Instructor: {mentors.map((mentor) => {
-                                    if (grade.instructor === mentor._id) {
-                                        return mentor.fullName;
-                                    }
-                                })}</p>
-                                <p className="mt-4 font-serif text-xl">Course: <b>{courses.map((course) => {
-                                    if (course._id == grade.course)
-                                        return course.courseName;
-                                })}</b></p>
-                                <p className="mt-4 text-xl font-serif">Price:<b> ${courses.map((course) => {
-                                    if (grade.course === course._id) {
-                                        return course.price;
-                                    }
-                                })}</b></p>
-                                <Link to={`/detail/${grade._id}`}>
-                                    <button className="mt-3 font-serif bg-red-300 hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded-xl w-40">Detail</button>
-                                </Link>
-                            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{ display: 'flex', flexWrap: 'wrap' }}>                    {(searchResults.length > 0 ? searchResults : grades).map((grade) => (
+                    <div className="flex-row bg-gray-100 box-content h-auto w-auto p-4"
+                        key={grade._id}>
+                        <div className="aspect-h-1 aspect-w-1 w-50 overflow-hidden rounded-sm bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <Link to={`/detail/${grade._id}`}>
+                                <img
+                                    style={{ width: '400px', height: '400px', objectFit: 'cover' }}
+                                    src={showImg(grade._image)}
+                                    alt=""
+                                /></Link>
                         </div>
-                    ))}
+                        <div className="mt-3">
+                            <h5 className="text-center text-3xl font-serif">{grade.gradeName}</h5>
+                            <p className="mt-4 font-serif">On : {grade.weekDay}</p>
+                            <p className="mt-4 font-serif">Time: {courses.map((course) => {
+                                if (grade.course === course._id) {
+                                    return grade.startTimeGrade + " to " + grade.endTimeGrade;
+                                }
+                            })}</p>
+
+                            <p className="mt-4 font-serif">Capacity: 20 (left {20 - grade.nOfStudent})</p>
+                            <p className="mt-2 font-serif">Instructor: {mentors.map((mentor) => {
+                                if (grade.instructor === mentor._id) {
+                                    return mentor.fullName;
+                                }
+                            })}</p>
+                            <p className="mt-4 font-serif text-xl">Course: <b>{courses.map((course) => {
+                                if (course._id == grade.course)
+                                    return course.courseName;
+                            })}</b></p>
+                            <p className="mt-4 text-xl font-serif">Price:<b> ${courses.map((course) => {
+                                if (grade.course === course._id) {
+                                    return course.price;
+                                }
+                            })}</b></p>
+                            <Link
+                                to={`/detail/${grade._id}`}
+                                style={{
+                                    display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-end"
+                                }}
+                            >
+                                <button className="font-serif bg-red-300 hover:bg-yellow-200 text-white font-bold py-2 px-4 rounded-xl ">
+                                    Detail
+                                </button>
+                            </Link>
+                        </div>
+                    </div>
+                ))}
                 </div>
                 <div className='grid grid-cols-2 mt-20 bg-gray-100'>
                     <img className='w-64 h-64 rounded-full' src='./assets/yogaSlogan.png' />

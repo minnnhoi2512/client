@@ -14,7 +14,7 @@ export default function Newschedule() {
   const [evenDay, setEvenDay] = useState('Monday');
   const [oddDay, setOddDay] = useState('Tuesday');
   const [time, setTime] = useState('');
-  const [user,setUser] = useState([]);
+  const [user, setUser] = useState([]);
   const navigate = useNavigate();
   let userId = localStorage.getItem('id');
   let username = localStorage.getItem('username');
@@ -23,15 +23,14 @@ export default function Newschedule() {
   const fetchData = async () => {
     if (roleId != 1) {
       navigate('*');
-    }
-    else if (token == null) {
+    } else if (token == null) {
       navigate('*');
     } else {
       let query_1 = { 'fullName': '', 'active': 1 };
       const mentors = await getMentors(query_1);
-      const user = await getUser({'usename' : username});
+      const user = await getUser({ 'usename': username });
       const grades = await getGradeByStudent(userId);
-      
+
       setUser(user.data)
       setGrade(grades.data);
       setMentors(mentors.data);
@@ -65,10 +64,6 @@ export default function Newschedule() {
     else if (time === '15:00') return 4
     else if (time === '17:00') return 5
   }
-  function showGradeName (name){
-    if (name == null) return 'Not yet'
-    else return name;
-  }
   useEffect(() => {
     fetchData().then().catch((error) => { console.log(error) });
   }, []);
@@ -78,7 +73,7 @@ export default function Newschedule() {
       {/* <p> Your name: {grade.user}</p> */}
       <h1 class="h1 text-center">SCHEDULE</h1>
       <br></br>
-      <p class="text-center">Current class : {showGradeName(grades.gradeName)}</p>
+      <p class="text-center">Current class : {grades.gradeName}</p>
       <br></br>
       {/* <p>Ex class : {user.ex_grade}</p> */}
       <table class="tablecustomer table-dark table-striped table-borderless table-hover caption-top ">
@@ -103,8 +98,8 @@ export default function Newschedule() {
               {isEvenDay(day) && checkTime(time) == 1 && (<span class="badge badgecolor text-wrap">Class : {grades.gradeName}
                 <br></br>Mentor : {showMentor(grades, mentors)}
                 <br></br>Room : {grades.room}
-                
-                </span>)}
+
+              </span>)}
             </td>
             <td class="text-center">
               {isOddDay(day) && checkTime(time) == 1 && (<span class="badge badgecolor text-wrap">Class : {grades.gradeName}

@@ -221,7 +221,7 @@ export default function Booking() {
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
                     <thead>
                         <tr className='text-left font-bold'>
-                            <th className='px-6 pt-5 pb-4'>Grade name</th>
+                            <th className='px-6 pt-5 pb-4'>Class</th>
                             <th className='px-6 pt-5 pb-4'>Name</th>
                             <th className='px-6 pt-5 pb-4'>Payment</th>
                             <th className='px-6 pt-5 pb-4'>Created At</th>

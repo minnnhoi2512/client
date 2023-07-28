@@ -195,14 +195,14 @@ export default function BookingForCustomer() {
     }
     return (
         <div class="">
-            
+
             <table className='w-10/12 whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8 border-collapse ml-56'>
                 <Toaster position='top-center' reverseOrder={false}></Toaster>
 
                 <thead>
                     <tr className='text-left font-bold'>
                         <th className='px-6 pt-5 pb-4'>Name</th>
-                        <th className='px-6 pt-5 pb-4'>Grade</th>
+                        <th className='px-6 pt-5 pb-4'>Class</th>
 
                         <th className='px-6 pt-5 pb-4'>Price</th>
                         <th className='px-6 pt-5 pb-4'>Payment</th>
@@ -223,7 +223,7 @@ export default function BookingForCustomer() {
                             {/* <td className='px-6 py-4'>{convertDate(booking.createdAt)}</td> */}
 
                             <td className='px-6 py-4'>{showStatus(booking.isAccepted)}</td>
-                            
+
                             <td className="px-6 py-4"><button onClick={() => handleShow(returnGrade(booking, grade))} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
                             <td className='px-6 py-4'>
                                 {!booking.payment && booking.isAccepted === 0 && (
@@ -264,7 +264,7 @@ export default function BookingForCustomer() {
                         <PayPalButton
                             amount={price}
                             currency='USD'
-                            clientId='AVOxfABmQJuTzGqYI44Rz6pwZvVluQpaVW65chtd71YkScGbwbqtXi6wJoaV4bKIsPb0CPCXog4x-ckZ'
+                            clientId='Adht7iMTGscJOeUFbo49PoVgnR4MPZrU9-JrcsxeqpgnlRGZUhqBPh-qE1_9u9SpcuW-9FfK7jkoxofN'
                             onSuccess={(event) => handlePaymentSuccess(event, bookingId)}
                             // onSuccess={handlePaymentSuccess}
                             onError={handlePaymentError}
@@ -300,7 +300,7 @@ export default function BookingForCustomer() {
                                         <div className='mt-5 mb-5 ml-5'><h1 className='text-4xl'><b>Booking Detail</b></h1></div>
 
                                         <h2><b>Name:</b> {user.fullName}</h2>
-                                        <p><b>Grade:</b> {returnGrade(booking, grade)}</p>
+                                        <p><b>Class:</b> {returnGrade(booking, grade)}</p>
                                         <p><b>Course:</b> {returnCourseName(booking, grade, course)}</p>
                                         <p><b>Payment:</b> {showPayment(booking.payment)}</p>
                                         <p><b>Status:</b> {showStatus(booking.isAccepted)}</p>

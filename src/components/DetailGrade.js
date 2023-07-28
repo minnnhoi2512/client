@@ -18,10 +18,8 @@ export default function Detail() {
   const [courses, setCourses] = useState([]);
   const [newData, setNewData] = useState([]);
   const [{ apiData }] = useFetch();
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   const roleId = localStorage.getItem('roleId');
-  const token = localStorage.getItem('token');
   // const userId = apiData?._id
   const fetchData = async () => {
     let query = { 'active': 1, 'fullName': '' };
@@ -47,10 +45,8 @@ export default function Detail() {
           loading: 'Booking...',
           success: <b>Booking Successfully...!</b>,
           error: <b>Something wrong !!!</b>
-        });
-      }else if(token == null){
-        navigate('/login')
-      }else  toast.error('Not permission!!!')
+        })
+      } else navigate('/login');
     } catch (error) {
       console.error(error)
     }

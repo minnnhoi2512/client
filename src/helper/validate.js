@@ -116,24 +116,24 @@ export async function usernameVerify(values) {
 
   if (!values.username) {
     errors.username = "Please input your username";
-  } else {
-    if (values.username.length < 5) {
-      errors.username = "Username must be between 5 chars";
-    }
+  // } else {
+  //   if (values.username.length < 5) {
+  //     errors.username = "Username must be between 5 chars";
+  //   }
   }
   const { status } = await authenticate(values.username);
   if (status == 200) {
     errors.exist = toast.error("User exist ...");
   }
 
-  if (values.username.includes(" ")) {
-    errors.username = "Username cannot contain spaces";
-  }
+  // if (values.username.includes(" ")) {
+  //   errors.username = "Username cannot contain spaces";
+  // }
 
-  let username = values.username.toLowerCase();
-  if (username !== values.username) {
-    errors.username = "Username must be lowercase";
-  }
+  // let username = values.username.toLowerCase();
+  // if (username !== values.username) {
+  //   errors.username = "Username must be lowercase";
+  // }
 
   // if (Object.keys(errors).length) {
   //   toast.error(errors.username);

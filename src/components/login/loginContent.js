@@ -43,7 +43,7 @@ export default function Login() {
 
       loginPromise
         .then((res) => {
-          let { token, roleId, username, id ,fullName} = res.data;
+          let { token, roleId, username, id, fullName } = res.data;
           localStorage.setItem("token", token);
           localStorage.setItem("roleId", roleId);
           localStorage.setItem("username", username);
@@ -59,8 +59,7 @@ export default function Login() {
   });
 
   return (
-    <div className="">
-      <Toaster position="top-center" reverseOrder={false}></Toaster>
+    <div className={styles.backgroundImageStyle}>      <Toaster position="top-center" reverseOrder={false}></Toaster>
 
       <div className="flex h-full items-center justify-center">
         <div className={styles.glass}>
@@ -116,6 +115,6 @@ export default function Login() {
         </div>
       </div>
     </div>
-    
+
   )
 }
