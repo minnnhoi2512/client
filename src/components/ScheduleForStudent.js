@@ -19,8 +19,12 @@ export default function Newschedule() {
   let userId = localStorage.getItem('id');
   let username = localStorage.getItem('username');
   let token = localStorage.getItem('token');
+  let roleId = localStorage.getItem('roleId');
   const fetchData = async () => {
-    if (token == null) {
+    if (roleId != 1) {
+      navigate('*');
+    }
+    else if (token == null) {
       navigate('*');
     } else {
       let query_1 = { 'fullName': '', 'active': 1 };
@@ -61,16 +65,20 @@ export default function Newschedule() {
     else if (time === '15:00') return 4
     else if (time === '17:00') return 5
   }
+  function showGradeName (name){
+    if (name == null) return 'Not yet'
+    else return name;
+  }
   useEffect(() => {
     fetchData().then().catch((error) => { console.log(error) });
   }, []);
   return (
-    <div className="shedule" >
+    <div className="shedule " style={{ marginLeft: "20px" }} >
 
       {/* <p> Your name: {grade.user}</p> */}
       <h1 class="h1 text-center">SCHEDULE</h1>
       <br></br>
-      <p class="text-center">Current class : {grades.gradeName}</p>
+      <p class="text-center">Current class : {showGradeName(grades.gradeName)}</p>
       <br></br>
       {/* <p>Ex class : {user.ex_grade}</p> */}
       <table class="tablecustomer table-dark table-striped table-borderless table-hover caption-top ">

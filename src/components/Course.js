@@ -170,19 +170,22 @@ export default function Course() {
               <td className="px-6 py-4">{course.price}$</td>
               <td className="px-6 py-4">{convertDate(course.startTime)}</td>
               <td className="px-6 py-4">{convertDate(course.endTime)}</td>
-              <td className="px-6 py-4">
+              <td className="px-6 py-4">{(roleId == 4) &&
                 <button
                   class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-yellow-700"
                   onClick={() => handleEditCourse(course)}
                 >
                   Edit
                 </button>
-                <button
+              }
+                {(roleId == 4) && <button
                   class="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700 ml-2"
                   onClick={() => handleDelete(course._id)}
                 >
                   Delete
                 </button>
+                }
+
               </td>
             </tr>
           ))}
@@ -416,8 +419,8 @@ export default function Course() {
             <button
               onClick={() => paginate(number)}
               className={`rounded-lg px-3 py-1 ${number === currentdata
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200"
                 }`}
             >
               {number}

@@ -59,13 +59,13 @@ export default function Grade() {
                     <nav class="text-xl flex justify-center">
                         <ol class="list-none p-10 inline-flex">
                             <li class="flex items-center ms-4 " >
-                                <a href="/class" class="text-gray-500">Good Life</a>
+                                <a href="" class="text-gray-500">Good Life</a>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mx-2" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M8.293 3.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L10.586 9H4a1 1 0 010-2h6.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </li>
                             <li class="flex items-center ms-1">
-                                <a href="#" className="text-gray-500">Classes</a>
+                                <a href="" className="text-gray-500">Classes</a>
 
                             </li>
 

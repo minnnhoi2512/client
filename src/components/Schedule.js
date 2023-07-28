@@ -65,7 +65,7 @@ export default function Schedulementor() {
   }, []);
   return (
    
-    <div className="shedule" >
+    <div className="shedule " style={{ marginTop: "100px" }} >
        <Header/>
       {/* <p> Your name: {grade.user}</p> */}
 
@@ -92,29 +92,29 @@ export default function Schedulementor() {
             <tr>
               <th scope="row" class="hi">{(checkDay(grade.weekDay) % 2 == 0) && (<p>{grade.startTimeGrade} - {grade.endTimeGrade}</p>)}</th>
               <td class="text-center">
-                {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>
+                {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>
                 )}
                   
                   </span>)}
               </td>
               <td class="text-center">
-                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>)}
+                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
                   </span>)}
               </td>
               <td class="text-center">
-                {(<span class="bb badgehover badge bg-primary text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>)}
+                {(<span class="bb badgehover badge bg-primary text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
                  </span>)}
               </td>
               <td class="text-center">
-                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>)}
+                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
                   </span>)}
               </td>
               <td class="text-center">
-                {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>)}
+                {(<span class="bb badge bg-danger text-wrap">{(checkDay(grade.weekDay) % 2 == 0) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
                   </span>)}
               </td>
               <td class="text-center">
-                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Grade : {grade.gradeName}</p>)}
+                {(<span class="bb badge badgecolor text-wrap">{(checkDay(grade.weekDay) % 2 == 1) && checkTime(grade.startTimeGrade) && (<p>Class : {grade.gradeName}</p>)}
                   </span>)}
               </td>
               <td class="text-center"></td>

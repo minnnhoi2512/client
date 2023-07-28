@@ -195,6 +195,7 @@ export default function BookingForCustomer() {
     }
     return (
         <div class="">
+            
             <table className='w-10/12 whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8 border-collapse ml-56'>
                 <Toaster position='top-center' reverseOrder={false}></Toaster>
 
