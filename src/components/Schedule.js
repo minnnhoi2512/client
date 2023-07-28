@@ -31,45 +31,45 @@ export default function Newschedule() {
             <tr>
               <th scope="row" class="bb text-center">7:00AM - 9:00AM</th>
               <td class="bb text-center">
-                <span class=" bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+                <span class=" bb badge badgecolor text-wrap">Class : Theurapeutic </span>
               </td>
               <td class="bb text-center">
-                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+                <span class="bb badge badgecolor text-wrap">Class : Vinyasa Krama </span>
               </td>
               < td class="bb text-center">
-                <span class="bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+                <span class="bb badge badgecolor text-wrap">Class : Theurapeutic </span>
               </td>
               <td class="bb text-center">
-                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+                <span class="bb badge badgecolor text-wrap">Class : Vinyasa Krama </span>
               </td>
               <td class="bb text-center">
-                <span class="bb badge badgecolor text-wrap">Grade : Theurapeutic </span>
+                <span class="bb badge badgecolor text-wrap">Class : Theurapeutic </span>
               </td>
               <td class="bb text-center">
-                <span class="bb badge badgecolor text-wrap">Grade : Vinyasa Krama </span>
+                <span class="bb badge badgecolor text-wrap">Class : Vinyasa Krama </span>
               </td>
               <td class="bb text-center"></td>
             </tr>
             <tr>
               <th scope="row" class="text-center">9:00AM - 11:00AM</th>
               <td class="text-center">
-                <span class="bb badge bg-danger text-wrap">Grade : The Smart Flow Yoga </span><br />
-                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+                <span class="bb badge bg-danger text-wrap">Class : The Smart Flow Yoga </span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Class : Yoga For Better Sleep </span>
               </td>
               <td class="text-center">
 
               </td>
               < td class="text-center">
 
-                <span class="bb badge bg-danger text-wrap">Grade : The Smart Flow Yoga</span><br />
-                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+                <span class="bb badge bg-danger text-wrap">Class : The Smart Flow Yoga</span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Class : Yoga For Better Sleep </span>
               </td>
               <td class="text-center">
 
               </td>
               <td class="text-center">
-                <span class="bb badgehover badge bg-danger text-wrap">Grade : The Smart Flow Yoga </span><br />
-                <br /><span class="bb badge bg-danger text-wrap">Grade : Yoga For Better Sleep </span>
+                <span class="bb badgehover badge bg-danger text-wrap">Class : The Smart Flow Yoga </span><br />
+                <br /><span class="bb badge bg-danger text-wrap">Class : Yoga For Better Sleep </span>
               </td>
               <td class="text-center">
 
@@ -79,22 +79,22 @@ export default function Newschedule() {
             <tr>
               <th scope="row" class="text-center">13:00PM - 15:00PM</th>
               <td class="text-center">
-
+              <span class="bb badgehover badge bg-primary text-wrap">Class : Restorative yoga </span>
               </td>
               <td class="text-center">
-                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+                <span class="bb badgehover badge bg-primary text-wrap">Class : Mom Baby Connection </span>
               </td>
               < td class="text-center">
-
+              <span class="bb badgehover badge bg-primary text-wrap">Class : Restorative yoga </span> 
               </td>
               <td class="text-center">
-                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+                <span class="bb badgehover badge bg-primary text-wrap">Class : Mom Baby Connection </span>
               </td>
               <td class="text-center">
-
+              <span class="bb badgehover badge bg-primary text-wrap"> Class : Restorative yoga </span>
               </td>
               <td class="text-center">
-                <span class="bb badgehover badge bg-primary text-wrap">Grade : Mom Baby Connection </span>
+                <span class="bb badgehover badge bg-primary text-wrap">Class : Mom Baby Connection </span>
               </td>
               <td class="text-center"></td>
             </tr>
@@ -123,22 +123,22 @@ export default function Newschedule() {
             <tr>
               <th scope="row" class="text-center">17:00PM - 19:00PM</th>
               <td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+                <span class="bb badge bg-success text-wrap">Class : Dalai Lama </span>
               </td>
               <td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga<br></br>Grade : Karma Yoga</span>
+                <span class="bb badge bg-success text-wrap">Class : Thai Yoga<br></br>Class : Karma Yoga</span>
               </td>
               < td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+                <span class="bb badge bg-success text-wrap">Class : Dalai Lama </span>
               </td>
               <td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga <br></br>Grade : Karma Yoga</span>
+                <span class="bb badge bg-success text-wrap">Class : Thai Yoga <br></br>Class : Karma Yoga</span>
               </td>
               <td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Dalai Lama </span>
+                <span class="bb badge bg-success text-wrap">Class : Dalai Lama </span>
               </td>
               <td class="text-center">
-                <span class="bb badge bg-success text-wrap">Grade : Thai Yoga<br></br>Grade : Karma Yoga </span>
+                <span class="bb badge bg-success text-wrap">Class : Thai Yoga<br></br>Class : Karma Yoga </span>
               </td>
               <td class="text-center"></td>
             </tr>
