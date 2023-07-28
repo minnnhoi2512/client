@@ -29,6 +29,11 @@ export default function Grade() {
     useEffect(() => {
         fetchData().catch((error)=>console.log(error));
     }, []);
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            searchGrade();
+        }
+    };
 
 
     const searchGrade = async () => {
@@ -50,17 +55,17 @@ export default function Grade() {
             </div>
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-6xl lg:px-8">
                 <div className="space-y-2 mt-15 mb-18">
-                    <h2 className="text-center text-5xl font-serif">Grade</h2>
+                    <h2 className="text-center text-5xl font-serif">Classes</h2>
                     <nav class="text-xl flex justify-center">
                         <ol class="list-none p-10 inline-flex">
                             <li class="flex items-center ms-4 " >
-                                <a href="/class" class="text-gray-500">Yogamo</a>
+                                <a href="/class" class="text-gray-500">Good Life</a>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mx-2" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M8.293 3.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L10.586 9H4a1 1 0 010-2h6.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </li>
                             <li class="flex items-center ms-1">
-                                <a href="#" className="text-gray-500">Grades</a>
+                                <a href="#" className="text-gray-500">Classes</a>
 
                             </li>
 
@@ -73,6 +78,7 @@ export default function Grade() {
                         placeholder="Search by grade name"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyPress={handleKeyPress} // Add the onKeyPress event here
                         className="border border-gray-300 px-4 py-2 rounded-md w-64"
                     />
                     <button

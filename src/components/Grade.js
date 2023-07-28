@@ -52,14 +52,14 @@ export default function Grade() {
             navigate('*');
         } else {
             let dataPromise = fetchData();
-            toast.promise(dataPromise, {
-                loading: 'Loading...',
-                success: <b>Successfully...!</b>,
-                error: <b>Failed !!!</b>
-            })
-            dataPromise.then(function () { navigate('/grade') }).catch(error => {
-                console.error(error);
-            });
+            // toast.promise(dataPromise, {
+            //     loading: 'Loading...',
+            //     success: <b>Successfully...!</b>,
+            //     error: <b>Failed !!!</b>
+            // })
+            // dataPromise.then(function () { navigate('/grade') }).catch(error => {
+            //     console.error(error);
+            // });
         }
     }, []);
     const handleChange = (event) => {
@@ -80,7 +80,7 @@ export default function Grade() {
             toast.promise(dataPromise, {
                 loading: 'Loading...',
                 success: <b>Successfully...!</b>,
-error: <b>Failed !!!</b>
+                error: <b>Failed !!!</b>
             })
             dataPromise.then(function () { navigate('/grade') }).catch(error => {
                 console.error(error);
@@ -162,12 +162,12 @@ error: <b>Failed !!!</b>
 
             <div className='max-w-4x2 mx-auto ml-24'>
                 <table className='w-full whitespace-nowrap bg-white overflow-hidden rounded-lg shadow-sm mb-8'>
-<thead>
+                    <thead>
                         <tr className='text-left font-bold'>
 
                             <th className='px-6 pt-5 pb-4'>Mentor</th>
 
-                            <th className='px-6 pt-5 pb-4'>Grade Name</th>
+                            <th className='px-6 pt-5 pb-4'>Class Name</th>
 
 
                             <th className='px-6 pt-5 pb-4'>Detail</th>
@@ -201,14 +201,14 @@ error: <b>Failed !!!</b>
                                 <td className='px-6 py-4'>{grade.weekDay}</td>
                                 <td className='px-6 py-4'>{grade.startTimeGrade}</td>
                                 <td className='px-6 py-4'>{grade.endTimeGrade}</td> */}
-                                <td className='px-6 py-4'>
+                                <td className='px-6 py-4'>{roleId == 4 && (<button
+                                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                                    onClick={() => handleDelete(grade._id)}
+                                >
+                                    Delete
+                                </button>)}
 
-                                    <button
-                                        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                                        onClick={() => handleDelete(grade._id)}
-                                    >
-                                        Delete
-                                    </button>
+
                                 </td>
                             </tr>
                         ))}
@@ -220,7 +220,7 @@ error: <b>Failed !!!</b>
 
                             className="justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-1 z-50 outline-none focus:outline-none"
                         >
-<div className="relative w-auto my-6 mx-auto max-w-3xl">
+                            <div className="relative w-auto my-6 mx-auto max-w-3xl">
                                 {/*content*/}
                                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                     {/*header*/}
@@ -257,7 +257,7 @@ error: <b>Failed !!!</b>
                                                 class="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
                                             >
                                                 Click here to upload image
-</label>
+                                            </label>
                                             <input
                                                 class="focus:border-primary focus:shadow-te-primary dark:focus:border-primary relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:text-neutral-700 focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100"
                                                 type="file"
@@ -285,7 +285,7 @@ error: <b>Failed !!!</b>
                                         <div className="mb-4">
                                             <label className="block text-gray-700 font-bold mb-2">To :</label>
                                             <input type="time" name="endTimeGrade" onChange={(event) => handleChange(event)}></input>
-</div>
+                                        </div>
 
                                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                                             <button
@@ -329,7 +329,7 @@ error: <b>Failed !!!</b>
                                         <span className="block h-6 w-6 bg-transparent text-2xl text-black opacity-5 outline-none focus:outline-none">
                                             ×
                                         </span>
-</button>
+                                    </button>
                                 </div>
                                 {/*body*/}
                                 <div>
@@ -353,17 +353,17 @@ error: <b>Failed !!!</b>
                                                     if (detail.course == course._id)
                                                         return course.courseName
                                                 })}</p>
-                                                 <p><b>Price:</b> {courses.map((course) => {
+                                                <p><b>Price:</b> {courses.map((course) => {
                                                     if (detail.course == course._id)
                                                         return course.price
                                                 })}$</p>
-                                                <p><b>Grade: </b> {detail.gradeName}</p>
+                                                <p><b>Class: </b> {detail.gradeName}</p>
                                                 <p><b>Number of student: </b>{detail.nOfStudent}</p>
                                                 <p><b>Room: </b> {detail.room}</p>
                                                 <p><b>Week Day: </b>{detail.weekDay}</p>
                                             </div>
                                             <div className="col-span-1 mb-8">
-                                                <p><b>Time: </b>{detail.startTimeGrade + " to " +detail.endTimeGrade}</p>
+                                                <p><b>Time: </b>{detail.startTimeGrade + " to " + detail.endTimeGrade}</p>
                                                 <p><b>Description: </b>{detail.description}</p>
                                             </div>
                                         </div>
@@ -380,7 +380,7 @@ error: <b>Failed !!!</b>
                                                 onClick={() => setShowCard(false)}
                                             >
                                                 Close
-</button>
+                                            </button>
 
                                         </div>
                                     </div>

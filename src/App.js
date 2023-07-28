@@ -35,7 +35,9 @@ import BookingForCustomer from "./components/bookingForCustomer.js";
 import ShowStudent from "./components/showStudent.js";
 import ShowClassByMentor from "./components/management/ShowClassByMentor.js";
 // import Header from "./components/homepage/Header.js";
-// import Schedule from './components/ViewSchedule.js'
+import Schedule from './components/Schedule.js'
+import ScheduleStudent from './components/ScheduleForStudent.js'
+import ScheduleMentor from './components/ScheduleForMentor.js'
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
 
@@ -43,10 +45,18 @@ const router = createBrowserRouter([
         path: '/',
         element: <Homepage></Homepage>
     },
-    // {
-    //     path: '/schedule',
-    //     element: <Sidebar><Schedule></Schedule></Sidebar> 
-    // },
+    {
+        path: '/schedule',
+        element: <Schedule></Schedule>
+    },
+    {
+        path: '/scheduleStudent',
+        element: <Sidebar><ScheduleStudent></ScheduleStudent></Sidebar>
+    },
+    {
+        path: '/scheduleMentor',
+        element: <Sidebar><ScheduleMentor></ScheduleMentor></Sidebar>
+    },
     {
         path: '/showClassByMentor',
         element: <Sidebar><ShowClassByMentor></ShowClassByMentor></Sidebar>

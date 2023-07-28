@@ -58,14 +58,14 @@ export default function ShowAdmins() {
             navigate('*');
         } else {
             let dataPromise = fetchData(filter);
-            toast.promise(dataPromise, {
-                loading: 'Loading...',
-                success: <b>Successfully...!</b>,
-                error: <b>Failed !!!</b>
-            })
-            dataPromise.then(function () { navigate('/showAdmins') }).catch(error => {
-                console.error(error);
-            });
+            // toast.promise(dataPromise, {
+            //     loading: 'Loading...',
+            //     success: <b>Successfully...!</b>,
+            //     error: <b>Failed !!!</b>
+            // })
+            // dataPromise.then(function () { navigate('/showAdmins') }).catch(error => {
+            //     console.error(error);
+            // });
         }
 
     }, []);
@@ -295,7 +295,7 @@ export default function ShowAdmins() {
                                             </div>
                                             <div className="grid grid-cols-2 ml-20 mt-14">
                                                 <div className="col-span-1 ml-10 mb-8">
-                                                    <p><b>Fullname:</b> {detail.fullName}</p>
+                                                    <p><b>Name:</b> {detail.fullName}</p>
 
 
                                                     <p><b>Email:</b> {detail.email}</p>

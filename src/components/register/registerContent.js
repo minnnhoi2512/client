@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import avatar from '../../assets/profile.png';
 import toast, { Toaster } from 'react-hot-toast';
 import { useFormik } from 'formik';
-import { registerValidation,usernameValidate,
+import { registerValidation,
    confirmPasswordValidation,emailVerify,usernameVerify } from '../../helper/validate';
 import convertToBase64 from '../../helper/convert';
 import { registerUser } from '../../helper/helper'
@@ -31,7 +31,7 @@ export default function Register() {
     onSubmit: async values => {  
       // const errors =usernameVerify(values) ; 
       const usernameErrors = usernameVerify(values);
-      const emailErrors =  emailVerify(values);
+      const errors =  emailVerify(values);
       
       console.log(values.email)
         setUsername(values.username);
@@ -40,14 +40,14 @@ export default function Register() {
         // if (Object.keys(errors).length) {
         //   return errors; 
         // }
-        // if (Object.keys(errors).length) {
-        //   toast.error(errors.email);
-        //   return;
-        //   }
-        if (Object.keys(usernameErrors).length) {
-          toast.error(usernameErrors.username);  
-          return usernameErrors;    
-        }
+        if (Object.keys(errors).length) {
+          toast.error(errors.email);
+          return;
+          }
+        // if (Object.keys(usernameErrors).length) {
+        //   toast.error(usernameErrors.username);  
+        //   return ;    
+        // }
      
         // if (Object.keys(emailErrors).length) {
         //   toast.error(emailErrors.email);
@@ -73,7 +73,7 @@ export default function Register() {
       //   });
          
       // } catch (error) {
-      //   console.log(error);  
+      //   console.error(error);
       // }
       values = await Object.assign(values, { profile: file || '' })
       let registerPromise = registerUser(values)
@@ -125,7 +125,7 @@ export default function Register() {
               <input {...formik.getFieldProps('email')} className={styles.textbox} type="text" placeholder='Email*' />
               <input {...formik.getFieldProps('username')} className={styles.textbox} type="text" placeholder='Username*' />
               <input {...formik.getFieldProps('password')} onChange={formik.handleChange}
-                                onBlur={formik.handleBlur} className={styles.textbox} type="password" placeholder='Password must be 8-50 characters' />
+                                onBlur={formik.handleBlur} className={styles.textbox} type="password" placeholder='Password must be 1-50 characters' />
               <input {...formik.getFieldProps('confirm_pwd')} onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}  className={styles.textbox} type="password" placeholder='Confirm Password*' />
               <button className={styles.btn} type='submit'>Register</button>

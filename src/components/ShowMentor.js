@@ -60,14 +60,14 @@ export default function ShowMentors() {
             navigate('*');
         } else {
             let dataPromise = fetchData();
-            toast.promise(dataPromise, {
-                loading: 'Loading...',
-                success: <b>Successfully...!</b>,
-                error: <b>Failed !!!</b>
-            })
-            dataPromise.then(function () { navigate('/showMentors') }).catch(error => {
-                console.error(error);
-            });
+            // toast.promise(dataPromise, {
+            //     loading: 'Loading...',
+            //     success: <b>Successfully...!</b>,
+            //     error: <b>Failed !!!</b>
+            // })
+            // dataPromise.then(function () { navigate('/showMentors') }).catch(error => {
+            //     console.error(error);
+            // });
         }
 
 
@@ -370,7 +370,7 @@ export default function ShowMentors() {
                                         </div>
                                         <div className="grid grid-cols-2 ml-20 mt-14">
                                             <div className="col-span-1 ml-10 mb-8">
-                                                <p><b>Fullname:</b> {detail.fullName}</p>
+                                                <p><b>Name:</b> {detail.fullName}</p>
 
                                                 <p><b>Email:</b> {detail.email}</p>
                                                 <p><b>Phone: </b>{detail.phone}</p>

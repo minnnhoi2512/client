@@ -143,15 +143,15 @@ export async function usernameVerify(values) {
 }
 /** validate email */
 
-export async function emailVerify(values) {
+
+export function emailVerify(values) {
   const errors = {};
   const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
   if (!values.email) {
-    errors.email = "Please input your Email...!";
+    errors.email = "Please input your Email...!!";
   } else if (!regex.test(values.email)) {
     errors.email = "Invalid Email";
-  }
+  } 
 
   if (Object.keys(errors).length) {
     toast.error(errors.email);

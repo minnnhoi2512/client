@@ -32,18 +32,18 @@ export default function Blog() {
       navigate("*");
     } else {
       let dataPromise = fetchData();
-      toast.promise(dataPromise, {
-        loading: "Loading...",
-        success: <b>Successfully...!</b>,
-        error: <b>Failed !!!</b>,
-      });
-      dataPromise
-        .then(function () {
-          navigate("/blog");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      // toast.promise(dataPromise, {
+      //   loading: "Loading...",
+      //   success: <b>Successfully...!</b>,
+      //   error: <b>Failed !!!</b>,
+      // });
+      // dataPromise
+      //   .then(function () {
+      //     navigate("/blog");
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
     }
   }, []);
 

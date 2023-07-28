@@ -55,14 +55,14 @@ export default function Booking() {
             navigate('*');
         } else {
             let dataPromise = fetchData(status);
-            toast.promise(dataPromise, {
-                loading: 'Loading...',
-                success: <b>Successfully...!</b>,
-                error: <b>Failed !!!</b>
-            })
-            dataPromise.then(function () { navigate('/booking') }).catch(error => {
-                console.error(error);
-            });
+            // toast.promise(dataPromise, {
+            //     loading: 'Loading...',
+            //     success: <b>Successfully...!</b>,
+            //     error: <b>Failed !!!</b>
+            // })
+            // dataPromise.then(function () { navigate('/booking') }).catch(error => {
+            //     console.error(error);
+            // });
         }
 
     }, []);
@@ -82,7 +82,7 @@ export default function Booking() {
                 console.error(error);
             });
         } catch (error) {
-            console.error(error)
+            toast.error('Failed');
         }
     }
     function showStatus(status) {
@@ -107,7 +107,7 @@ export default function Booking() {
 
 
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     }
     const createModal = () => {
@@ -115,12 +115,13 @@ export default function Booking() {
     }
     const [nowStatus,setNowStatus] = useState();
     const handleUpdate = async (event, id) => {
-        event.currentTarget.disabled = true;
+        // event.currentTarget.disabled = true;
         // event.preventDefault()
         try {
             const response = await updateBooking(id); // Call your update function to update the user data
+            console.log(response)
+            
             setShowModal(false);
-            setNowStatus(0)
             let dataPromise = fetchData(0);
             toast.promise(dataPromise, {
                 loading: 'Loading...',
@@ -131,7 +132,8 @@ export default function Booking() {
                 console.error(error);
             });
         } catch (error) {
-            console.error(error);
+            toast.error('Something wrong, the class already been full or the user has been in class');
+            console.log(error)
         }
     }
     function redirectAllBooking() {
@@ -163,7 +165,7 @@ export default function Booking() {
                 console.error(error);
             });
         } catch (error) {
-            console.error(error);
+            console.log(error)
         }
     }
     function showPayment(payment){
@@ -269,7 +271,7 @@ export default function Booking() {
                                     >
                                         Reject
                                     </button>}
-                                    {data.isAccepted == 1 &&
+                                    {data.isAccepted == 1 && roleId == 4 &&
                                         <button
                                             className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
                                             onClick={(event) => handleDelete(event, data._id)}
@@ -277,7 +279,7 @@ export default function Booking() {
                                             Delete
                                         </button>
                                     }
-                                    {data.isAccepted == -1 &&
+                                    {data.isAccepted == -1 && roleId == 4 &&
                                         <button
                                             className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
                                             onClick={(event) => handleDelete(event, data._id)}

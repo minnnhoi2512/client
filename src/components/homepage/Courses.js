@@ -48,11 +48,7 @@ const Courses = () => {
           })}
         </div>
 
-        <div className='flex justify-center'>
-          <button className='btn btn-sm btn-orange'
-            data-aos='fade-up'
-            data-aos-delay='600'>
-            Browse all</button></div>
+        
       </div>
     </section>
   );

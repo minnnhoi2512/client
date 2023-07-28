@@ -98,7 +98,7 @@ const Sidebar = ({ children }) => {
       path: "/Course",
       name: "Course",
       icon: <FaBookOpen />,
-      visible: isAdmin,
+      visible: isAdmin || isStaff,
     },
     {
       path: "/grade",
@@ -107,10 +107,16 @@ const Sidebar = ({ children }) => {
       visible:   isAdmin || isStaff,
     },
     {
-      path: "/schedule",
-      name: "Schedule",
+      path: "/scheduleMentor",
+      name: "My Schedule",
       icon: <AiFillSchedule />,
-      visible: isUser || isMentor
+      visible:  isMentor
+    },
+    {
+      path: "/scheduleStudent",
+      name: "My Class",
+      icon: <AiFillSchedule />,
+      visible: isUser 
     },
     {
       path: "/bookingForCustomer",
