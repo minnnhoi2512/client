@@ -96,6 +96,7 @@ export async function deleteUser(userId) {
         return Promise.reject({ error: 'Could not delete' });
     }
 }
+
 export async function updateUser_1(userId, updatedUser) {
     try {
         return await placeholderApi.post(`/api/updateUser/${userId}`, updatedUser);

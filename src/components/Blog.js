@@ -120,7 +120,7 @@ export default function Blog() {
   const toggleShowContent = () => {
     setShowContent(!showContent);
   };
-
+  
   // Tính toán các chỉ số cho phân trang
   const [currentPage, setCurrentPage] = useState(1);
   const [blogsPerPage] = useState(3);
