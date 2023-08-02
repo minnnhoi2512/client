@@ -162,8 +162,8 @@ export default function BookingForCustomer() {
             console.log('Failed');
         }
     };
-    const handleShow = (payment) => {
-        setDetail(payment)
+    const handleShow = (booking) => {
+        setDetail(booking)
         setShowCard(true);
     }
     const handlePaymentError = () => {
@@ -224,7 +224,7 @@ export default function BookingForCustomer() {
 
                             <td className='px-6 py-4'>{showStatus(booking.isAccepted)}</td>
 
-                            <td className="px-6 py-4"><button onClick={() => handleShow(returnGrade(booking, grade))} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
+                            <td className="px-6 py-4"><button onClick={() => handleShow(booking)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
                             <td className='px-6 py-4'>
                                 {!booking.payment && booking.isAccepted === 0 && (
                                     <button
@@ -300,12 +300,12 @@ export default function BookingForCustomer() {
                                         <div className='mt-5 mb-5 ml-5'><h1 className='text-4xl'><b>Booking Detail</b></h1></div>
 
                                         <h2><b>Name:</b> {user.fullName}</h2>
-                                        <p><b>Class:</b> {returnGrade(booking, grade)}</p>
-                                        <p><b>Course:</b> {returnCourseName(booking, grade, course)}</p>
-                                        <p><b>Payment:</b> {showPayment(booking.payment)}</p>
-                                        <p><b>Status:</b> {showStatus(booking.isAccepted)}</p>
-                                        <p><b>Price</b> {returnCoursePrice(booking, grade, course)}$</p>
-                                        <p><b>Created at:</b> {convertDate(booking.createdAt)}</p>
+                                        <p><b>Class:</b> {returnGrade(detail, grade)}</p>
+                                        <p><b>Course:</b> {returnCourseName(detail, grade, course)}</p>
+                                        <p><b>Payment:</b> {showPayment(detail.payment)}</p>
+                                        <p><b>Status:</b> {showStatus(detail.isAccepted)}</p>
+                                        <p><b>Price</b> {returnCoursePrice(detail, grade, course)}$</p>
+                                        <p><b>Created at:</b> {convertDate(detail.createdAt)}</p>
                                     </div>
                                     <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
                                         <button

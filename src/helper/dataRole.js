@@ -11,9 +11,6 @@ export const DataRole = [
 ]
 export const DataRoleForStaff = [
     {
-        roleId: '1', roleName : 'CUSTOMER'
-    },
-    {
         roleId: '2', roleName : 'MENTOR'
     },
 ]

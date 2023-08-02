@@ -38,12 +38,27 @@ import ShowClassByMentor from "./components/management/ShowClassByMentor.js";
 import Schedule from './components/Schedule.js'
 import ScheduleStudent from './components/ScheduleForStudent.js'
 import ScheduleMentor from './components/ScheduleForMentor.js'
+import Calendar from './components/Calendar.js'
+import CalendarForStudent from './components/CalendarForStudent.js'
+import CalendarForMentor from './components/CalendarForMentor.js'
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
 
     {
         path: '/',
         element: <Homepage></Homepage>
+    },
+    {
+        path: '/calendar',
+        element: <Calendar></Calendar>
+    },
+    {
+        path: '/studentCalendar',
+        element: <CalendarForStudent></CalendarForStudent>
+    },
+    {
+        path: '/mentorCalendar',
+        element: <CalendarForMentor></CalendarForMentor>
     },
     {
         path: '/schedule',

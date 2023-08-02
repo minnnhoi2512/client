@@ -239,31 +239,33 @@ export default function ShowMentors() {
                                 <td className="px-6 py-4">
                                     {showActive(user.isActive)}  </td>
                                 <td className='px-6 py-4'>
-                                    <>
+                                    {roleId == 4 && (
                                         <button
                                             className="mr-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
                                             onClick={() => handleEdit(user)}
                                         >
                                             Edit
-                                        </button>
-                                        {user.isActive == 1 && roleId == 4 && (
-                                            <button
-                                                className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                                                onClick={() => handleUnactive(user._id)}
-                                            >
-                                                Unactive
-                                            </button>
-                                        )}
-                                        {user.isActive == 0 && roleId == 4 && (
-                                            <button
-                                                className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
-                                                onClick={() => handleActive(user._id)}
-                                            >
-                                                Active
-                                            </button>
-                                        )}
+                                        </button>)}
 
-                                    </>
+
+                                    {user.isActive == 1 && roleId == 4 && (
+                                        <button
+                                            className="rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+                                            onClick={() => handleUnactive(user._id)}
+                                        >
+                                            Unactive
+                                        </button>
+                                    )}
+                                    {user.isActive == 0 && roleId == 4 && (
+                                        <button
+                                            className="mr-2 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+                                            onClick={() => handleActive(user._id)}
+                                        >
+                                            Active
+                                        </button>
+                                    )}
+
+
                                 </td>
                             </tr>
                         ))}

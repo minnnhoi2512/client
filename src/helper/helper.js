@@ -64,7 +64,7 @@ export async function getCustomers(query) {
     }
 }
 export async function getMentors(query) {
-    console.log(query)
+    // console.log(query)
     try {
         const { data } = await placeholderApi.get('/admin/getMentors', { params: query });
         return Promise.resolve({ data });

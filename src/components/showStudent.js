@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAllGrades, getGradeById } from "../helper/gradeHelper";
+import { checkAttendance, getAllGrades, getGradeById } from "../helper/gradeHelper";
 import { getStudentInGrade, kickStudent } from "../helper/helper";
 
 
@@ -23,7 +23,7 @@ function ShowStudent() {
       console.error(error);
     }
   };
-  const [grades,setGrades] = useState([]);
+  const [grades, setGrades] = useState([]);
   const getGradeData = async () => {
     try {
       const gradeData = await getAllGrades();
@@ -34,8 +34,8 @@ function ShowStudent() {
       console.error(error);
     }
   };
-  async function findGrade(grades,id){
-    for (let i = 0 ;i < grades.length ; i++){
+  async function findGrade(grades, id) {
+    for (let i = 0; i < grades.length; i++) {
       if (grades[i]._id == id) return await grades[i].gradeName;
     }
   }
@@ -47,8 +47,8 @@ function ShowStudent() {
     } else if (token == null) {
       navigate('*');
     } else {
-      getStudentData();
-      getGradeData();
+      getStudentData().catch((error)=>console.log(error));
+      getGradeData().catch((error)=>console.log(error));
       // console.log(await findGrade(grades,gradeId))
       // console.log(grades[4]._id == gradeId) 
       console.log(gradeId)
@@ -71,6 +71,28 @@ function ShowStudent() {
       console.error(error)
     }
   }
+  const handleAttendance = async (event, id) => {
+    event.currentTarget.disabled = true;
+    try {
+      let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 1 }
+      console.log(query)
+      await checkAttendance(query);
+     
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  const handleAbsent = async (event, id) => {
+    event.currentTarget.disabled = true;
+    try {
+      let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 0 }
+      console.log(query)
+      await checkAttendance(query);
+     
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
 
 
@@ -86,7 +108,7 @@ function ShowStudent() {
               <th className="px-4 py-2 border">No</th>
               <th className="px-4 py-2 border">Name</th>
               <th className="px-4 py-2 border">Email</th>
-            
+
               <th className="px-4 py-2 border">Phone</th>
               <th className="px-4 py-2 border">Actions</th>
 
@@ -107,9 +129,15 @@ function ShowStudent() {
                 </button>}
                   {roleId == 2 && <button
                     className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
-                  // onClick={(event) => handleDelete(event, student._id)}
+                    onClick={(event) =>   handleAttendance(event, student._id)}
                   >
                     Attendance
+                  </button>}
+                  {roleId == 2 && <button
+                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                    onClick={(event) =>   handleAbsent(event, student._id)}
+                  >
+                    Absent
                   </button>}
                 </td>
                 {/* <td className="border px-4 py-2">{student.roleId}</td> */}
