@@ -114,7 +114,7 @@ const Sidebar = ({ children }) => {
     },
     {
       path: "/scheduleStudent",
-      name: "My Class",
+      name: "My Schedule",
       icon: <AiFillSchedule />,
       visible: isUser
     },
