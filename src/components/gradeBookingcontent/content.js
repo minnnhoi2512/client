@@ -46,7 +46,7 @@ export default function Grade() {
     };
     return (
 
-        <div>
+        <div className="mt-40">
             <div className="grid grid-cols-4">
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster1.png" alt="yoga" /></div>
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster2.png" alt="yoga" /></div>
@@ -89,7 +89,7 @@ export default function Grade() {
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{ display: 'flex', flexWrap: 'wrap' }}>                    {(searchResults.length > 0 ? searchResults : grades).map((grade) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{ display: 'flex', flexWrap: 'wrap' }}>{(searchResults.length > 0 ? searchResults : grades).map((grade) => grade.nOfStudent < 20 &&(
                     <div className="flex-row bg-gray-100 box-content h-auto w-auto p-4"
                         key={grade._id}>
                         <div className="aspect-h-1 aspect-w-1 w-50 overflow-hidden rounded-sm bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">

@@ -85,3 +85,11 @@ export async function getSlotOfUser(id){
         return Promise.reject({ error: 'Could not SHow' });
     }
 }
+export async function getAllGradesForSchedule() {
+    try {      
+        const { data } = await placeholderApi.get('/grade/getAllGradesForSchedule');
+        return Promise.resolve({ data });
+    } catch (error) {
+        return Promise.reject({ error: 'Could not get' });
+    }
+}

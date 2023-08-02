@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { getAllGrades, getGradeById } from '../helper/gradeHelper';
+import { getAllGrades, getAllGradesForSchedule, getGradeById } from '../helper/gradeHelper';
 import { getAllCourses, getCourseById } from '../helper/courseHelper';
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { getMentors } from '../helper/helper';
 import Header from './homepage/Header';
 import Footer from './homepage/Footer';
 const Calendar = () => {
-  const calendarRef = useRef(null);
+  const calendarRef = React.createRef();
   const date = new Date();
   const d = date.getDate();
   const m = date.getMonth();
@@ -141,8 +141,9 @@ const Calendar = () => {
     // console.log(events)
     return events
   }
-  async function getSchedule(eventSource) {
-    calendarRef.current.getApi().setOption('events', eventSource.sort());
+  function getSchedule(eventSource) {
+    // console.log(eventSource);
+    calendarRef.current.getApi().setOption('events', eventSource);
     // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
   }
   const data = [
@@ -162,7 +163,7 @@ const Calendar = () => {
   ]
   const EventItem = ({ info }) => {
     const { event } = info;
-    console.log(event)
+    // console.log(event)
     return (
       <div>
         <p>{event.extendedProps.class}</p>
@@ -173,26 +174,26 @@ const Calendar = () => {
   };
   const [events, setEvents] = useState([])
   const [allClass, setAllClass] = useState([]);
- 
+
 
   const fetchDataForAllEvents = async () => {
-    let query = { 'fullName': '', 'active': 1 }
-    let mentors = await getMentors(query)
-    let allClass = await getAllGrades();
+    
+    let allClass = await getAllGradesForSchedule();
+    
     const eventSources = [];
-    console.log(allClass.data)
+  
     try {
-      for (const e of allClass.data) {
+      for (const grade of allClass.data) {
 
-        const grades = await getGradeById(e._id);
-        const courses = await getCourseById(grades.data.course);
-        let mentorName = getMentorName(mentors.data, grades.data.instructor)
+        // const grades = await getGradeById(e._id);
+        // const courses = await getCourseById(grade.course);
+        // let mentorName = getMentorName(mentors.data, grade.instructor)
         let eventSource = [];
         if (calendarRef.current) {
-          if (grades.data.weekDay === evenDay) {
-            eventSource = eventSource.concat(getEvenSlot(courses.data[0].startTime, courses.data[0].endTime, grades.data, mentorName));
+          if (grade.weekDay === evenDay) {
+            eventSource = eventSource.concat(getEvenSlot(grade.course.startTime, grade.course.endTime, grade, grade.instructor.fullName));
           } else {
-            eventSource = eventSource.concat(getOddSlot(courses.data[0].startTime, courses.data[0].endTime, grades.data, mentorName));
+            eventSource = eventSource.concat(getOddSlot(grade.course.startTime, grade.course.endTime, grade, grade.instructor.fullName));
           }
 
           eventSources.push(...eventSource);
@@ -206,8 +207,8 @@ const Calendar = () => {
     }
   };
   useEffect(() => {
-    
-    fetchDataForAllEvents().catch((error)=>{
+
+    fetchDataForAllEvents().catch((error) => {
       console.log(error);
     });
   }, []);

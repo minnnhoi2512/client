@@ -54,7 +54,7 @@ export default function Recovery() {
             {
                 loading: 'Sending...',
                 success: <b>OTP has been send to your email!</b>,
-                error: <b>Could not Send it!</b>,
+                error: <b>Could not send email!</b>,
             }
         );
 

@@ -44,9 +44,9 @@ export default function Detail() {
         toast.promise(create, {
           loading: 'Booking...',
           success: <b>Booking Successfully...!</b>,
-          error: <b>You already booking this class !!!</b>
+          error: <b>You already have booked this class !!!</b>
         })
-      } else navigate('/login');
+      } else toast.error('You cannot learn this class !!!')
     } catch (error) {
       console.error(error)
     }

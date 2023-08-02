@@ -7,7 +7,7 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { getMentors, getUser } from '../helper/helper';
 import { Link } from 'react-router-dom';
 const Calendar = () => {
-    const calendarRef = useRef(null);
+    const calendarRef = React.createRef();
     const date = new Date();
     const d = date.getDate();
     const m = date.getMonth();
@@ -179,7 +179,7 @@ const Calendar = () => {
         // console.log(events)
         return events
     }
-    async function getSchedule(eventSource) {
+     function getSchedule(eventSource) {
         calendarRef.current.getApi().setOption('events', eventSource.sort());
         // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
     }
@@ -215,10 +215,9 @@ const Calendar = () => {
     const [allClass, setAllClass] = useState([]);
 
     const fetchDataForAllEvents = async () => {
-        let query = { 'fullName': '', 'active': 1 }
-        let mentors = await getMentors(query)
         let user = await getUser({ username });
         let data = []
+        
         // let allClass = await getAllGrades();
         const eventSources = [];
         let string = user.data.grade;
@@ -228,20 +227,20 @@ const Calendar = () => {
             let element = elements[i].trim();
             data.push(element);
         }
+        console.log(data)
         let slots = await getSlotOfUser(userId);
         // console.log(slots.data)
         try {
-            for (const e of data) {
-
-                const grades = await getGradeById(e);
-                const courses = await getCourseById(grades.data.course);
-                let mentorName = getMentorName(mentors.data, grades.data.instructor)
+            for (const id of data) {
+                console.log(id)
+                const grades = await getGradeById(id);
+               console.log(grades)
                 let eventSource = [];
                 if (calendarRef.current) {
                     if (grades.data.weekDay === evenDay) {
-                        eventSource = eventSource.concat(getEvenSlot(courses.data[0].startTime, courses.data[0].endTime, grades.data, mentorName, slots.data));
+                        eventSource = eventSource.concat(getEvenSlot(grades.data.course.startTime, grades.data.course.endTime, grades.data, grades.data.instructor.fullName, slots.data));
                     } else {
-                        eventSource = eventSource.concat(getOddSlot(courses.data[0].startTime, courses.data[0].endTime, grades.data, mentorName, slots.data));
+                        eventSource = eventSource.concat(getOddSlot(grades.data.course.startTime, grades.data.course.endTime, grades.data, grades.data.instructor.fullName, slots.data));
                     }
 
                     eventSources.push(...eventSource);
