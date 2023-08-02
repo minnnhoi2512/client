@@ -15,6 +15,7 @@ function ShowStudent() {
   const [students, setStudents] = useState([]);
   const [grade, setGrade] = useState('');
   const navigate = useNavigate();
+
   const getStudentData = async () => {
     try {
       const studentData = await getStudentInGrade(gradeId);
@@ -47,8 +48,8 @@ function ShowStudent() {
     } else if (token == null) {
       navigate('*');
     } else {
-      getStudentData().catch((error)=>console.log(error));
-      getGradeData().catch((error)=>console.log(error));
+      getStudentData().catch((error) => console.log(error));
+      getGradeData().catch((error) => console.log(error));
       // console.log(await findGrade(grades,gradeId))
       // console.log(grades[4]._id == gradeId) 
       console.log(gradeId)
@@ -77,7 +78,7 @@ function ShowStudent() {
       let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 1 }
       console.log(query)
       await checkAttendance(query);
-     
+
     } catch (error) {
       console.error(error)
     }
@@ -88,7 +89,7 @@ function ShowStudent() {
       let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 0 }
       console.log(query)
       await checkAttendance(query);
-     
+
     } catch (error) {
       console.error(error)
     }
@@ -107,10 +108,10 @@ function ShowStudent() {
             <tr>
               <th className="px-4 py-2 border">No</th>
               <th className="px-4 py-2 border">Name</th>
+              <th className="px-4 py-2 border">Profile</th>
               <th className="px-4 py-2 border">Email</th>
 
               <th className="px-4 py-2 border">Phone</th>
-              <th className="px-4 py-2 border">Actions</th>
 
             </tr>
           </thead>
@@ -119,27 +120,17 @@ function ShowStudent() {
               <tr key={student._id}>
                 <td className="border px-4 py-2">{index + 1}</td>
                 <td className="border px-4 py-2">{student.fullName}</td>
-                <td className="border px-4 py-2">{student.email}</td>
-                <td className="border px-4 py-2">{student.phone}</td>
-                <td className="border px-4 py-2">{roleId >= 3 && <button
-                  className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={(event) => handleDelete(event, student._id)}
-                >
-                  Kick
-                </button>}
-                  {roleId == 2 && <button
-                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={(event) =>   handleAttendance(event, student._id)}
-                  >
-                    Attendance
-                  </button>}
-                  {roleId == 2 && <button
-                    className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                    onClick={(event) =>   handleAbsent(event, student._id)}
-                  >
-                    Absent
-                  </button>}
+                <td>
+                  <div className="grid grid-cols-3">
+                    <div className="col-span-1"></div>
+                    <img className="rounded-full w-4/5 col-span-1 ml-8 mt-16" src={student.profile} alt='profile' />
+                    <div className="col-span-1"></div>
+                  </div>
                 </td>
+                <td className="border px-4 py-2">{student.email}</td>
+
+                <td className="border px-4 py-2">{student.phone}</td>
+
                 {/* <td className="border px-4 py-2">{student.roleId}</td> */}
               </tr>
             ))}

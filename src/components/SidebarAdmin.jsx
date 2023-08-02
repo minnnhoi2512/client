@@ -70,7 +70,7 @@ const Sidebar = ({ children }) => {
       icon: <FaPeopleLine />,
       visible: !isMentor && !isUser,
     },
-   
+
 
     // {
     //   path: "/profile",
@@ -104,31 +104,31 @@ const Sidebar = ({ children }) => {
       path: "/grade",
       name: "Classes",
       icon: <FaBookReader />,
-      visible:   isAdmin || isStaff,
+      visible: isAdmin || isStaff,
     },
     {
       path: "/scheduleMentor",
       name: "My Schedule",
       icon: <AiFillSchedule />,
-      visible:  isMentor
+      visible: isMentor
     },
     {
       path: "/scheduleStudent",
       name: "My Class",
       icon: <AiFillSchedule />,
-      visible: isUser 
+      visible: isUser
     },
-    {
-      path: "/bookingForCustomer",
-      name: "My Booking",
-      icon: <AiFillSchedule />,
-      visible: isUser 
-    },
+    // {
+    //   path: "/bookingForCustomer",
+    //   name: "My Booking",
+    //   icon: <AiFillSchedule />,
+    //   visible: isUser 
+    // },
     {
       path: "/showClassByMentor",
       name: "My Class",
       icon: <AiFillSchedule />,
-      visible: isMentor 
+      visible: isMentor
     },
   ];
   // const menuItemBooking = [
@@ -241,7 +241,7 @@ const Sidebar = ({ children }) => {
 
 
           </div>
-          {  (
+          {(
             <div className="profile">
               <NavLink to="/profile" className="user-info">
                 <FaUserEdit />

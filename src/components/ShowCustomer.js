@@ -230,9 +230,6 @@ export default function ShowCustomers() {
           <tr className="text-left font-bold">
             <th className="px-6 pb-4 pt-5">Name</th>
             <th className="px-6 pb-4 pt-5">Email</th>
-
-            <th className="px-6 pb-4 pt-5">Class</th>
-
             <th className="px-6 pb-4 pt-5">Detail</th>
             <th className="px-6 pb-4 pt-5">Active</th>
             <th className="px-6 pb-4 pt-5">Actions</th>
@@ -245,18 +242,6 @@ export default function ShowCustomers() {
               <td className="px-6 py-4">{user.email}</td>
               {/* <td className="px-6 py-4">{valuesContext(user.address)}</td> */}
               {/* <td className="px-6 py-4">{valuesContext(user.phone)}</td> */}
-              <td className="px-6 py-4">
-                {user.grade && grades.map((grade) => {
-
-                  if (user.grade == grade._id) return valuesContext(grade.gradeName);
-                })
-
-                }
-                {!user.grade && (
-                  <p>Not yet</p>
-                )}
-              </td>
-
               <td className="px-6 py-4"><button onClick={() => handleShow(user)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
               <td className="px-6 py-4">
                 {showActive(user.isActive)}  </td>
@@ -326,9 +311,11 @@ export default function ShowCustomers() {
                   </div> */}
 
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Role Name :</label>
+                    <label className="block text-gray-700 font-bold mb-2 ml-6">Role Name :</label>
                     {roleId == 4 && (
-                      <Select options={optionsRoleForAdmin} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                      <Select options={optionsRoleForAdmin} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)}
+                        className="w-40 rounded ml-6"
+                      />
                     )
                     }
                     {roleId == 3 && (
@@ -398,19 +385,10 @@ export default function ShowCustomers() {
                       <p><b>Email:</b> {detail.email}</p>
                       <p><b>Phone: </b>{detail.phone}</p>
                       <p><b>Address: </b>{detail.address}</p>
-                      <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
+                  
                     </div>
                     <div className="col-span-1 mb-8">
-                      <p><b>Class: </b>{detail.grade && grades.map((grade) => {
-
-                        if (detail.grade == grade._id) return valuesContext(grade.gradeName);
-                      })
-
-                      }
-                        {!detail.grade && (
-                          "Not yet"
-                        )}</p>
-                      <p><b>Ex-Class: </b>{detail.ex_grade}</p>
+                
                       <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
                       <p><b>Role: </b>{detail.roleId == 1 ? 'Customer' : ''}</p>
 

@@ -147,13 +147,20 @@ export default function Grade() {
         setCurrentPage(pageNumber);
     };
     const handleShow = (user) => {
+        console.log(user);
         setDetail(user)
         setShowCard(true);
+
+    }
+    function convertDate(day) {
+        const date = new Date(day);
+        // var options = {hour : "numeric",minute : "numeric"};
+        return date.toLocaleDateString('vi-VN');
     }
     return (
         <div className='max-w-4x2' style={{ marginLeft: '8rem' }}>
             <Toaster position='top-center' reverseOrder={false}></Toaster>
-            <div className='ml-28'>
+            <div className='ml-28 py-4'>
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-10 rounded"
                     onClick={() => createModal()}>
                     New Class
@@ -238,24 +245,30 @@ export default function Grade() {
                                         </button>
                                     </div>
                                     {/*body*/}
-                                    <form>
-                                        <div className="mb-4">
+                                    <form className='mr-6'>
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Course :</label>
-                                            <Select options={optionsCourse} name="course" onChange={(event, meta) => handleSelectCourse(event, meta)} />
+                                            <Select options={optionsCourse} name="course" onChange={(event, meta) => handleSelectCourse(event, meta)}
+                                                className="w-60 rounded" />
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Mentor :</label>
-                                            <Select options={optionsMentor} name="instructor" onChange={(event, meta) => handleSelectMentor(event, meta)} />
+                                            <Select options={optionsMentor} name="instructor" onChange={(event, meta) => handleSelectMentor(event, meta)}
+                                                className="w-60 rounded" />
+
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Class Name :</label>
-                                            <input type="text" name="gradeName" onChange={(event) => handleChange(event)} ></input>
+                                            <input type="text" name="gradeName" onChange={(event) => handleChange(event)}
+                                                className="w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500"
+                                                placeholder="Enter Class Name"
+                                            >
+                                            </input>
                                         </div>
-                                        <div class="mb-3">
+                                        <div className="mb-4 ml-6">
                                             <label
                                                 for="formFile"
-                                                class="mb-2 inline-block text-neutral-700 dark:text-neutral-200"
-                                            >
+                                                className="mb-2 inline-block text-neutral-700 dark:text-neutral-200 font-bold text-lg bg-blue-400 px-4 py-2 rounded-lg shadow-md cursor-pointer transition-colors hover:bg-blue-500 hover:text-white"                                            >
                                                 Click here to upload image
                                             </label>
                                             <input
@@ -264,25 +277,43 @@ export default function Grade() {
                                                 id="formFile"
                                                 onChange={(event) => onUpload(event)}
                                             />
+                                            {selectedFile && (
+                                                <img
+                                                    className="mt-4"
+                                                    src={selectedFile}
+                                                    alt=""
+                                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                                />
+                                            )}
                                         </div>
-                                        <img src={selectedFile}></img>
-                                        <div className="mb-4">
+
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Description :</label>
-                                            <input type="text" name="description" onChange={(event) => handleChange(event)} ></input>
+                                            <textarea
+                                                name="description"
+                                                onChange={(event) => handleChange(event)}
+                                                rows={5}
+                                                className="w-full px-3 py-2 border rounded-md resize-none focus:border-blue-500 border-black"
+                                                placeholder='Please add a description here!'
+                                            ></textarea>
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Room :</label>
-                                            <input type="text" name="room" onChange={(event) => handleChange(event)} ></input>
+                                            <input type="text" name="room" onChange={(event) => handleChange(event)}
+                                                className=" px-4 py-2 text-base text-gray-700 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-500"
+                                                placeholder="Enter Room!">
+                                            </input>
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">Day :</label>
-                                            <Select options={optionsDay} name="weekDay" onChange={(event, meta) => handleSelectDay(event, meta)} />
+                                            <Select options={optionsDay} name="weekDay" onChange={(event, meta) => handleSelectDay(event, meta)}
+                                                className="w-60 rounded" />
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">From :</label>
                                             <input type="time" name="startTimeGrade" onChange={(event) => handleChange(event)} ></input>
                                         </div>
-                                        <div className="mb-4">
+                                        <div className="mb-4 ml-6">
                                             <label className="block text-gray-700 font-bold mb-2">To :</label>
                                             <input type="time" name="endTimeGrade" onChange={(event) => handleChange(event)}></input>
                                         </div>
@@ -296,7 +327,7 @@ export default function Grade() {
                                                 Close
                                             </button>
                                             <button
-                                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                                className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:bg-green-700 outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                 onClick={(event) => handleCreate(event, newData)}                                        >
                                                 Create
                                             </button>
@@ -361,6 +392,14 @@ export default function Grade() {
                                                 <p><b>Number of student: </b>{detail.nOfStudent}</p>
                                                 <p><b>Room: </b> {detail.room}</p>
                                                 <p><b>Week Day: </b>{detail.weekDay}</p>
+                                                <p><b>Start:</b> {courses.map((course) => {
+                                                    if (detail.course == course._id)
+                                                        return convertDate(course.startTime)
+                                                })}</p>
+                                                <p><b>End:</b> {courses.map((course) => {
+                                                    if (detail.course == course._id)
+                                                        return convertDate(course.endTime)
+                                                })}</p>
                                             </div>
                                             <div className="col-span-1 mb-8">
                                                 <p><b>Time: </b>{detail.startTimeGrade + " to " + detail.endTimeGrade}</p>

@@ -10,7 +10,7 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState('');
-  const [fullName,setFullName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [roleId, setRoleId] = useState(null);
   const navigate = useNavigate()
   useEffect(() => {
@@ -26,7 +26,7 @@ const Header = () => {
       setIsLoggedIn(true);
       setUsername(storedUsername);
       setRoleId(Number(storedRoleId));
-      if(storedfullName == 'undefined') setFullName(storedUsername)
+      if (storedfullName == 'undefined') setFullName(storedUsername)
       else setFullName(storedfullName);
     } else {
       setIsLoggedIn(false);
@@ -54,8 +54,7 @@ const Header = () => {
   return (
     <header
       className={`${header ? 'top-0' : 'top-9'
-        } fixed bg-white w-full max-w-[90vw] lg:max-w-[1170px] mx-auto rounded-md h-[90px] shadow-primary px-4 lg:px-8 z-20 transition-all duration-500 flex items-center justify-between`}
-    >
+        } fixed bg-white w-full max-w-[90vw] lg:max-w-[1170px] mx-auto rounded-md h-[90px] shadow-primary px-5 z-20 transition-all duration-500 flex items-center justify-between ml-6`}>
       <div className='flex item-center'>
         <a href='/'>
           <img src={Logo} alt='' className='absolute top-[-70px] left-[-80px] w-[370px] h-[300px]' />
@@ -86,7 +85,7 @@ const Header = () => {
               </svg>
             </button>
             {showDropdown && (
-              <div className='absolute top-[42px] right-0 mt-2 bg-white rounded-md shadow-lg'>
+              <div className='absolute top-[60px] right-0 mt-2 bg-white rounded-md shadow-lg'>
                 <ul className='py-2'>
                   {(
                     <li>
@@ -95,17 +94,30 @@ const Header = () => {
                         onClick={() => {
                           if (roleId >= 3) {
                             window.location.href = '/showCustomers'
-                          } else{
+                          } else {
                             window.location.href = '/profile'
                           }
-                            ;
+                          ;
                         }}
                       >
                         Management
                       </button>
                     </li>
                   )}
+                  {roleId === 1 && (
+                    <li>
+                      <button
+                        className="block-user px-4 py-2 text-gray-700 hover:bg-gray-100"
+                        onClick={() => {
+                          window.location.href = '/bookingForCustomer';
+                        }}
+                      >
+                        My Booking
+                      </button>
+                    </li>
+                  )}
                   <li>
+
                     <button
                       className='block-user px-4 py-2 text-gray-700 hover:bg-gray-100'
                       onClick={handleLogout}

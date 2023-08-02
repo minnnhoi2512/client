@@ -332,8 +332,8 @@ export default function ShowUsers() {
                   </div> */}
 
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-bold mb-2">Role Name :</label>
-                    <Select options={optionsRole} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                    <label className="block text-gray-700 ml-6 font-bold mb-2">Role Name :</label>
+                    <Select options={optionsRole} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} className="w-40 rounded ml-6"  />
                   </div>
 
 

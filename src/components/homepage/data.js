@@ -19,13 +19,14 @@ export const navigation = [
   },
   {
     name: 'Contact',
-    href: 'contact',
+    href: '/contact',
 
   },
   {
     name: 'Blog',
     href: '/homeblog',
   },
+
 ];
 
 

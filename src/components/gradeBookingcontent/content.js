@@ -55,7 +55,7 @@ export default function Grade() {
             </div>
             <div class="ml-20 max-w-15xl ">
                 <div className="space-y-2 mt-15 mb-18">
-                    <h2 className="text-center text-5xl font-serif">Classes</h2>
+                    <h2 className="text-center text-5xl mt-8 font-serif">Classes</h2>
                     <nav class="text-xl flex justify-center">
                         <ol class="list-none p-10 inline-flex">
                             <li class="flex items-center ms-4 " >
