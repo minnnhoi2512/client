@@ -87,6 +87,7 @@ export default function Grade() {
             });
         } catch (error) {
             console.error(error)
+            toast.error('Unique Class Name');
         }
     }
     const handleDelete = async (id) => {
