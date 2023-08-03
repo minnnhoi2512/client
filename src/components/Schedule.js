@@ -7,6 +7,8 @@ import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { getMentors } from '../helper/helper';
 import Header from './homepage/Header';
 import Footer from './homepage/Footer';
+import '../styles/Calendar.css';
+
 const Calendar = () => {
   const calendarRef = React.createRef();
   const date = new Date();
@@ -146,29 +148,31 @@ const Calendar = () => {
     calendarRef.current.getApi().setOption('events', eventSource);
     // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
   }
-  // const data = [
-  //   // {
-  //   //     _id: '64bb9ca59cd2a6f3f007f5d4' // user.grade.split 
-  //   // },
-  //   {
-  //     _id: '64bb9b469cd2a6f3f007f5c2'
-  //   },
-  //   {
-  //     _id: '64bb95879cd2a6f3f007f58a'
-  //   },
+  const data = [
+    // {
+    //     _id: '64bb9ca59cd2a6f3f007f5d4' // user.grade.split 
+    // },
+    {
+      _id: '64bb9b469cd2a6f3f007f5c2'
+    },
+    {
+      _id: '64bb95879cd2a6f3f007f58a'
+    },
 
 
 
 
-  // ]
+  ]
   const EventItem = ({ info }) => {
     const { event } = info;
     // console.log(event)
     return (
       <div>
-        <p>{event.extendedProps.class}</p>
-        <p>{event.extendedProps.mentor}</p>
-        <p>{event.extendedProps.time}</p>
+        <div className="event-item">
+          <p className="event-class">{event.extendedProps.class}</p>
+          <p >{event.extendedProps.mentor}</p>
+          <p >{event.extendedProps.time}</p>
+        </div>
       </div>
     );
   };
@@ -177,11 +181,11 @@ const Calendar = () => {
 
 
   const fetchDataForAllEvents = async () => {
-    
+
     let allClass = await getAllGradesForSchedule();
-    
+
     const eventSources = [];
-  
+
     try {
       for (const grade of allClass.data) {
 
@@ -213,21 +217,25 @@ const Calendar = () => {
     });
   }, []);
   return (
-    <div>
-      <Header />
-      <FullCalendar
-        ref={calendarRef}
-        plugins={[dayGridPlugin]}
-        initialView="dayGridWeek"
-        headerToolbar={{
-          left: 'next today',
-          center: 'title',
-          right: 'dayGridWeek'
-        }}
-        eventContent={(info) => <EventItem info={info} />}
-        editable={true}
+    <div className='mt-40' >
+      <div className="px-8">
+        <Header />
+      </div>
+      <div style={{ margin: '0 auto', maxWidth: '1200px' }}>
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin]}
+          initialView="dayGridWeek"
+          headerToolbar={{
+            left: 'next today',
+            center: 'title',
+            right: 'dayGridWeek'
+          }}
+          eventContent={(info) => <EventItem info={info} />}
+          editable={true}
 
-      />
+        />
+      </div>
       <Footer />
     </div>
   );

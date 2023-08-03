@@ -1,5 +1,5 @@
 import { getMentors } from "../../helper/helper";
-import { getAllGrades, detailGrade, getAllGradesForSchedule } from "../../helper/gradeHelper";
+import { getAllGrades, detailGrade } from "../../helper/gradeHelper";
 import { getAllCourses } from '../../helper/courseHelper';
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
@@ -12,9 +12,14 @@ export default function Grade() {
     const [searchResults, setSearchResults] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const fetchData = async () => {
-       
-        const grades = await getAllGradesForSchedule();
+        let query = { 'active': 1, 'fullName': '' };
+        const mentors = await getMentors(query)
+        const grades = await getAllGrades();
+        const courses = await getAllCourses();
+
+        setMentor(mentors.data);
         setGrades(grades.data);
+        setCourses(courses.data);
 
         // console.log(grades)
     }
@@ -41,7 +46,7 @@ export default function Grade() {
     };
     return (
 
-        <div className="mt-40">
+        <div className="" style={{ marginTop: '8.9rem' }}>
             <div className="grid grid-cols-4">
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster1.png" alt="yoga" /></div>
                 <div className="bg-gray-200"><img className="w-auto h-auto" src="./assets/poster2.png" alt="yoga" /></div>
@@ -84,7 +89,7 @@ export default function Grade() {
                     </button>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{ display: 'flex', flexWrap: 'wrap' }}>{(searchResults.length > 0 ? searchResults : grades).map((grade) => grade.nOfStudent < 20 &&(
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" style={{ display: 'flex', flexWrap: 'wrap' }}>{(searchResults.length > 0 ? searchResults : grades).map((grade) => grade.nOfStudent < 20 && (
                     <div className="flex-row bg-gray-100 box-content h-auto w-auto p-4"
                         key={grade._id}>
                         <div className="aspect-h-1 aspect-w-1 w-50 overflow-hidden rounded-sm bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
@@ -98,12 +103,27 @@ export default function Grade() {
                         <div className="mt-3">
                             <h5 className="text-center text-3xl font-serif">{grade.gradeName}</h5>
                             <p className="mt-4 font-serif">On : {grade.weekDay}</p>
-                            <p className="mt-4 font-serif">From {grade.startTimeGrade} to ${grade.endTimeGrade} </p>
+                            <p className="mt-4 font-serif">Time: {courses.map((course) => {
+                                if (grade.course === course._id) {
+                                    return grade.startTimeGrade + " to " + grade.endTimeGrade;
+                                }
+                            })}</p>
 
                             <p className="mt-4 font-serif">Capacity: 20 (left {20 - grade.nOfStudent})</p>
-                            <p className="mt-2 font-serif">Instructor: {grade.instructor.fullName}</p>
-                            <p className="mt-4 font-serif text-xl">Course: <b>{grade.course.courseName}</b></p>
-                            <p className="mt-4 text-xl font-serif">Price:<b> ${grade.course.price}</b></p>
+                            <p className="mt-2 font-serif">Instructor: {mentors.map((mentor) => {
+                                if (grade.instructor === mentor._id) {
+                                    return mentor.fullName;
+                                }
+                            })}</p>
+                            <p className="mt-4 font-serif text-xl">Course: <b>{courses.map((course) => {
+                                if (course._id == grade.course)
+                                    return course.courseName;
+                            })}</b></p>
+                            <p className="mt-4 text-xl font-serif">Price:<b> ${courses.map((course) => {
+                                if (grade.course === course._id) {
+                                    return course.price;
+                                }
+                            })}</b></p>
                             <Link
                                 to={`/detail/${grade._id}`}
                                 style={{

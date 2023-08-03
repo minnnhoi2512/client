@@ -66,7 +66,7 @@ const Calendar = () => {
                 let compareDay = new Date(slot[0].date);
                 compareDay.setHours(0)
                 let compareDay_1 = getTimeStamp(compareDay.toString())
-                // console.log(compareDay_1)
+                console.log(compareDay_1)
                 // console.log(compareDay === date)
                 if (compareDay_1 == compareDay_2) {
                     return getAttendanceStatus(slot[i].isAttended)
@@ -185,7 +185,7 @@ const Calendar = () => {
         // console.log(events)
         return events
     }
-     function getSchedule(eventSource) {
+    function getSchedule(eventSource) {
         calendarRef.current.getApi().setOption('events', eventSource.sort());
         // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
     }
@@ -206,20 +206,19 @@ const Calendar = () => {
     // ]
     const EventItem = ({ info }) => {
         const { event } = info;
-        // console.log(event)
         let idClass = event.extendedProps.idClass;
         let className = event.extendedProps.class;
-        return (
-            <Link to={`/attendance/${idClass}`}>
-                <div>
-                    <p>{event.extendedProps.class}</p>
-                    <p>{event.extendedProps.room}</p>
-                    <p>{event.extendedProps.time}</p>
 
+        return (
+            <Link to={`/attendance/${idClass}`} className="event-link">
+                <div className="event-item">
+                    <p className="event-class">{event.extendedProps.class}</p>
+                    <p className="event-room">{event.extendedProps.room}</p>
+                    <p className="event-time">{event.extendedProps.time}</p>
                 </div>
             </Link>
         );
-    };
+    }
     const [events, setEvents] = useState([])
     const [allClass, setAllClass] = useState([]);
 
@@ -267,25 +266,25 @@ const Calendar = () => {
         }
     };
     useEffect(() => {
-      fetchDataForAllEvents().catch((error)=>{
-        console.log(error);
-      });
+        fetchDataForAllEvents().catch((error) => {
+            console.log(error);
+        });
     }, []);
     return (
-        <FullCalendar
-            ref={calendarRef}
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
-            }}
-            eventContent={(info) => <EventItem info={info} />}
-            editable={true}
-
-        />
+        <div className='mt-20' style={{ marginLeft: '205px' }} >
+            <FullCalendar
+                ref={calendarRef}
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                }}
+                eventContent={(info) => <EventItem info={info} />}
+                editable={true}
+            />
+        </div>
     );
 };
-
 export default Calendar;

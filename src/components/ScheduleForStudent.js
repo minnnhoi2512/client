@@ -6,6 +6,7 @@ import { getAllCourses, getCourseById } from '../helper/courseHelper';
 import resourceTimeGridPlugin from '@fullcalendar/resource-timegrid';
 import { getMentors, getUser } from '../helper/helper';
 import { Link } from 'react-router-dom';
+import '../styles/Calendar.css';
 const Calendar = () => {
     const calendarRef = React.createRef();
     const date = new Date();
@@ -56,17 +57,17 @@ const Calendar = () => {
         else if (isAttended == 0) return 'ABSENT'
         else return 'Not yet'
     }
-    function getAttended(date, slot,grade) {
+    function getAttended(date, slot, grade) {
 
-        
+
         let compareDay_2 = getTimeStamp(date.toString());
-       
+
         for (let i = 0; i < slot.length; i++) {
-            if (slot[i].grade == grade){
+            if (slot[i].grade == grade) {
                 let compareDay = new Date(slot[0].date);
                 compareDay.setHours(0)
                 let compareDay_1 = getTimeStamp(compareDay.toString())
-                // console.log(compareDay_1)
+                console.log(compareDay_1)
                 // console.log(compareDay === date)
                 if (compareDay_1 == compareDay_2) {
                     return getAttendanceStatus(slot[i].isAttended)
@@ -179,7 +180,7 @@ const Calendar = () => {
         // console.log(events)
         return events
     }
-     function getSchedule(eventSource) {
+    function getSchedule(eventSource) {
         calendarRef.current.getApi().setOption('events', eventSource.sort());
         // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
     }
@@ -200,14 +201,18 @@ const Calendar = () => {
     // ]
     const EventItem = ({ info }) => {
         const { event } = info;
-        // console.log(event)
+        const statusClass = event.extendedProps.isAttended === 'ATTENDED' ? 'attended' : event.extendedProps.isAttended === 'ABSENT' ? 'absent' : 'not-yet';
+
         return (
             <div>
-                <p>{event.extendedProps.class}</p>
-                <p>{event.extendedProps.room}</p>
-                <p>{event.extendedProps.mentor}</p>
-                <p>{event.extendedProps.time}</p>
-                <p>({event.extendedProps.isAttended})</p>
+                <div className="event-item">
+                    <p className="event-class">{event.extendedProps.class}</p>
+
+                    <p>{event.extendedProps.room}</p>
+                    <p>{event.extendedProps.mentor}</p>
+                    <p>{event.extendedProps.time}</p>
+                    <p className={`status ${statusClass}`}>{event.extendedProps.isAttended}</p>
+                </div>
             </div>
         );
     };
@@ -217,7 +222,7 @@ const Calendar = () => {
     const fetchDataForAllEvents = async () => {
         let user = await getUser({ username });
         let data = []
-        
+
         // let allClass = await getAllGrades();
         const eventSources = [];
         let string = user.data.grade;
@@ -227,14 +232,14 @@ const Calendar = () => {
             let element = elements[i].trim();
             data.push(element);
         }
-        // console.log(data)
+        console.log(data)
         let slots = await getSlotOfUser(userId);
         // console.log(slots.data)
         try {
             for (const id of data) {
-                // console.log(id)
+                console.log(id)
                 const grades = await getGradeById(id);
-            //    console.log(grades)
+                console.log(grades)
                 let eventSource = [];
                 if (calendarRef.current) {
                     if (grades.data.weekDay === evenDay) {
@@ -254,24 +259,27 @@ const Calendar = () => {
         }
     };
     useEffect(() => {
-      fetchDataForAllEvents().catch((error)=>{
-        console.log(error);
-      });
+        fetchDataForAllEvents().catch((error) => {
+            console.log(error);
+        });
     }, []);
     return (
-        <FullCalendar
-            ref={calendarRef}
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,dayGridWeek,dayGridDay'
-            }}
-            eventContent={(info) => <EventItem info={info} />}
-            editable={true}
+        <div className='mt-20' style={{ marginLeft: '205px' }} >
 
-        />
+            <FullCalendar
+                ref={calendarRef}
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay'
+                }}
+                eventContent={(info) => <EventItem info={info} />}
+                editable={true}
+
+            />
+        </div>
     );
 };
 
