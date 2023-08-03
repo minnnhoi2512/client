@@ -123,16 +123,11 @@ const menutest = [
     },
     {
       path: "/scheduleStudent",
-      name: "My Class",
+      name: "My Schedule",
       icon: <AiFillSchedule />,
       visible: isUser 
     },
-    {
-      path: "/bookingForCustomer",
-      name: "My Booking",
-      icon: <AiFillSchedule />,
-      visible: isUser 
-    },
+
     {
       path: "/showClassByMentor",
       name: "My Class",
