@@ -38,20 +38,29 @@ const Sidebar = ({ children }) => {
   const isStaff = roleId === "3";
   const isMentor = roleId === "2";
   const isUser = roleId === "1";
-
+const menutest = [
+ 
+]
   const menuItemManagement = [
+    {
+      path: "/Dashboard",
+      name: "Dashboard",
+      icon: <FaUserAlt />,
+      visible: !isMentor && !isUser,
+    },
     {
       path: "/showUser",
       name: "User",
       icon: <FaPeopleGroup />,
       visible: !isMentor && !isStaff && !isUser,
     },
+  
     {
       path: "/showAdmins",
       name: "Admin",
       icon: <FaUserAlt />,
       visible: !isMentor && !isStaff && !isUser,
-    },
+    },,
     {
       path: "/showStaffs",
       name: "Staff",
@@ -70,7 +79,7 @@ const Sidebar = ({ children }) => {
       icon: <FaPeopleLine />,
       visible: !isMentor && !isUser,
     },
-
+   
 
     // {
     //   path: "/profile",
@@ -104,31 +113,31 @@ const Sidebar = ({ children }) => {
       path: "/grade",
       name: "Classes",
       icon: <FaBookReader />,
-      visible: isAdmin || isStaff,
+      visible:   isAdmin || isStaff,
     },
     {
       path: "/scheduleMentor",
       name: "My Schedule",
       icon: <AiFillSchedule />,
-      visible: isMentor
+      visible:  isMentor
     },
     {
       path: "/scheduleStudent",
-      name: "My Schedule",
+      name: "My Class",
       icon: <AiFillSchedule />,
-      visible: isUser
+      visible: isUser 
     },
-    // {
-    //   path: "/bookingForCustomer",
-    //   name: "My Booking",
-    //   icon: <AiFillSchedule />,
-    //   visible: isUser 
-    // },
+    {
+      path: "/bookingForCustomer",
+      name: "My Booking",
+      icon: <AiFillSchedule />,
+      visible: isUser 
+    },
     {
       path: "/showClassByMentor",
       name: "My Class",
       icon: <AiFillSchedule />,
-      visible: isMentor
+      visible: isMentor 
     },
   ];
   // const menuItemBooking = [
@@ -155,11 +164,6 @@ const Sidebar = ({ children }) => {
   function userLogout() {
     localStorage.removeItem("token");
     localStorage.removeItem("roleId");
-    localStorage.removeItem("isLogin");
-    localStorage.removeItem("fullName");
-    localStorage.removeItem("__paypal_storage__");
-    localStorage.removeItem("username");
-    localStorage.removeItem("id");
     navigate("/");
   }
 
@@ -170,9 +174,35 @@ const Sidebar = ({ children }) => {
           <h1 style={{ display: isOpen ? "block" : "none" }} className="logo">
             Good Life
           </h1>
-          {/* <div style={{ marginLeft: isOpen ? "50px" : "0px" }} className="bars">
+          <div style={{ marginLeft: isOpen ? "50px" : "0px" }} className="bars">
                     <FaBars onClick={toggle} />
-                  </div> */}
+                  </div>
+        </div>
+        <div className="">
+          {showDropdown2 &&
+            menutest.map((item, index) => {
+              if (item.visible) {
+                return (
+                  <NavLink
+                    to={item.path}
+                    key={index}
+                    className="link"
+                    activeclassName="active"
+                  >
+                    <div className="icon">{item.icon}</div>
+                    <div
+                      style={{ display: isOpen ? "block" : "none" }}
+                      className="link_text"
+                    >
+                      {item.name}
+                    </div>
+                  </NavLink>
+
+                );
+
+              }
+            })}
+
         </div>
         {!isMentor &&
           <button onClick={() => setShowDropdown(!showDropdown)}>
@@ -237,6 +267,8 @@ const Sidebar = ({ children }) => {
             })}
 
         </div>
+        
+
 
         <div className="profile-logout-container">
           <div className="profile" >
@@ -246,7 +278,7 @@ const Sidebar = ({ children }) => {
 
 
           </div>
-          {(
+          {  (
             <div className="profile">
               <NavLink to="/profile" className="user-info">
                 <FaUserEdit />

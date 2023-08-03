@@ -101,15 +101,15 @@
 }
 
 button.block-user {
-    width: auto;
+    width: 8em;
 }
 
 button.block-user:hover {
     width: 100%;
     position: relative;
-    display: flex;
+    
     align-items: center;
-    justify-content: center;
+    
 }
 
 .btn.block-user {

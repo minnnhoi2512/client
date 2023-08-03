@@ -95,11 +95,12 @@ function ShowStudent() {
     }
   }
   return (
-    <div className="container mx-auto px-4" style={{ marginLeft: '205px' }}>
+    <div className="container grid grid-cols-6" >
+
+      <div className='col-span-1'></div>
 
 
-
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto col-span-5">
         <h1 className="text-3xl font-bold mb-4 text-blue-700 mt-8">Student List - Class : {grade.gradeName}</h1>
         <div>{roleId >= 3 && <td className='px-4 py-2 text-blue-700'><Link to={`/grade`}>Back</Link></td>}</div>
         <div>{roleId == 2 && <td className='px-4 py-2 text-blue-700'><Link to={`/showClassByMentor`}>Back</Link></td>}</div>

@@ -41,12 +41,17 @@ import ScheduleMentor from './components/ScheduleForMentor.js'
 import Contact from "./components/contact/contactEmail.js";
 import ContactEmail from "./components/contact/contactEmail.js";
 import Attendance from './components/Attendance.js'
+import Dashboard from "./pages/admin/components/Dashboard.js";
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
 
     {
         path: '/',
         element: <Homepage></Homepage>
+    },
+    {
+        path: '/dashboard',
+        element: <Sidebar><Dashboard></Dashboard></Sidebar>
     },
     {
         path: '/schedule',

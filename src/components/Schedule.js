@@ -167,7 +167,7 @@ const Calendar = () => {
     const { event } = info;
     // console.log(event)
     return (
-      <div>
+      <div className='w-full'>
         <div className="event-item">
           <p className="event-class">{event.extendedProps.class}</p>
           <p >{event.extendedProps.mentor}</p>
@@ -227,9 +227,10 @@ const Calendar = () => {
           plugins={[dayGridPlugin]}
           initialView="dayGridWeek"
           headerToolbar={{
-            left: 'next today',
+            right: 'next today',
+            left : '',
             center: 'title',
-            right: 'dayGridWeek'
+          
           }}
           eventContent={(info) => <EventItem info={info} />}
           editable={true}
