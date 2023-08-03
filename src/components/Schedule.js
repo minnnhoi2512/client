@@ -146,21 +146,21 @@ const Calendar = () => {
     calendarRef.current.getApi().setOption('events', eventSource);
     // calendarRef.current.getApi().setOption('slotDuration', '02:00'); // Set slot duration to 2 hours
   }
-  const data = [
-    // {
-    //     _id: '64bb9ca59cd2a6f3f007f5d4' // user.grade.split 
-    // },
-    {
-      _id: '64bb9b469cd2a6f3f007f5c2'
-    },
-    {
-      _id: '64bb95879cd2a6f3f007f58a'
-    },
+  // const data = [
+  //   // {
+  //   //     _id: '64bb9ca59cd2a6f3f007f5d4' // user.grade.split 
+  //   // },
+  //   {
+  //     _id: '64bb9b469cd2a6f3f007f5c2'
+  //   },
+  //   {
+  //     _id: '64bb95879cd2a6f3f007f58a'
+  //   },
 
 
 
 
-  ]
+  // ]
   const EventItem = ({ info }) => {
     const { event } = info;
     // console.log(event)

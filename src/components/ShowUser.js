@@ -42,7 +42,7 @@ export default function ShowUsers() {
   const fetchData = async (searchName, active) => {
     let query = { 'fullName': searchName || '', 'active': active || 0 }
     setCurrentPage(1);
-    console.log(query);
+    // console.log(query);
     const response = await getAllUser(query);
     setData(response.data);
     const grade = await getAllGrades();
@@ -185,7 +185,7 @@ export default function ShowUsers() {
   const handleUpdate = async (event) => {
     event.preventDefault()
     try {
-      console.log(updatedUserData)
+      // console.log(updatedUserData)
       await updateUser_1(updatedUserData._id, updatedUserData);
       setShowModal(false);
       let dataPromise = fetchData();

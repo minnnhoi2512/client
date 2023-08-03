@@ -32,7 +32,7 @@ export default function ShowStaffs() {
     const fetchData = async (searchName, active) => {
         let query = { 'fullName': searchName || '', 'active': active || 0 }
         setCurrentPage(1);
-        console.log(query);
+        // console.log(query);
         const response = await getStaffs(query);
         setData(response.data);
     };
@@ -41,8 +41,8 @@ export default function ShowStaffs() {
     })
 
     const handleSelectRole = (event, meta) => {
-        console.log(meta.name);
-        console.log(event.value);
+        // console.log(meta.name);
+        // console.log(event.value);
         setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
     }
     const [active, setActive] = useState('1');

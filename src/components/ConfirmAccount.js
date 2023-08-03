@@ -24,8 +24,8 @@ export default function Recovery() {
 
     async function onSubmit(e) {
         e.preventDefault();
-        console.log(OTP)
-        console.log(e.target.code.value)
+        // console.log(OTP)
+        // console.log(e.target.code.value)
         // let OTP = e.target.code.value;
         try {
             let { status } = await verifyOTP({ username, code: OTP })

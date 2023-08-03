@@ -30,7 +30,7 @@ export default function ShowCustomers() {
   let roleId = localStorage.getItem('roleId');
   let token = localStorage.getItem('token');
   const handleSelectFilter = async (event, meta) => {
-    console.log(event.value);
+    // console.log(event.value);
     setActive(event.value);
     fetchData(searchName, event.value);
 
@@ -39,7 +39,7 @@ export default function ShowCustomers() {
 
     let query = { 'fullName': searchName || '', 'active': active || 0 }
     setCurrentPage(1);
-    console.log(query);
+    // console.log(query);
     const response = await getCustomers(query);
     const grades = await getAllGrades();
     setGrades(grades.data);
@@ -319,7 +319,7 @@ export default function ShowCustomers() {
                     )
                     }
                     {roleId == 3 && (
-                      <Select options={optionsRoleForStaff} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} />
+                      <Select options={optionsRoleForStaff} name="roleId" onChange={(event, meta) => handleSelectRole(event, meta)} className="w-40 rounded ml-6" />
                     )
                     }
 
@@ -385,10 +385,10 @@ export default function ShowCustomers() {
                       <p><b>Email:</b> {detail.email}</p>
                       <p><b>Phone: </b>{detail.phone}</p>
                       <p><b>Address: </b>{detail.address}</p>
-                  
+
                     </div>
                     <div className="col-span-1 mb-8">
-                
+
                       <p><b>Status: </b>{detail.isActive ? 'Active' : 'Unactive'}</p>
                       <p><b>Role: </b>{detail.roleId == 1 ? 'Customer' : ''}</p>
 

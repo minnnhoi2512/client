@@ -56,7 +56,7 @@ export default function UserRecovery() {
                 </div>
 
                 <div className="text-center py-4">
-                  <span className='text-gray-500'>Something wrong? <Link className='text-red-500' to="/">Login Now</Link></span>
+                  <span className='text-gray-500'>Something wrong? <Link className='text-red-500' to="/login">Login Now</Link></span>
                 </div>
 
               </form>

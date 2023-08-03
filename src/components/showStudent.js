@@ -52,7 +52,7 @@ function ShowStudent() {
       getGradeData().catch((error) => console.log(error));
       // console.log(await findGrade(grades,gradeId))
       // console.log(grades[4]._id == gradeId) 
-      console.log(gradeId)
+      // console.log(gradeId)
     }
     // Gọi API để lấy danh sách sinh viên dựa trên gradeId
 
@@ -76,7 +76,7 @@ function ShowStudent() {
     event.currentTarget.disabled = true;
     try {
       let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 1 }
-      console.log(query)
+      // console.log(query)
       await checkAttendance(query);
 
     } catch (error) {
@@ -87,7 +87,7 @@ function ShowStudent() {
     event.currentTarget.disabled = true;
     try {
       let query = { 'grade': gradeId, 'user': id, 'date': Date.now(), 'isAttended': 0 }
-      console.log(query)
+      // console.log(query)
       await checkAttendance(query);
 
     } catch (error) {

@@ -33,7 +33,7 @@ export default function ShowMentors() {
     const fetchData = async (searchName, active) => {
         let query = { 'fullName': searchName || '', 'active': active || 0 }
         setCurrentPage(1);
-        console.log(query);
+        // console.log(query);
         const grades = await getAllGrades()
         const response = await getMentors(query);
         setData(response.data);
@@ -98,8 +98,8 @@ export default function ShowMentors() {
         return { value: role.roleId, label: role.roleName };
     })
     const handleSelectRole = (event, meta) => {
-        console.log(meta.name);
-        console.log(event.value);
+        // console.log(meta.name);
+        // console.log(event.value);
         setUpdatedUserData({ ...updatedUserData, [meta.name]: event.value });
     }
     const handleUpdate = async (event) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useFetch from '../../hooks/fetch.hook';
 import { getMentors } from '../../helper/helper';
 import { getAllCourses } from '../../helper/courseHelper';
-import { getAllGrades } from '../../helper/gradeHelper'
+import { getAllGrades, getGradesOfMentor } from '../../helper/gradeHelper'
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -15,21 +15,18 @@ export default function ShowClassByMentor() {
     const [courses, setCourses] = useState([])
     const [grades, setGrades] = useState([])
     const [{ apiData }] = useFetch();
-    const mentorId = apiData?._id;
+    // const mentorId = apiData?._id;
+    let roleId = localStorage.getItem('roleId');
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('id');
     const fetchData = async () => {
-        let query = {'fullName' : '','active' : 1}
-        const courses = await getAllCourses();
-        const mentors = await getMentors(query)
-        const grades = await getAllGrades();
-        setMentor(mentors.data);
-        console.log(mentors);
-        setCourses(courses.data);
+       
+        const grades = await getGradesOfMentor(userId);
         setGrades(grades.data);
     }
 
 
-    let roleId = localStorage.getItem('roleId');
-    let token = localStorage.getItem('token');
+    
     let navigate = useNavigate()
     useEffect(() => {
         if (roleId > 2) {
@@ -74,21 +71,11 @@ export default function ShowClassByMentor() {
                     <tbody className='divide-y divide-gray-200'>
                         {grades.map((grade) => (
 
-                            grade.instructor == mentorId ? (<tr key={grade._id}>
+                            (<tr key={grade._id}>
 
 
-                                <td className='px-6 py-4'>{mentors.map((mentor) => {
-                                    if (grade.instructor == mentor._id)
-                                        return mentor.fullName
-
-                                    // data cua? booking
-                                })}</td>
-                                <td className='px-6 py-4'>{courses.map((course) => {
-                                    if (grade.course == course._id)
-                                        return course.courseName
-
-
-                                })}</td>
+                                <td className='px-6 py-4'>{grade.instructor.fullName}</td>
+                                <td className='px-6 py-4'>{grade.course.courseName}</td>
                                 <td className='px-6 py-4'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
 
                                 <td className='px-6 py-4'>{grade.room}</td>
@@ -96,7 +83,7 @@ export default function ShowClassByMentor() {
                                 <td className='px-6 py-4'>{grade.startTimeGrade}</td>
                                 <td className='px-6 py-4'>{grade.endTimeGrade}</td>
 
-                            </tr>) : null
+                            </tr>)
 
                         ))}
                     </tbody>
