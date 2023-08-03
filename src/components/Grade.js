@@ -171,6 +171,8 @@ export default function Grade() {
                             <th className='px-6 pt-5 pb-4'>Mentor</th>
 
                             <th className='px-6 pt-5 pb-4'>Class Name</th>
+                            <th className='px-6 pt-5 pb-4'>Number of student</th>
+                            <th className='px-6 pt-5 pb-4'>Revenue of class</th>
 
 
                             <th className='px-6 pt-5 pb-4'>Detail</th>
@@ -190,10 +192,12 @@ export default function Grade() {
 
 
                                 })}</td> */}
-                                <td className='px-6 py-4'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
+                                <td className='px-6 py-4 underline font-bold'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
                                 {/* <td className="px-6 py-4">
                                     <img src={showImg(grade._image)} alt="" />
                                 </td> */}
+                                <td className='px-6 py-4'>{grade.nOfStudent}</td>
+                                <td className='px-6 py-4'>${grade.nOfStudent * grade.course.price}</td>
                                 <td className="px-6 py-4"><button onClick={() => handleShow(grade)} className="mr-2 rounded bg-slate-400 px-4 py-2 font-bold text-white hover:bg-slate-700"><FaPortrait></FaPortrait></button></td>
                                 {/* <td className='px-6 py-4'>{grade.room}</td>
                                 <td className='px-6 py-4'>{grade.weekDay}</td>

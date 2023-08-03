@@ -42,6 +42,7 @@ import Contact from "./components/contact/contactEmail.js";
 import ContactEmail from "./components/contact/contactEmail.js";
 import Attendance from './components/Attendance.js'
 import Dashboard from "./pages/admin/components/Dashboard.js";
+// import AttendanceHistory from './components/AttendanceHistory.js'
 // import Testing from "./components/Testing.js";
 const router = createBrowserRouter([
 
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
         path: '/attendance/:gradeId',
         element: <Sidebar><Attendance></Attendance></Sidebar>
     },
+    // {
+    //     path: '/AttendanceHistory',
+    //     element: <Sidebar><AttendanceHistory></AttendanceHistory></Sidebar>
+    // },
     {
         path: '/scheduleStudent',
         element: <Sidebar><ScheduleStudent></ScheduleStudent></Sidebar>

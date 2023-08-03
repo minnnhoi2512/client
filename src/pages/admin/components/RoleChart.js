@@ -46,7 +46,7 @@
 //     console.log(admin)
 //   }, []);
 //   // const [userRole, setUserRole] = useState([]);
-//   // let userAPI = API + ?fullName=&active=1;
+//   // let userAPI = API + `?fullName=&active=1`;
 //   // useEffect(()=>{
 //   //     axios.get(userAPI).then(r => setUserRole(r.data)).catch(err => console.log(err));
 //   // },[]);

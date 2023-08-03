@@ -232,7 +232,7 @@ const Calendar = () => {
             let element = elements[i].trim();
             data.push(element);
         }
-        console.log(data)
+        // console.log(data)
         let slots = await getSlotOfUser(userId);
         // console.log(slots.data)
         try {

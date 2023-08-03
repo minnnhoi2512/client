@@ -61,9 +61,10 @@ export default function ShowClassByMentor() {
                     <thead>
                         <tr className='text-left font-bold'>
 
-                            <th className='px-6 pt-5 pb-4'>Mentor</th>
-                            <th className='px-6 pt-5 pb-4'>Course</th>
+
                             <th className='px-6 pt-5 pb-4'>Class</th>
+                            <th className='px-6 pt-5 pb-4'>Course</th>
+                            <th className='px-6 pt-5 pb-4'>Number of student</th>
                             <th className='px-6 pt-5 pb-4'>Room</th>
                             <th className='px-6 pt-5 pb-4'>On</th>
                             <th className='px-6 pt-5 pb-4'>From</th>
@@ -77,20 +78,16 @@ export default function ShowClassByMentor() {
                             grade.instructor == mentorId ? (<tr key={grade._id}>
 
 
-                                <td className='px-6 py-4'>{mentors.map((mentor) => {
-                                    if (grade.instructor == mentor._id)
-                                        return mentor.fullName
-
-                                    // data cua? booking
-                                })}</td>
+                                <td className='px-6 py-4 underline font-bold' ><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
                                 <td className='px-6 py-4'>{courses.map((course) => {
                                     if (grade.course == course._id)
                                         return course.courseName
 
 
                                 })}</td>
-                                <td className='px-6 py-4'><Link to={`/showStudent/${grade._id}`}>{grade.gradeName}</Link></td>
 
+
+                                <td className='px-6 py-4'>{grade.nOfStudent}</td>
                                 <td className='px-6 py-4'>{grade.room}</td>
                                 <td className='px-6 py-4'>{grade.weekDay}</td>
                                 <td className='px-6 py-4'>{grade.startTimeGrade}</td>

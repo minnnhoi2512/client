@@ -4,7 +4,7 @@ import { getStudentInGrade, kickStudent } from "../helper/helper";
 
 
 // Code 3: Trang showStudent.jsx
-
+import avatar from '../assets/profile.png';
 
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
@@ -131,7 +131,7 @@ function Attendance() {
                                     <td className="border px-4 py-2 text-center">{student.fullName}</td>
                                     <td>
                                         <div className="flex items-center justify-center">
-                                            <img className="rounded-full w-32 h-32 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300" src={student.profile} alt='profile' />
+                                            <img className="rounded-full w-32 h-32 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300" src={student.profile || avatar} alt='profile' />
                                         </div>
                                     </td>
                                     <td className="border px-4 py-2" style={{ maxWidth: '100px' }}>
@@ -165,7 +165,7 @@ function Attendance() {
                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
                         onClick={() => window.location.reload()}
                     >
-                        Save
+                        Refresh
                     </button>
                 </div></div>
 

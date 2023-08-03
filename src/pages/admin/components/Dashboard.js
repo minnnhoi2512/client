@@ -3,6 +3,7 @@ import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 import {getBookings} from "../../../helper/bookingHelper"
 import {getAllCourses} from "../../../helper/courseHelper"
 import { getAllUser } from "../../../helper/helper";
+import { getAllGrades} from "../../../helper/gradeHelper"
 
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
@@ -26,6 +27,7 @@ export default function Dashboard(){
     const[revernue,setRevernue]=useState(0);
     // const[user,setUser]=useState();
     const[total,setTotal] = useState();
+    const[totalgrade,setTotalgrades] = useState();
 
     useEffect(()=>{
         fetchData()
@@ -50,6 +52,12 @@ export default function Dashboard(){
     
     const users = await getAllUser({ 'fullName': '', 'active': 1 })  
     let total = users.data.length;
+
+    const grade = await getAllGrades({ 'active': 1, 'fullName': '' })
+    let totalgrade = grade.data.length;
+
+setTotalgrades(totalgrade)
+    console.log(totalgrade)
     setTotal(total)
     console.log(total)
    setRevernue(revernue)
@@ -128,7 +136,7 @@ export default function Dashboard(){
                     justifyContent="center"
                     >
                     <StatBox
-                        title={9}
+                        title={totalgrade}
                         subtitle="Total Class"
                         progress={"0.12"}
                         increase={"+"+"10%"}

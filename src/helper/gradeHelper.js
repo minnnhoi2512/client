@@ -93,3 +93,14 @@ export async function getAllGradesForSchedule() {
         return Promise.reject({ error: 'Could not get' });
     }
 }
+export async function AttendanceHistory(query){
+    try {
+        let grade = query.grade
+        let date = new Date(query.date)
+        // date.setHours(0,0,0,0)
+        const {data}  = await placeholderApi.post(`/slot/getAllSlotInDay?grade=${grade}&date=${date}`);
+        return Promise.resolve({ data });
+    } catch (error) {
+        return Promise.reject({ error: 'Could not SHow' });
+    }
+}

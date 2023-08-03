@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { checkAttendance, getAllGrades, getGradeById } from "../helper/gradeHelper";
 import { getStudentInGrade, kickStudent } from "../helper/helper";
 
-
+import avatar from '../assets/profile.png';
 // Code 3: Trang showStudent.jsx
 
 
@@ -13,6 +13,7 @@ function ShowStudent() {
 
   const { gradeId } = useParams();
   const [students, setStudents] = useState([]);
+  const [slots,setSlots] = useState([]);
   const [grade, setGrade] = useState('');
   const navigate = useNavigate();
 
@@ -83,6 +84,11 @@ function ShowStudent() {
       console.error(error)
     }
   }
+  const [newData, setNewData] = useState({});
+  const handleChange = (event) => {
+
+    setNewData({ ...newData, [event.target.name]: event.target.value });
+  };
   const handleAbsent = async (event, id) => {
     event.currentTarget.disabled = true;
     try {
@@ -99,12 +105,15 @@ function ShowStudent() {
 
       <div className='col-span-1'></div>
 
-
+    
+      
+        
       <div className="container mx-auto col-span-5">
         <h1 className="text-3xl font-bold mb-4 text-blue-700 mt-8">Student List - Class : {grade.gradeName}</h1>
         <div>{roleId >= 3 && <td className='px-4 py-2 text-blue-700'><Link to={`/grade`}>Back</Link></td>}</div>
         <div>{roleId == 2 && <td className='px-4 py-2 text-blue-700'><Link to={`/showClassByMentor`}>Back</Link></td>}</div>
-
+       
+      
         <div className="overflow-x-auto">
           <table className="table-auto w-full mt-4">
             <thead>
@@ -125,7 +134,7 @@ function ShowStudent() {
                   <td className="border px-4 py-2 text-center">{student.fullName}</td>
                   <td>
                     <div className="flex items-center justify-center">
-                      <img className="rounded-full w-32 h-32 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300" src={student.profile} alt='profile' />
+                      <img className="rounded-full w-32 h-32 border-2 border-gray-300 shadow-md hover:scale-105 transition-transform duration-300" src={student.profile || avatar} alt='profile' />
                     </div>
                   </td>
                   <td className="border px-4 py-2 text-center">{student.email}</td>

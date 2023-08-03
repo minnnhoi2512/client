@@ -167,7 +167,7 @@ export default function Course() {
           {currentdata.map((course) => (
             <tr key={course._id}>
               <td className="px-6 py-4">{course.courseName}</td>
-              <td className="px-6 py-4">{course.price}$</td>
+              <td className="px-6 py-4">${course.price}</td>
               <td className="px-6 py-4">{convertDate(course.startTime)}</td>
               <td className="px-6 py-4">{convertDate(course.endTime)}</td>
               <td className="px-6 py-4">{(roleId == 4) &&

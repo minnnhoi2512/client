@@ -222,9 +222,9 @@ export default function BookingForCustomer() {
                                     {/* <td className='px-6 py-4'>{user.fullName}</td> */}
                                     <td className='px-6 py-4'>{booking.grade.gradeName}</td>
                                     {/* <td className='px-6 py-4'>{returnCourseName(booking, grade, course)}</td> */}
-                                    <td className='px-6 py-4'>{course.map((e)=>{
+                                    <td className='px-6 py-4'>${course.map((e)=>{
                                         if (e._id == booking.grade.course) return price = e.price;
-                                    })}$</td>
+                                    })}</td>
                                     <td className='px-6 py-4'>{showPayment(booking.payment)}</td>
                                     {/* <td className='px-6 py-4'>{convertDate(booking.createdAt)}</td> */}
 
