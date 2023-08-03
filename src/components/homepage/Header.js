@@ -94,7 +94,7 @@ const Header = () => {
                         className="block-user px-4 py-2 text-gray-700 hover:bg-gray-100"
                         onClick={() => {
                           if (roleId >= 3) {
-                            window.location.href = '/showCustomers'
+                            window.location.href = '/dashboard'
                           } else {
                             window.location.href = '/profile'
                           }

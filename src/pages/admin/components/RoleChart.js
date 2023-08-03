@@ -180,7 +180,8 @@ import { ResponsiveBar } from "@nivo/bar";
 import { getAdmins, getAllUser, getCustomers, getMentors, getStaffs } from "../../../helper/helper";
 
 const RoleChart = () => {
-
+const [rolename,setRolename] = useState()
+const [roleData, setRoleData] = useState([])
   const roleColors = {
         Customer: "#3498db", // Xanh lam đậm
         Mentor: "#f1c40f", // Vàng
@@ -188,45 +189,71 @@ const RoleChart = () => {
         Admin: "#e74c3c", // Đỏ
         Sum: "#95a5a6" // Xám nhạt
       };
-  // const fetchData = async () => {
-  //   const admin = await getAdmins();
-  //   const staff = await getStaffs(); 
-  //   const customer = await getCustomers();   
-  //   const mentor = await getMentors();  
-    
-  //   setRoleId([
-  //     {
-  //       roleId: "Admin",  
-  //       number: admin.data.length
-  //     },
-  //     { 
-  //       roleId: "Staff", 
-  //       number: staff.data.length 
-  //     },   
-  //     {
-  //       roleId: "Customer",      
-  //       number: customer.data.length 
-  //     },
-  //     {
-  //       roleId: "Mentor",      
-  //       number: mentor.data.length       
-  //     }  
-  //   ]);   
-  // };
-const roleId=[
-  { roleId: 'Admin', number: 1 },
-  { roleId: 'Staff', number: 2 },
-  { roleId: 'Customer', number: 57},
-  { roleId: 'Mentor', number: 5 },
-  { roleId: 'Sum', number: 65 },
-]
+      const roleNameMap = {
+        4: "Admin",
+        3: "Staff",
+        2: "Mentor",
+        1:"Customer"
+      };
+      useEffect(()=>{
+        fetchData()
+      },[])
+      // async function fetchData() {  
+      //   const { data: users } = await getAllUser({ 'fullName': '', 'active': 1 });
+        
+      //   const countByRole = {};
+        
+      //   users.forEach(user => {
+      //     const { roleId } = user;
+      //     const roleName = roleNameMap[roleId];
+      //     if (!countByRole[roleName]) {
+      //       countByRole[roleName] = 0;
+      //     }
+          
+      //     countByRole[roleName]++;  
+      //   });
+        
+      //   console.log(countByRole)
+      // }
+      async function fetchData() {  
+        const { data: users } = await getAllUser({ 
+          'fullName': '', 
+          'active': 1 
+        });
+      
+        const countByRole = {};
+        const roleData = [];
+      
+        users.forEach(user => {
+          const { roleId } = user;
+          const roleName = roleNameMap[roleId];
+          
+          if (!countByRole[roleName]) {
+            countByRole[roleName] = 0;
+          }
+          
+          countByRole[roleName]++;  
+        });
+      
+        Object.keys(countByRole).forEach(roleName => {
+          roleData.push({
+            roleId: roleName,
+            number: countByRole[roleName]  
+          });
+        });
+        
+        setRoleData(roleData);    
+      }
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // const refreshData = () => {
-  //   fetchData();  
-  // };
+      // const roleId = [
+      //       { roleId: 'Admin', number:1 },
+      //       { roleId: 'Customer', number: 32 },
+      //       { roleId: 'Mentor', number: 5 },
+      //       { roleId: 'Staff', number: 9 },
+      //       { roleId: 'Sum', number: 47 },
+      //     ]
+        
+
   return (
         <div style={{ position: "relative", height: "100%", width: "100%" }}>
           <h2 style={{ textAlign: 'center', padding: '8px', color: 'white' }}>
@@ -234,7 +261,7 @@ const roleId=[
           <div className="gender-chart" style={{ position: "absolute", top: 0, height: "100%", width: "100%" }}>
     
             <ResponsiveBar
-              data={roleId}
+              data={roleData}
               keys={["number"]}
               indexBy="roleId"
               margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
